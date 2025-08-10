@@ -1,0 +1,37 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('file_items', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('file_id');
+            $table->string('service_name');
+            $table->text('description')->nullable();
+            $table->integer('quantity')->default(1);
+            $table->decimal('unit_price', 10, 2);
+            $table->decimal('total_price', 10, 2);
+            $table->uuid('currency_id')->nullable();
+            $table->timestamps();
+
+            $table->foreign('file_id')->references('id')->on('files')->cascadeOnDelete();
+            $table->foreign('currency_id')->references('id')->on('currencies')->nullOnDelete();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('file_items');
+    }
+};
