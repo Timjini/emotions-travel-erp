@@ -1,0 +1,73 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800  leading-tight">
+            {{ __('Create New User') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-2xl sm:px-6 lg:px-8">
+            <div class="bg-white  overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900">
+                    <form method="POST" action="{{ route('users.store') }}">
+                        @csrf
+
+                        <div class="grid gap-6 mb-6 md:grid-cols-2">
+                            <!-- Name -->
+                            <div>
+                                <x-input-label for="name" :value="__('Name')" />
+                                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                            </div>
+
+                            <!-- Email -->
+                            <div>
+                                <x-input-label for="email" :value="__('Email')" />
+                                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                            </div>
+
+                            <!-- Password -->
+                            <div>
+                                <x-input-label for="password" :value="__('Password')" />
+                                <x-text-input id="password" class="block mt-1 w-full"
+                                    type="password"
+                                    name="password"
+                                    required autocomplete="new-password" />
+                                <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                            </div>
+
+                            <!-- Confirm Password -->
+                            <div>
+                                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                                <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                                    type="password"
+                                    name="password_confirmation" required />
+                                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                            </div>
+                        </div>
+
+                        <!-- Role Selection -->
+                        <!--<div class="mt-4">-->
+                        <!--    <x-input-label for="role" :value="__('Role')" />-->
+                        <!--    <select id="role" name="role" class="block mt-1 w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">-->
+                        <!--        <option value="user">{{ __('Regular User') }}</option>-->
+                        <!--        <option value="editor">{{ __('Editor') }}</option>-->
+                        <!--        <option value="admin">{{ __('Administrator') }}</option>-->
+                        <!--    </select>-->
+                        <!--</div>-->
+
+                        <div class="flex items-center justify-end mt-6">
+                            <x-link-button :href="route('users.index')" class="mr-4">
+                                {{ __('Cancel') }}
+                            </x-link-button>
+                            <x-primary-button>
+                                {{ __('Create User') }}
+                            </x-primary-button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>
