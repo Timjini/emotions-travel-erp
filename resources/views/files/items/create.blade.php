@@ -90,6 +90,7 @@
         <!-- items list -->
         @livewire('items-table', ['file' => $file])
 
+
         
         <div class="mt-6 flex justify-end">
             <x-link-button :href="route('files.show', $file)">

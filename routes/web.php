@@ -10,6 +10,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\Payment\FileCostController;
 use App\Http\Controllers\ProgramController;
 use Illuminate\Support\Facades\Route;
 
@@ -131,6 +132,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/items/{item}', [FileController::class, 'destroyItem'])->name('files.items.destroy');
         Route::put('/items/{item}', [FileController::class, 'updateItem'])->name('files.items.update');
     });
+
+     Route::prefix('/costs')->group(function () {
+            Route::get('/', [FileCostController::class, 'index'])->name('files.costs.index');
+            Route::get('/create', [FileCostController::class, 'create'])->name('files.costs.create');
+            Route::post('/', [FileCostController::class, 'store'])->name('files.costs.store');
+            Route::get('/export', [FileCostController::class, 'export'])->name('files.costs.export');
+    });
+    
 
 });
 
