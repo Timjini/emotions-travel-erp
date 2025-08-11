@@ -35,16 +35,6 @@ class User extends Authenticatable
         'is_super_admin' => 'boolean'
     ];
     
-    public function tenant(): BelongsTo
-    {
-        return $this->belongsTo(Tenant::class);
-    }
-    
-    public function isSuperAdmin(): bool
-    {
-        return $this->is_super_admin;
-    }
-
     /**
      * The attributes that should be hidden for serialization.
      *

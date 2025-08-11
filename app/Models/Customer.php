@@ -63,4 +63,11 @@ class Customer extends Model
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
+
+    // relations 
+
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
 }

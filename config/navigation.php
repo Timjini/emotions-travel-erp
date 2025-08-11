@@ -5,7 +5,7 @@ return [
             'title' => 'front_office',
             'items' => [
                 ['name' => 'customers', 'route' => 'customers.index', 'icon' => 'clients'],
-                // ['name' => 'Files', 'route' => 'files.index', 'icon' => 'files'],
+                ['name' => 'files', 'route' => 'files.index', 'icon' => 'files'],
                 // ['name' => 'Profomas', 'route' => 'profomas.index', 'icon' => 'profomas'],
                 // ['name' => 'Client Invoices', 'route' => 'client-invoices.index', 'icon' => 'invoices'],
                 // ['name' => 'Credit Notes', 'route' => 'credit-notes.index', 'icon' => 'credit-notes'],

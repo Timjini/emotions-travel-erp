@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800  leading-tight">
                 {{ __('User Settings') }}
             </h2>
-            <x-secondary-link :href="route('profile.edit')">
+            <x-secondary-link :href="route('profiles.edit')">
                 {{ __('Back to Profile') }}
             </x-secondary-link>
         </div>

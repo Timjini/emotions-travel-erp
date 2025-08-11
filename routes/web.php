@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingController;
 use App\Http\Controllers\CRM\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Route;
 
 // Language switcher route
@@ -30,7 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Profile routes
     Route::prefix('profile')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::get('/', [ProfileController::class, 'edit'])->name('profiles.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
@@ -63,7 +64,28 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{customer}', 'destroy')->name('customers.destroy');
     });
 
-    // Add other authenticated routes here...
+     Route::prefix('files')->group(function () {
+        Route::get('/', [FileController::class, 'index'])->name('files.index');
+        Route::get('/create', [FileController::class, 'create'])->name('files.create');
+        Route::post('/store', [FileController::class, 'store'])->name('files.store');
+        Route::post('/{file}/confirm', [FileController::class, 'confirm'])->name('files.confirm');
+        Route::get('/{file}', [FileController::class, 'show'])->name('files.show');
+        Route::get('/{file}/edit', [FileController::class, 'edit'])->name('files.edit');
+        Route::patch('/', [FileController::class, 'update'])->name('files.update');
+        Route::delete('/', [FileController::class, 'destroy'])->name('files.destroy');
+    });
+
+     Route::prefix('invoices')->group(function () {
+        Route::get('/', [FileController::class, 'index'])->name('files.index');
+        Route::get('/create', [FileController::class, 'create'])->name('invoices.create');
+    });
+
+    Route::prefix('files/{file}')->group(function () {
+        Route::get('/items', [FileController::class, 'showAddItems'])->name('files.items.add');
+        Route::post('/items', [FileController::class, 'storeItem'])->name('files.items.store');
+        Route::delete('/items/{item}', [FileController::class, 'destroyItem'])->name('files.items.destroy');
+    });
+
 });
 
 require __DIR__.'/auth.php';

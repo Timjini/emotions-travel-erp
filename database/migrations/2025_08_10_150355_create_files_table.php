@@ -23,6 +23,7 @@ return new class extends Migration
             $table->uuid('currency_id')->nullable();
             $table->string('guide')->nullable();
             $table->longText('note')->nullable();
+            $table->softDeletes(); 
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')->cascadeOnDelete();

@@ -17,13 +17,16 @@ class DatabaseSeeder extends Seeder
         
             $this->call([
         CustomerSeeder::class,
+         CurrencySeeder::class,
+        DestinationSeeder::class,
+        ProgramSeeder::class,
     ]);
     
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
     }
     
     

@@ -18,7 +18,7 @@
                 <li class="text-gray-800 font-medium">Customers</li>
             </ol>
         </nav>
-    <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
+    <div class="max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
 
         <div>
             <div class="flex justify-between items-center mb-6">
@@ -44,7 +44,7 @@
 
 
         <!-- Table -->
-        <div class="overflow-x-auto bg-white shadow rounded-lg">
+        <div class="max-w-7xl overflow-x-auto bg-white shadow rounded-lg">
             <table class="min-w-full divide-y divide-gray-200 text-sm">
                 <thead class="bg-gray-100">
                     <tr>
