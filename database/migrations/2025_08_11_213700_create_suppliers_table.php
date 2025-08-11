@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customers', function (Blueprint $table) {
-            // ID as UUID
-            $table->uuid('id')->primary();
+        Schema::create('suppliers', function (Blueprint $table) {
+           $table->uuid('id')->primary();
 
             // Basic information
             $table->string('name');
@@ -52,7 +51,7 @@ return new class extends Migration
 
             // Tracking
             $table->uuid('created_by');
-            $table->foreign('created_by', 'fk_customers_created_by_users')
+            $table->foreign('created_by', 'fk_suppliers_created_by_users')
               ->references('id')
               ->on('users');
             $table->timestamps();
@@ -65,6 +64,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('customers');
+        Schema::dropIfExists('suppliers');
     }
 };

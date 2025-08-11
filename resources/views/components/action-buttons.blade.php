@@ -9,13 +9,13 @@
 
 <div class="flex items-center justify-center space-x-2">
     @if($viewRoute)
-        <a href="{{ $viewRoute }}" class="p-1 text-blue-600 hover:text-blue-800 rounded-full hover:bg-blue-50" title="{{ $viewTooltip }}">
+        <a href="{{ $viewRoute }}" class="p-1 text-gray-600 hover:text-gray-800 rounded-full hover:bg-blue-50" title="{{ $viewTooltip }}">
             <x-icons.view class="h-5 w-5" />
         </a>
     @endif
     
     @if($editRoute)
-        <a href="{{ $editRoute }}" class="p-1 text-green-600 hover:text-green-800 rounded-full hover:bg-green-50" title="{{ $editTooltip }}">
+        <a href="{{ $editRoute }}" class="p-1 text-gray-600 hover:text-gray-800 rounded-full hover:bg-green-50" title="{{ $editTooltip }}">
             <x-icons.edit class="h-5 w-5" />
         </a>
     @endif

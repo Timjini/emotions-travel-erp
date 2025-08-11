@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight capitalize">
-            {{ __('Customer Details') }}
+            {{ __('Supplier Details') }}
         </h2>
     </x-slot>
 
@@ -10,19 +10,19 @@
             <!-- Header with actions -->
             <div class="flex justify-between items-center mb-6">
                 <div class="flex items-center space-x-4">
-                    <h1 class="text-2xl font-bold text-gray-900">{{ $customer->name }}</h1>
-                    <x-customer.status-chip :status="$customer->status" />
-                    <x-customer.type-chip :type="$customer->type" />
+                    <h1 class="text-2xl font-bold text-gray-900">{{ $supplier->name }}</h1>
+                    <x-supplier.status-chip :status="$supplier->status" />
+                    <x-supplier.type-chip :type="$supplier->type" />
                 </div>
                 
                 <div class="flex space-x-3">
-                    <x-link-button :href="route('customers.edit', $customer)" class="flex items-center">
+                    <x-link-button :href="route('suppliers.edit', $supplier)" class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
                         </svg>
                         {{ __('Edit') }}
                     </x-link-button>
-                    <x-danger-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-customer-deletion')" class="flex items-center">
+                    <x-danger-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-supplier-deletion')" class="flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
                         </svg>
@@ -68,14 +68,14 @@
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-2">Primary Contact</h3>
                                     <div class="space-y-2">
-                                        <p class="text-gray-900">{{ $customer->contact_person ?? 'Not specified' }}</p>
-                                        <p class="text-gray-900">{{ $customer->email ?? 'No email' }}</p>
+                                        <p class="text-gray-900">{{ $supplier->contact_person ?? 'Not specified' }}</p>
+                                        <p class="text-gray-900">{{ $supplier->email ?? 'No email' }}</p>
                                         <div class="flex space-x-2">
-                                            @if($customer->phone_1)
-                                                <x-customer.phone-chip :phone="$customer->phone_1" label="Primary" />
+                                            @if($supplier->phone_1)
+                                                <x-supplier.phone-chip :phone="$supplier->phone_1" label="Primary" />
                                             @endif
-                                            @if($customer->phone_2)
-                                                <x-customer.phone-chip :phone="$customer->phone_2" label="Secondary" />
+                                            @if($supplier->phone_2)
+                                                <x-supplier.phone-chip :phone="$supplier->phone_2" label="Secondary" />
                                             @endif
                                         </div>
                                     </div>
@@ -83,9 +83,9 @@
                                 
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-2">Website</h3>
-                                    @if($customer->website)
-                                        <a href="{{ $customer->website }}" target="_blank" class="text-blue-500 hover:underline flex items-center">
-                                            {{ parse_url($customer->website, PHP_URL_HOST) }}
+                                    @if($supplier->website)
+                                        <a href="{{ $supplier->website }}" target="_blank" class="text-blue-500 hover:underline flex items-center">
+                                            {{ parse_url($supplier->website, PHP_URL_HOST) }}
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                             </svg>
@@ -113,15 +113,15 @@
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-2">Physical Address</h3>
                                     <address class="not-italic text-gray-900">
-                                        {{ $customer->address }}<br>
-                                        {{ $customer->post_code }} {{ $customer->city }}<br>
-                                        @if($customer->district){{ $customer->district }}, @endif{{ $customer->country }}
+                                        {{ $supplier->address }}<br>
+                                        {{ $supplier->post_code }} {{ $supplier->city }}<br>
+                                        @if($supplier->district){{ $supplier->district }}, @endif{{ $supplier->country }}
                                     </address>
                                 </div>
                                 
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-2">Invoicing Entity</h3>
-                                    <p class="text-gray-900">{{ $customer->invoicing_entity }}</p>
+                                    <p class="text-gray-900">{{ $supplier->invoicing_entity }}</p>
                                 </div>
                             </div>
                         </div>
@@ -141,13 +141,13 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-2">VAT Number</h3>
-                                    <p class="text-gray-900">{{ $customer->vat_number ?? 'Not provided' }}</p>
+                                    <p class="text-gray-900">{{ $supplier->vat_number ?? 'Not provided' }}</p>
                                 </div>
                                 
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-2">Category</h3>
-                                    @if($customer->category)
-                                        <x-customer.category-chip :category="$customer->category" />
+                                    @if($supplier->category)
+                                        <x-supplier.category-chip :category="$supplier->category" />
                                     @else
                                         <p class="text-gray-500">Not categorized</p>
                                     @endif
@@ -155,13 +155,13 @@
                                 
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-2">Preferred Language</h3>
-                                    <x-customer.language-chip :language="$customer->preferred_language" />
+                                    <x-supplier.language-chip :language="$supplier->preferred_language" />
                                 </div>
                                 
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-2">Source</h3>
-                                    @if($customer->source)
-                                        <x-customer.source-chip :source="$customer->source" />
+                                    @if($supplier->source)
+                                        <x-supplier.source-chip :source="$supplier->source" />
                                     @else
                                         <p class="text-gray-500">Unknown</p>
                                     @endif
@@ -188,9 +188,9 @@
                             <div class="space-y-4">
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-1">IBAN</h3>
-                                    @if($customer->iban)
+                                    @if($supplier->iban)
                                         <div class="flex items-center">
-                                            <span class="font-mono bg-gray-100 px-2 py-1 rounded">{{ $customer->iban }}</span>
+                                            <span class="font-mono bg-gray-100 px-2 py-1 rounded">{{ $supplier->iban }}</span>
                                             <button class="ml-2 text-blue-500 hover:text-blue-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                                     <path d="M8 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" />
@@ -205,8 +205,8 @@
                                 
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-1">SWIFT/BIC Code</h3>
-                                    @if($customer->swift_code)
-                                        <p class="font-mono bg-gray-100 px-2 py-1 rounded inline-block">{{ $customer->swift_code }}</p>
+                                    @if($supplier->swift_code)
+                                        <p class="font-mono bg-gray-100 px-2 py-1 rounded inline-block">{{ $supplier->swift_code }}</p>
                                     @else
                                         <p class="text-gray-500">Not provided</p>
                                     @endif
@@ -231,23 +231,23 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-1">Created By</h3>
-                                    <p class="text-gray-900">{{ $customer->createdBy->name ?? 'System' }}</p>
+                                    <p class="text-gray-900">{{ $supplier->createdBy->name ?? 'System' }}</p>
                                 </div>
                                 
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-1">Created At</h3>
-                                    <p class="text-gray-900">{{ $customer->created_at->format('M d, Y H:i') }}</p>
+                                    <p class="text-gray-900">{{ $supplier->created_at->format('M d, Y H:i') }}</p>
                                 </div>
                                 
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 mb-1">Last Updated</h3>
-                                    <p class="text-gray-900">{{ $customer->updated_at->format('M d, Y H:i') }}</p>
+                                    <p class="text-gray-900">{{ $supplier->updated_at->format('M d, Y H:i') }}</p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Notes Card -->
-                        @if($customer->notes)
+                        @if($supplier->notes)
                         <div class="bg-gray-50 rounded-lg p-6 shadow-sm">
                             <div class="flex items-center justify-between mb-4">
                                 <h2 class="text-lg font-semibold text-gray-900 flex items-center">
@@ -261,7 +261,7 @@
                             </div>
                             
                             <div class="prose max-w-none">
-                                {!! nl2br(e($customer->notes)) !!}
+                                {!! nl2br(e($supplier->notes)) !!}
                             </div>
                         </div>
                         @endif
@@ -271,14 +271,14 @@
         </div>
     </div>
 
-    <!-- Delete Customer Confirmation Modal -->
-    <x-modal name="confirm-customer-deletion" :show="$errors->customerDeletion->isNotEmpty()" focusable>
-        <form method="POST" action="{{ route('customers.destroy', $customer) }}" class="p-6">
+    <!-- Delete supplier Confirmation Modal -->
+    <x-modal name="confirm-supplier-deletion" :show="$errors->supplierDeletion->isNotEmpty()" focusable>
+        <form method="POST" action="{{ route('suppliers.destroy', $supplier) }}" class="p-6">
             @csrf
             @method('DELETE')
 
             <h2 class="text-lg font-medium text-gray-900">
-                {{ __('Are you sure you want to delete this customer?') }}
+                {{ __('Are you sure you want to delete this supplier?') }}
             </h2>
 
             <p class="mt-1 text-sm text-gray-600">
@@ -291,7 +291,7 @@
                 </x-secondary-button>
 
                 <x-danger-button class="ml-3">
-                    {{ __('Delete Customer') }}
+                    {{ __('Delete Supplier') }}
                 </x-danger-button>
             </div>
         </form>

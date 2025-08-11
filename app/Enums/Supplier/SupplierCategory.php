@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Supplier;
 
-enum CustomerCategory: string
+enum SupplierCategory: string
 {
     case GUIDE = 'guide';
     case HOTEL = 'hotel';

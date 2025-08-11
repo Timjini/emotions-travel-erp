@@ -18,6 +18,8 @@ return [
     'settings' => 'Ustawienia',
     
     'customers' => 'Klienci',
+    'suppliers' => 'dostawcy',
+     'programs' => 'programy',
     'files' => 'Pliki',
     'profomas' => 'Proformy',
     'client_invoices' => 'Faktury Klientów',

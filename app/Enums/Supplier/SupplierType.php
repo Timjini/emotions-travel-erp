@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Supplier;
 
-enum CustomerType: string
+enum SupplierType: string
 {
-    case CLIENT = 'client';
     case SUPPLIER = 'supplier';
-    case CLIENT_AND_SUPPLIER = 'client_and_supplier';
     case BANK = 'bank';
     case ACCOMMODATION = 'accommodation';
     case RESTAURANT = 'restaurant';
@@ -24,9 +22,7 @@ enum CustomerType: string
     public function label(): string
     {
         return match($this) {
-            self::CLIENT => 'Client',
             self::SUPPLIER => 'Supplier',
-            self::CLIENT_AND_SUPPLIER => 'Client & Supplier',
             self::BANK => 'Bank',
             self::ACCOMMODATION => 'Accommodation',
             self::RESTAURANT => 'Restaurant',

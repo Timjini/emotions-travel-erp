@@ -6,11 +6,24 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-4xl sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <form method="POST" action="{{ route('customers.update', $customer) }}">
+                <form method="POST" action="{{ route('customers.update', $customer) }}" x-data="{ loading: false }" @submit="loading = true">
                     @csrf
                     @method('PUT')
+
+                    <!-- Status Field -->
+                    <div class="mb-6">
+                        <x-input-label for="status" :value="__('Status *')" />
+                        <select id="status" name="status" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
+                            @foreach(\App\Enums\CustomerStatus::cases() as $status)
+                                <option value="{{ $status->value }}" {{ old('status', $customer->status) == $status->value ? 'selected' : '' }}>
+                                    {{ $status->label() }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <x-input-error :messages="$errors->get('status')" class="mt-2" />
+                    </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <!-- Name -->
@@ -67,7 +80,7 @@
                         <!-- Country -->
                         <div>
                             <x-input-label for="country" :value="__('Country *')" />
-                            <select id="country" name="country" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                            <select id="country" name="country" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
                                 <option value="">Select...</option>
                                 @foreach(config('countries') as $code => $name)
                                     <option value="{{ $code }}" {{ old('country', $customer->country) == $code ? 'selected' : '' }}>
@@ -99,8 +112,14 @@
                     <!-- Website -->
                     <div class="mb-6">
                         <x-input-label for="website" :value="__('Website')" />
-                        <x-text-input id="website" name="website" type="url" class="mt-1 block w-full"
-                            value="{{ old('website', $customer->website) }}" />
+                        <div class="mt-1 flex rounded-md shadow-sm">
+                            <!-- <span class="inline-flex items-center rounded-l-md border border-r-0 border-gray-300 bg-gray-50 px-3 text-gray-500 sm:text-sm">
+                                https://
+                            </span> -->
+                            <x-text-input id="website" name="website" type="text" class="block w-full min-w-0 flex-1 rounded-none rounded-r-md"
+                                value="{{ old('website', str_replace(['https://', 'http://'], '', $customer->website ?? '')) }}" 
+                                placeholder="example.com" />
+                        </div>
                     </div>
 
                     <div class="border-t border-gray-200 pt-6 mb-6">
@@ -117,14 +136,14 @@
 
                         <!-- Contact Number 1 -->
                         <div>
-                            <x-input-label for="phone_1" :value="__('Contact Number 1')" />
+                            <x-input-label for="phone_1" :value="__('Primary Phone')" />
                             <x-text-input id="phone_1" name="phone_1" type="tel" class="mt-1 block w-full"
                                 value="{{ old('phone_1', $customer->phone_1) }}" />
                         </div>
 
                         <!-- Contact Number 2 -->
                         <div>
-                            <x-input-label for="phone_2" :value="__('Contact Number 2')" />
+                            <x-input-label for="phone_2" :value="__('Secondary Phone')" />
                             <x-text-input id="phone_2" name="phone_2" type="tel" class="mt-1 block w-full"
                                 value="{{ old('phone_2', $customer->phone_2) }}" />
                         </div>
@@ -134,10 +153,10 @@
                         <!-- Type -->
                         <div>
                             <x-input-label for="type" :value="__('Type *')" />
-                            <select id="type" name="type" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" required>
+                            <select id="type" name="type" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
                                 @foreach(\App\Enums\CustomerType::cases() as $type)
                                     <option value="{{ $type->value }}" {{ old('type', $customer->type->value) == $type->value ? 'selected' : '' }}>
-                                        {{ ucfirst($type->value) }}
+                                        {{ $type->label() }}
                                     </option>
                                 @endforeach
                             </select>
@@ -147,46 +166,48 @@
                         <!-- Category -->
                         <div>
                             <x-input-label for="category" :value="__('Category')" />
-                            <select id="category" name="category" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
+                            <select id="category" name="category" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full">
                                 <option value="">Select...</option>
                                 @foreach(\App\Enums\CustomerCategory::cases() as $category)
                                     <option value="{{ $category->value }}" {{ old('category', $customer->category?->value) == $category->value ? 'selected' : '' }}>
-                                        {{ ucfirst($category->value) }}
+                                        {{ $category->label() }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
+                    <div class="border-t border-gray-200 pt-6 mb-6">
+                        <h3 class="text-lg font-medium text-gray-900">{{ __('Financial Information') }}</h3>
+                    </div>
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <!-- IBAN -->
                         <div>
                             <x-input-label for="iban" :value="__('IBAN')" />
-                            <x-text-input id="iban" name="iban" type="text" class="mt-1 block w-full"
-                                value="{{ old('iban', $customer->iban) }}" />
+                            <x-text-input id="iban" name="iban" type="text" class="mt-1 block w-full font-mono"
+                                value="{{ old('iban', $customer->iban) }}" placeholder="XX00 XXXX 0000 0000 0000 0000" />
                         </div>
 
                         <!-- Swift Code -->
                         <div>
-                            <x-input-label for="swift_code" :value="__('Swift Code')" />
-                            <x-text-input id="swift_code" name="swift_code" type="text" class="mt-1 block w-full"
-                                value="{{ old('swift_code', $customer->swift_code) }}" />
+                            <x-input-label for="swift_code" :value="__('SWIFT/BIC Code')" />
+                            <x-text-input id="swift_code" name="swift_code" type="text" class="mt-1 block w-full font-mono"
+                                value="{{ old('swift_code', $customer->swift_code) }}" placeholder="XXXXXX00XXX" />
                         </div>
                     </div>
 
                     <!-- Notes -->
                     <div class="mb-6">
                         <x-input-label for="notes" :value="__('Notes')" />
-                        <textarea id="notes" name="notes" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('notes', $customer->notes) }}</textarea>
+                        <textarea id="notes" name="notes" rows="3" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full">{{ old('notes', $customer->notes) }}</textarea>
                     </div>
 
-                    <div class="flex justify-end space-x-4">
-                        <x-secondary-button type="button" onclick="window.history.back()">
-                            {{ __('Back') }}
-                        </x-secondary-button>
-                        <x-primary-button>
-                            {{ __('Update Customer') }}
-                        </x-primary-button>
+                    <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+                        <x-secondary-link  href="'{{ route('customers.show', $customer) }}'">
+                            {{ __('Cancel') }}
+                        </x-secondary-link>
+                        <x-loading-button label="{{ __('Update Customer') }}" />
                     </div>
                 </form>
             </div>

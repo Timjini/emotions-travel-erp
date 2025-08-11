@@ -1,21 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight capitalize border-b">
-            {{ __('Create New Customer') }}
+            {{ __('Create New Supplier') }}
         </h2>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-4xl sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                <form method="POST" action="{{ route('customers.store') }}" x-data="{ loading: false }" @submit="loading = true">
+                <form method="POST" action="{{ route('suppliers.store') }}" x-data="{ loading: false }" @submit="loading = true">
                     @csrf
 
                     <!-- Status Field -->
                     <div class="mb-6">
                         <x-input-label for="status" :value="__('Status *')" />
                         <select id="status" name="status" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
-                            @foreach(\App\Enums\CustomerStatus::cases() as $status)
+                            @foreach(\App\Enums\Supplier\SupplierStatus::cases() as $status)
                                 <option value="{{ $status->value }}" {{ $status->value === 'active' ? 'selected' : '' }}>
                                     {{ $status->label() }}
                                 </option>
@@ -153,7 +153,7 @@
                         <div>
                             <x-input-label for="type" :value="__('Type *')" />
                             <select id="type" name="type" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
-                                @foreach(\App\Enums\CustomerType::cases() as $type)
+                                @foreach(\App\Enums\Supplier\SupplierType::cases() as $type)
                                     <option value="{{ $type->value }}" {{ old('type', 'client') == $type->value ? 'selected' : '' }}>
                                         {{ $type->label() }}
                                     </option>
@@ -167,7 +167,7 @@
                             <x-input-label for="category" :value="__('Category')" />
                             <select id="category" name="category" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full">
                                 <option value="">Select...</option>
-                                @foreach(\App\Enums\CustomerCategory::cases() as $category)
+                                @foreach(\App\Enums\Supplier\SupplierCategory::cases() as $category)
                                     <option value="{{ $category->value }}" {{ old('category') == $category->value ? 'selected' : '' }}>
                                         {{ $category->label() }}
                                     </option>
@@ -203,10 +203,10 @@
                     </div>
 
                     <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
-                        <x-secondary-link  href="'{{ route('customers.index') }}'">
+                        <x-secondary-link  href="'{{ route('suppliers.index') }}'">
                             {{ __('Cancel') }}
                         </x-secondary-link>
-                        <x-loading-button label=" {{ __('Create Customer') }}" />
+                        <x-loading-button label=" {{ __('Create Supplier') }}" />
                     </div>
                 </form>
             </div>

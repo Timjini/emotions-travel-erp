@@ -19,24 +19,16 @@
 </head>
 <body class="font-sans antialiased">
        @if(session('success'))
-             <x-flash />
-        @endif
+    <x-flash type="success" 
+                   :title="session('success-title', 'Success')" 
+                   :message="session('success')" />
+@endif
 
-        @if ($errors->any())
-            <div 
-                x-data="{ show: true }" 
-                x-show="show" 
-                x-init="setTimeout(() => show = false, 6000)" 
-                class="p-4 mb-4 text-red-700 bg-red-100 rounded transition-opacity duration-500"
-                x-transition:leave="opacity-0"
-            >
-                <ul class="list-disc list-inside">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+@if ($errors->any())
+    <x-flash type="error" 
+                   title="Validation Error" 
+                   :message="$errors->all()" />
+@endif
 
 
 

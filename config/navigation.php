@@ -4,7 +4,7 @@ return [
         [
             'title' => 'front_office',
             'items' => [
-                ['name' => 'customers', 'route' => 'customers.index', 'icon' => 'clients'],
+                ['name' => 'customers', 'route' => 'customers.index', 'icon' => 'users'],
                 ['name' => 'files', 'route' => 'files.index', 'icon' => 'files'],
                 // ['name' => 'Profomas', 'route' => 'profomas.index', 'icon' => 'profomas'],
                 // ['name' => 'Client Invoices', 'route' => 'client-invoices.index', 'icon' => 'invoices'],
@@ -14,7 +14,7 @@ return [
         [
             'title' => 'back_office',
             'items' => [
-                // ['name' => 'Suppliers', 'route' => 'suppliers.index', 'icon' => 'suppliers'],
+                ['name' => 'suppliers', 'route' => 'suppliers.index', 'icon' => 'suppliers'],
                 // ['name' => 'File Costs', 'route' => 'file-costs.index', 'icon' => 'costs'],
                 // ['name' => 'Supplier Invoices', 'route' => 'supplier-invoices.index', 'icon' => 'invoices'],
                 // ['name' => 'Credit Notes', 'route' => 'supplier-credit-notes.index', 'icon' => 'credit-notes'],

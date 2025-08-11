@@ -3,7 +3,7 @@
 <!--</svg>-->
 
 <img 
-  src="/public/images/emotions-travel.jpeg"
+  src="/images/emotions-travel.jpeg"
   alt="Emotions Travel Logo"
   class="h-12 w-auto mx-auto md:mx-0"
 />

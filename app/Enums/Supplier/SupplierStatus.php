@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace App\Enums\Supplier;
 
-enum CustomerStatus: string
+enum SupplierStatus: string
 {
     case ACTIVE = 'active';
     case INACTIVE = 'inactive';

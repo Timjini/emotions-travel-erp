@@ -2,19 +2,19 @@
 
 namespace App\Models;
 
-use App\Enums\CustomerCategory;
-use App\Enums\CustomerStatus;
-use App\Enums\CustomerType;
+use App\Enums\Supplier\SupplierCategory;
+use App\Enums\Supplier\SupplierStatus;
+use App\Enums\Supplier\SupplierType;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class Customer extends Model
+class Supplier extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $table = 'customers';
+    protected $table = 'suppliers';
     protected $primaryKey = 'id';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -56,18 +56,14 @@ class Customer extends Model
     ];
 
     protected $casts = [
-        'type' => CustomerType::class,
-        'category' => CustomerCategory::class,
-        'status' => CustomerStatus::class,
+        'type' => SupplierType::class,
+        'category' => SupplierCategory::class,
+        'status' => SupplierStatus::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'deleted_at' => 'datetime',
     ];
 
-    public function scopeSuppliers($query)
-    {
-        return $query->whereNotIn('type', ['client', 'customer']);
-    }
     // relations 
 
     public function files()
@@ -75,8 +71,4 @@ class Customer extends Model
         return $this->hasMany(File::class);
     }
 
-    public function suppliers()
-    {
-        return $this->hasMany(Customer::class)->where('type', 'supplier');
-    }
 }

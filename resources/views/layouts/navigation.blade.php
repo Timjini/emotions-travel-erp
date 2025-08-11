@@ -12,15 +12,17 @@
         <div class="flex flex-col flex-grow px-4 py-4 overflow-y-auto">
             <nav class="flex flex-col space-y-6 text-gray-800">
                 @foreach(config('navigation.sections') as $section)
-                <div class="space-y-2" x-data="{ open: false }">
+                <div class="space-y-2" x-data="{ open: true }">
                     <button 
                         @click="open = !open"
                         class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-blue-700 focus:outline-none focus:ring focus:ring-blue-200 rounded-lg transition"
                     >
                         <span class="flex items-center space-x-2">
-                            <svg class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25H12" />
                             </svg>
+
+                            
                             <span>{{ __('messages.' . $section['title']) }}</span>
                         </span>
                         <svg 
@@ -42,7 +44,8 @@
                             :active="request()->routeIs($item['route'].'*')" 
                             class="w-full flex items-center px-2 py-2 text-sm font-medium text-gray-700 hover:text-blue-700 hover:bg-blue-50 transition group"
                         >
-                            <span class="ml-3">
+                            <x-dynamic-icon :name="$item['icon']" class="w-5 h-5 mr-3 text-gray-400" />
+                            <span class="ml-3 capitalize">
                                 {{ __('messages.' . $item['name']) }}
                             </span>
                         </x-nav-link>

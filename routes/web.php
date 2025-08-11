@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingController;
 use App\Http\Controllers\CRM\CustomerController;
+use App\Http\Controllers\CRM\SupplierController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DestinationController;
@@ -66,6 +67,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{customer}/edit', 'edit')->name('customers.edit');
         Route::put('/{customer}', 'update')->name('customers.update');
         Route::delete('/{customer}', 'destroy')->name('customers.destroy');
+    });
+
+    Route::prefix('crm/suppliers')->controller(SupplierController::class)->group(function () {
+        Route::get('/', 'index')->name('suppliers.index');
+        Route::get('/create', 'create')->name('suppliers.create');
+        Route::post('/', 'store')->name('suppliers.store');
+        Route::get('/{supplier}', 'show')->name('suppliers.show');
+        Route::get('/{supplier}/edit', 'edit')->name('suppliers.edit');
+        Route::put('/{supplier}', 'update')->name('suppliers.update');
+        Route::delete('/{supplier}', 'destroy')->name('suppliers.destroy');
     });
 
     Route::prefix('files')->group(function () {

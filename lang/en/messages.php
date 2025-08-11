@@ -19,6 +19,8 @@ return [
     'settings' => 'Settings',
     
     'customers' => 'customers',
+    'suppliers' => 'suppliers',
+    'programs' => 'programs',
     'files' => 'Files',
     'profomas' => 'Profomas',
     'client_invoices' => 'Client Invoices',
