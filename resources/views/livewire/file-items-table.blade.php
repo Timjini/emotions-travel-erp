@@ -62,12 +62,11 @@
                         @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex space-x-2">
-                       <button 
-        wire:click="selectedItemId = '{{ $item->id }}'; showCostModal = true"
-        class="text-green-600 hover:text-green-900 text-sm"
-    >
-        Add Cost
-    </button>
+                        <button
+                            onclick="showCostModal('{{ $item->id }}')"
+                            class="text-green-600 hover:text-green-900 text-sm">
+                            Add Cost
+                        </button>
                         <button wire:click="edit('{{ $item->id }}')" class="text-blue-600 hover:text-blue-900">
                             Edit
                         </button>
@@ -123,34 +122,165 @@
     </div>
     @endif
 
-    @if($items->isEmpty())
-        <!-- No items message -->
-    @else
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-gray-200">
-                <!-- Table headers... -->
-                <tbody class="divide-y divide-gray-200">
-                    @foreach($items as $item)
-                    <tr wire:key="item-{{ $item->id }}">
-                        <!-- Display or edit mode cells... -->
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex space-x-2">
-                            <button 
-                                wire:click="selectItemForCost('{{ $item->id }}')"
-                                class="text-green-600 hover:text-green-900 text-sm"
-                            >
-                                Add Cost
+    <!-- Modal -->
+
+    <div id="costModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75" onclick="hideCostModal()"></div>
+
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <h3 class="text-lg font-medium mb-4">Add Cost to Item</h3>
+                    <form id="costForm" method="POST" action="{{ route('file-costs.store', $file) }}">
+                        @csrf
+                        <input type="hidden" name="file_item_id" id="file_item_id">
+                        <input type="hidden" name="original_currency" id="original_currency" value="{{ $file->currency->code ?? 'EUR' }}">
+                        <input type="hidden" name="exchange_rate" id="exchange_rate" value="1">
+
+                        <div class="space-y-4">
+                            <!-- Service Type -->
+                            <div>
+                                <label for="service_type" class="block text-sm font-medium text-gray-700">Service Type</label>
+                                <select id="service_type" name="service_type" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                    <option value="">Select service type</option>
+                                    <option value="transport">Transport</option>
+                                    <option value="management">Management</option>
+                                    <option value="accommodation">Accommodation</option>
+                                </select>
+                            </div>
+
+                            <!-- Payment Status -->
+                            <div>
+                                <label for="payment_status" class="block text-sm font-medium text-gray-700">Payment Status</label>
+                                <select id="payment_status" name="payment_status" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                    <option value="">Select payment status</option>
+                                    @foreach(\App\Enums\Payment\PaymentStatus::cases() as $status)
+                                    <option value="{{ $status->value }}">{{ $status->label() }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Service Date -->
+                            <div>
+                                <label for="service_date" class="block text-sm font-medium text-gray-700">Service Date</label>
+                                <input type="date" id="service_date" name="service_date" required
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"
+                                    value="{{ old('service_date', now()->format('Y-m-d')) }}">
+                            </div>
+
+                            <!-- Supplier -->
+                            <div>
+                                <label for="supplier_id" class="block text-sm font-medium text-gray-700">Supplier</label>
+                                <select id="supplier_id" name="supplier_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                    <option value="">Select supplier (optional)</option>
+                                    @foreach($suppliers as $supplier)
+                                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <!-- Quantity -->
+                            <div>
+                                <label for="quantity" class="block text-sm font-medium text-gray-700">Quantity</label>
+                                <input type="number" id="quantity" name="quantity" min="1" value="1" required
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                            </div>
+
+                            <!-- Unit Price -->
+                            <div>
+                                <label for="unit_price" class="block text-sm font-medium text-gray-700">Unit Price</label>
+                                <input type="number" id="unit_price" name="unit_price" step="0.01" min="0" required
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                            </div>
+
+                            <!-- Amount Paid (shown when status is partially_paid) -->
+                            <div id="amountPaidContainer" class="hidden">
+                                <label for="amount_paid" class="block text-sm font-medium text-gray-700">Amount Paid</label>
+                                <input type="number" id="amount_paid" name="amount_paid" step="0.01" min="0"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                            </div>
+
+                            <!-- Payment Date (shown when status is paid) -->
+                            <div id="paymentDateContainer" class="hidden">
+                                <label for="payment_date" class="block text-sm font-medium text-gray-700">Payment Date</label>
+                                <input type="date" id="payment_date" name="payment_date"
+                                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                            </div>
+                        </div>
+
+                        <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                            <button type="submit" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">
+                                Save Cost
                             </button>
-                            <!-- Other action buttons... -->
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                            <button type="button" onclick="hideCostModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-    @endif
+    </div>
 
 </div>
-<!-- Add Cost Modal -->
-@if($selectedItemId)
-    @livewire('add-file-cost', ['fileItemId' => $selectedItemId], key('add-cost-'.$selectedItemId))
-@endif
+
+<script>
+    // Show modal and set file item ID
+    function showCostModal(itemId) {
+        document.getElementById('file_item_id').value = itemId;
+        document.getElementById('costModal').classList.remove('hidden');
+    }
+
+    // Hide modal
+    function hideCostModal() {
+        document.getElementById('costModal').classList.add('hidden');
+    }
+
+    document.getElementById('payment_status').addEventListener('change', function() {
+        const status = this.value;
+        const amountPaidContainer = document.getElementById('amountPaidContainer');
+        const paymentDateContainer = document.getElementById('paymentDateContainer');
+
+        // Hide both containers first
+        amountPaidContainer.classList.add('hidden');
+        paymentDateContainer.classList.add('hidden');
+
+        // Show relevant containers based on status
+        if (status === 'partially_paid') {
+            amountPaidContainer.classList.remove('hidden');
+        } else if (status === 'fully_paid') {
+            paymentDateContainer.classList.remove('hidden');
+            document.getElementById('payment_date').value = new Date().toISOString().split('T')[0];
+        }
+    });
+
+    // Handle form submission
+    document.getElementById('costForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const costsContainer = document.getElementById(`costs-${form.file_item_id.value}`);
+                    if (costsContainer) {
+                        window.location.reload();
+                    }
+                    hideCostModal();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>

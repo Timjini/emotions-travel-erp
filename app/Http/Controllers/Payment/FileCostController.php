@@ -60,7 +60,7 @@ class FileCostController extends Controller
         $validated['converted_total'] = $validated['total_price'] * $validated['exchange_rate'];
 
         $fileCost = $file->costs()->create(array_merge($validated, [
-            'created_by' => auth()->id(),
+            // 'created_by' => auth()->id(),
         ]));
 
         return redirect()

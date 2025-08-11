@@ -136,7 +136,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      Route::prefix('/costs')->group(function () {
             Route::get('/', [FileCostController::class, 'index'])->name('files.costs.index');
             Route::get('/create', [FileCostController::class, 'create'])->name('files.costs.create');
-            Route::post('/', [FileCostController::class, 'store'])->name('files.costs.store');
+            Route::post('/store', [FileCostController::class, 'store'])->name('file-costs.store');
             Route::get('/export', [FileCostController::class, 'export'])->name('files.costs.export');
     });
     

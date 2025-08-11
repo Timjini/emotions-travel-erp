@@ -63,7 +63,8 @@ class ItemsTable extends Component
                 ->with(['currency', 'costs.supplier'])
                 ->withSum('costs', 'total_price')
                 ->get(),
-            'currencies' => \App\Models\Currency::all()
+            'currencies' => \App\Models\Currency::all(),
+            'suppliers' => \App\Models\Supplier::all(),
         ]);
     }
 }
