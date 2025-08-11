@@ -55,7 +55,7 @@
             
             <!-- User & Logout -->
             <div class="mt-auto pt-4 border-t border-gray-200">
-                <a href="/profile" class="flex items-center px-2">
+                <a href="{{route('profiles.edit')}}" class="flex items-center px-2">
                     <div class="flex-shrink-0">
                         <svg class="w-8 h-8 rounded-full text-gray-400" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 14.75c2.67 0 8 1.34 8 4v1.25H4v-1.25c0-2.66 5.33-4 8-4zm0-9.5c-2.22 0-4 1.78-4 4s1.78 4 4 4 4-1.78 4-4-1.78-4-4-4zm0 6c-1.11 0-2-.89-2-2s.89-2 2-2 2 .89 2 2-.89 2-2 2z" />
@@ -123,7 +123,7 @@
         </div>
         
         <!-- Mobile menu -->
-        <div x-show="open" class="md:hidden w-screen">
+        <div x-show="open" class="relative md:hidden w-screen h-[100vh]">
             <div class="pt-2 pb-3 space-y-1">
                 @foreach(config('navigation.sections') as $section)
                 <div class="px-3">
@@ -148,7 +148,7 @@
             </div>
             
             <div class="pt-4 pb-3 border-t border-gray-200">
-                <a src="/profile" class="flex items-center px-4">
+                <a href="{{route('profiles.edit')}}" class="flex items-center px-4">
                     <div class="flex-shrink-0">
                         <svg class="h-10 w-10 rounded-full text-gray-400" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M12 14.75c2.67 0 8 1.34 8 4v1.25H4v-1.25c0-2.66 5.33-4 8-4zm0-9.5c-2.22 0-4 1.78-4 4s1.78 4 4 4 4-1.78 4-4-1.78-4-4-4zm0 6c-1.11 0-2-.89-2-2s.89-2 2-2 2 .89 2 2-.89 2-2 2z" />

@@ -70,6 +70,7 @@ class FileController extends Controller
             'currency_id' => 'nullable|exists:currencies,id',
             'guide' => 'nullable|string|max:255',
             'note' => 'nullable|string',
+            'status' => 'required|string|in:pending,confirmed,cancelled',  
         ]);
 
         $file->update($validated);
@@ -167,5 +168,23 @@ class FileController extends Controller
 
         return redirect()->route('files.items.add', $file)
             ->with('success', 'Item removed successfully.');
+    }
+    
+    /**
+     * Edit File Items
+     */
+    public function updateItem(File $file, FileItem $item, Request $request)
+    {
+        $validated = $request->validate([
+            'service_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'quantity' => 'required|numeric|min:0',
+            'unit_price' => 'required|numeric|min:0',
+            'currency_id' => 'required|exists:currencies,id',
+        ]);
+
+        $item->update($validated);
+
+        return response()->json($item->load('currency'));
     }
 }

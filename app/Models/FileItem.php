@@ -69,4 +69,9 @@ class FileItem extends Model
     //         $item->total_price = $item->unit_price * $item->quantity * $item->file->number_of_people;
     //     });
     // }
+
+    public function supplier()
+    {
+        return $this->belongsTo(Customer::class, 'supplier_id');
+    }
 }

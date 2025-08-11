@@ -29,7 +29,7 @@
 
     <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
         <div class="bg-white shadow rounded-lg overflow-hidden">
-            <form method="POST" action="{{ route('files.store') }}">
+            <form method="POST" action="{{ route('files.store') }}" x-data="{ loading: false }" @submit="loading = true">
                 @csrf
                 
                 <div class="px-6 py-4 border-b border-gray-200">
@@ -114,18 +114,9 @@
                         </div>
                         
                         <!-- Currency -->
-                        <div>
-                            <x-input-label for="currency_id" :value="__('Currency')" />
-                            <select id="currency_id" name="currency_id" class="rounded bg-gray-50 border text-gray-900  flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
-                                <option value="">Select Currency</option>
-                                @foreach($currencies as $currency)
-                                    <option value="{{ $currency->id }}" {{ old('currency_id') == $currency->id ? 'selected' : '' }}>
-                                        {{ $currency->code }} - {{ $currency->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <x-input-error class="mt-2" :messages="$errors->get('currency_id')" />
-                        </div>
+                       <x-currency-select 
+                                :currencies="$currencies" 
+                            />
                     </div>
                     
                     <!-- Guide -->
@@ -148,11 +139,10 @@
                     <x-secondary-button class="mr-2" onclick="window.location='/files'">
                         Cancel
                     </x-secondary-button>
-                    <x-primary-button type="submit">
-                        Create File
-                    </x-primary-button>
+                    <x-loading-button label="Create File" />
                 </div>
             </form>
         </div>
     </div>
+    <script src="//unpkg.com/alpinejs" defer></script>
 </x-app-layout>

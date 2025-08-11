@@ -38,7 +38,7 @@
     <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
         <!-- Add Item Form -->
         <div class="bg-white shadow rounded-lg overflow-hidden mb-6">
-            <form method="POST" action="{{ route('files.items.store', $file) }}">
+            <form method="POST" action="{{ route('files.items.store', $file) }}" x-data="{ loading: false }" @submit="loading = true">
                 @csrf
                 
                 <div class="px-6 py-4 border-b border-gray-200">
@@ -68,18 +68,10 @@
                     </div>
                     
                     <!-- Currency -->
-                    <div>
-                        <x-input-label for="currency_id" :value="__('Currency')" />
-                        <select id="currency_id" name="currency_id" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
-                            <option value="">Select Currency</option>
-                            @foreach($currencies as $currency)
-                                <option value="{{ $currency->id }}">
-                                    {{ $currency->code }} - {{ $currency->symbol }}
-                                </option>
-                            @endforeach
-                        </select>
-                        <x-input-error class="mt-2" :messages="$errors->get('currency_id')" />
-                    </div>
+                    <x-currency-select 
+                            :currencies="$currencies" 
+                            :selected="$file->currency_id"
+                        />
                     
                     <!-- Description -->
                     <div class="md:col-span-4">
@@ -90,74 +82,14 @@
                 </div>
                 
                 <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-                    <x-primary-button type="submit">
-                        Add Item
-                    </x-primary-button>
+                    <x-loading-button label="Add Item" />
                 </div>
             </form>
         </div>
 
-        <!-- Items List -->
-        <div class="bg-white shadow rounded-lg overflow-hidden">
-            <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-900">File Items</h3>
-                <p class="text-sm text-gray-500 mt-1">
-                    Total People: {{ $file->number_of_people }} | 
-                    Items: {{ $file->items->count() }} | 
-                    Grand Total: {{ number_format($file->items->sum('total_price'), 2) }}
-                </p>
-            </div>
-            
-            @if($file->items->isEmpty())
-                <div class="px-6 py-4 text-center text-gray-500">
-                    No items added yet.
-                </div>
-            @else
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Service</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Unit Price</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Currency</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-200">
-                            @foreach($file->items as $item)
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->service_name }}</td>
-                                <td class="px-6 py-4 text-sm text-gray-500">{{ Str::limit($item->description, 50) }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->quantity }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ number_format($item->unit_price, 2) }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ number_format($item->total_price, 2) }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->currency->code ?? 'N/A' }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                    <form method="POST" action="{{ route('files.items.destroy', ['file' => $file, 'item' => $item]) }}">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to delete this item?')">
-                                            Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot class="bg-gray-50">
-                            <tr>
-                                <td colspan="4" class="px-6 py-3 text-right text-sm font-medium text-gray-500">Grand Total</td>
-                                <td class="px-6 py-3 text-sm font-medium text-gray-900">{{ number_format($file->items->sum('total_price'), 2) }}</td>
-                                <td colspan="2"></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            @endif
-        </div>
+        <!-- items list -->
+        @livewire('items-table', ['file' => $file])
+
         
         <div class="mt-6 flex justify-end">
             <x-link-button :href="route('files.show', $file)">

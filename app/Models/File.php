@@ -12,6 +12,10 @@ class File extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const STATUS_PENDING   = 'pending';
+    public const STATUS_CONFIRMED = 'confirmed';
+    public const STATUS_CANCELLED = 'cancelled';
+
     protected $table = 'files';
     protected $primaryKey = 'id';
     public $incrementing = false;
@@ -28,6 +32,7 @@ class File extends Model
         'currency_id',
         'guide',
         'note',
+        'status',
     ];
 
     protected $casts = [
@@ -45,6 +50,15 @@ class File extends Model
                 $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    public static function getStatuses(): array
+    {
+        return [
+            self::STATUS_PENDING,
+            self::STATUS_CONFIRMED,
+            self::STATUS_CANCELLED,
+        ];
     }
 
     // Relations 

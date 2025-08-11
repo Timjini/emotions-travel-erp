@@ -31,7 +31,9 @@ return [
         [
             'title' => 'settings',
             'items' => [
-                // ['name' => 'Destinations', 'route' => 'destinations.index', 'icon' => 'destinations'],
+                ['name' => 'destinations', 'route' => 'destinations.index', 'icon' => 'destinations'],
+                ['name' => 'currencies', 'route' => 'currencies.index', 'icon' => 'currencies'],
+                ['name' => 'programs', 'route' => 'programs.index', 'icon' => 'programs'],
                 // ['name' => 'Program Types', 'route' => 'program-types.index', 'icon' => 'program-types'],
                 // ['name' => 'Third Category', 'route' => 'third-category.index', 'icon' => 'category'],
                 // ['name' => 'System', 'route' => 'system.index', 'icon' => 'system'],

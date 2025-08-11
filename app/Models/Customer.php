@@ -70,4 +70,9 @@ class Customer extends Model
     {
         return $this->hasMany(File::class);
     }
+
+    public function suppliers()
+    {
+        return $this->hasMany(Customer::class)->where('type', 'supplier');
+    }
 }

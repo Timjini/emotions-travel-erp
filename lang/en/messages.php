@@ -23,4 +23,6 @@ return [
     'profomas' => 'Profomas',
     'client_invoices' => 'Client Invoices',
     'credit_notes' => 'Credit Notes',
+    'destinations' => 'destinations',
+    'currencies' => 'currencies'
 ];

@@ -71,9 +71,11 @@
                             {{ $customer->created_at->format('Y-m-d') }}
                         </td>
                         <td class="px-6 py-4">
-                            <a href="{{ route('customers.show', $customer->id) }}" class="text-blue-600 hover:underline">
-                                View
-                            </a>
+                             <x-action-buttons 
+                                viewRoute="{{ route('customers.show', $customer) }}"
+                                editRoute="{{ route('customers.edit', $customer) }}"
+                                deleteRoute="{{ route('customers.destroy', $customer) }}"
+                            />
                         </td>
                     </tr>
                     @empty

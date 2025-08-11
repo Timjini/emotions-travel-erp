@@ -8,6 +8,7 @@ enum CustomerStatus: string
     case INACTIVE = 'inactive';
     case PENDING = 'pending';
     case SUSPENDED = 'suspended';
+    case BLOCKED = 'blocked';
     
     public static function values(): array
     {

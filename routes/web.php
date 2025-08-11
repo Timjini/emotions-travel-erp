@@ -4,8 +4,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingController;
 use App\Http\Controllers\CRM\CustomerController;
+use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ProgramController;
 use Illuminate\Support\Facades\Route;
 
 // Language switcher route
@@ -30,7 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Profile routes
-    Route::prefix('profile')->group(function () {
+    Route::prefix('profiles')->group(function () {
         Route::get('/', [ProfileController::class, 'edit'])->name('profiles.edit');
         Route::patch('/', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -64,7 +68,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{customer}', 'destroy')->name('customers.destroy');
     });
 
-     Route::prefix('files')->group(function () {
+    Route::prefix('files')->group(function () {
         Route::get('/', [FileController::class, 'index'])->name('files.index');
         Route::get('/create', [FileController::class, 'create'])->name('files.create');
         Route::post('/store', [FileController::class, 'store'])->name('files.store');
@@ -75,8 +79,38 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/', [FileController::class, 'destroy'])->name('files.destroy');
     });
 
-     Route::prefix('invoices')->group(function () {
-        Route::get('/', [FileController::class, 'index'])->name('files.index');
+    Route::prefix('destinations')->group(function () {
+        Route::get('/', [DestinationController::class, 'index'])->name('destinations.index');
+        Route::get('/create', [DestinationController::class, 'create'])->name('destinations.create');
+        Route::post('/store', [DestinationController::class, 'store'])->name('destinations.store');
+        Route::get('/{destination}', [DestinationController::class, 'show'])->name('destinations.show');
+        Route::get('/{destination}/edit', [DestinationController::class, 'edit'])->name('destinations.edit');
+        Route::patch('/', [DestinationController::class, 'update'])->name('destinations.update');
+        Route::delete('/{destination}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
+    });
+
+    Route::prefix('currencies')->group(function () {
+        Route::get('/', [CurrencyController::class, 'index'])->name('currencies.index');
+        Route::get('/create', [CurrencyController::class, 'create'])->name('currencies.create');
+        Route::post('/store', [CurrencyController::class, 'store'])->name('currencies.store');
+        Route::get('/{currency}', [CurrencyController::class, 'show'])->name('currencies.show');
+        Route::get('/{currency}/edit', [CurrencyController::class, 'edit'])->name('currencies.edit');
+        Route::patch('/', [CurrencyController::class, 'update'])->name('currencies.update');
+        Route::delete('/{currency}', [CurrencyController::class, 'destroy'])->name('currencies.destroy');
+    });
+
+    Route::prefix('programs')->group(function () {
+        Route::get('/', [ProgramController::class, 'index'])->name('programs.index');
+        Route::get('/create', [ProgramController::class, 'create'])->name('programs.create');
+        Route::post('/store', [ProgramController::class, 'store'])->name('programs.store');
+        Route::get('/{program}', [ProgramController::class, 'show'])->name('programs.show');
+        Route::get('/{program}/edit', [ProgramController::class, 'edit'])->name('programs.edit');
+        Route::patch('/', [ProgramController::class, 'update'])->name('programs.update');
+        Route::delete('/{program}', [ProgramController::class, 'destroy'])->name('programs.destroy');
+    });
+
+    Route::prefix('invoices')->group(function () {
+        Route::get('/', [InvoiceController::class, 'index'])->name('invoices.index');
         Route::get('/create', [FileController::class, 'create'])->name('invoices.create');
     });
 
@@ -84,6 +118,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/items', [FileController::class, 'showAddItems'])->name('files.items.add');
         Route::post('/items', [FileController::class, 'storeItem'])->name('files.items.store');
         Route::delete('/items/{item}', [FileController::class, 'destroyItem'])->name('files.items.destroy');
+        Route::put('/items/{item}', [FileController::class, 'updateItem'])->name('files.items.update');
     });
 
 });

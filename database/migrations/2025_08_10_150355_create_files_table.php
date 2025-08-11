@@ -23,6 +23,9 @@ return new class extends Migration
             $table->uuid('currency_id')->nullable();
             $table->string('guide')->nullable();
             $table->longText('note')->nullable();
+
+            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+
             $table->softDeletes(); 
             $table->timestamps();
 

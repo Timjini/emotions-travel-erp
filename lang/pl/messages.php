@@ -22,4 +22,6 @@ return [
     'profomas' => 'Proformy',
     'client_invoices' => 'Faktury Klientów',
     'credit_notes' => 'Noty Kredytowe',
+    'destinations' => 'miejsca docelowe',
+    'currencies' => 'waluty'
 ];
