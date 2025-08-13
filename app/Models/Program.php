@@ -7,6 +7,7 @@ use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Program extends Model
@@ -14,11 +15,8 @@ class Program extends Model
     use HasFactory, BelongsToCompany, CreatedByTrait;
 
     protected $table = 'programs';
-
     protected $primaryKey = 'id';
-
     public $incrementing = false;
-
     protected $keyType = 'string';
 
     protected static function boot()
@@ -34,23 +32,33 @@ class Program extends Model
 
     protected $fillable = [
         'name',
-        'code',
         'description',
-        'duration_days',
-        'price',
+        'base_price',
         'is_active',
+        'destination_id',
+        'currency_id',
+        'company_id',
+        'created_by',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
-        'price' => 'decimal:2',
+        'base_price' => 'decimal:2',
     ];
 
-    /**
-     * Get all files for this program
-     */
+    /** Relationships **/
     public function files(): HasMany
     {
         return $this->hasMany(File::class);
+    }
+
+    public function destination(): BelongsTo
+    {
+        return $this->belongsTo(Destination::class);
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class);
     }
 }

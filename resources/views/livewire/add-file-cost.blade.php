@@ -62,6 +62,7 @@
                     <!-- Description -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Description</label>
+                        
                         <textarea wire:model="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm"></textarea>
                     </div>
                     

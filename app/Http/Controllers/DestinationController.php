@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreDestinationRequest;
+use App\Models\Currency;
 use App\Models\Destination;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class DestinationController extends Controller
@@ -26,25 +29,23 @@ class DestinationController extends Controller
      */
     public function create(): View
     {
-        return view('destinations.create');
+        $currencies = Currency::where('is_active', true)
+                          ->orderBy('name')
+                          ->get();
+         $destination = new Destination();
+
+        return view('destinations.create', compact('currencies', 'destination'));
     }
 
     /**
      * Store a newly created destination.
      */
-    public function store(Request $request): RedirectResponse
+    public function store(StoreDestinationRequest $request): RedirectResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
+        Destination::create($request->validated());
 
-        Destination::create($validated);
-
-        session()->flash('success', 'Destination created successfully.');
-
-        return redirect()->route('destinations.index')
+        return redirect()
+            ->route('destinations.index')
             ->with('success', 'Destination created successfully.');
     }
 
@@ -63,27 +64,30 @@ class DestinationController extends Controller
      */
     public function edit(Destination $destination): View
     {
-        return view('destinations.edit', [
-            'destination' => $destination,
-        ]);
+       $currencies = Currency::where('is_active', true)
+                          ->orderBy('name')
+                          ->get();
+
+        return view('destinations.edit', compact('destination', 'currencies'));
     }
 
     /**
      * Update the specified destination.
      */
-    public function update(Request $request, Destination $destination): RedirectResponse
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ]);
+public function update(StoreDestinationRequest $request, Destination $destination): RedirectResponse
+{
+    try {
+        $destination->update($request->validated());
 
-        $destination->update($validated);
-
-        return redirect()->route('destinations.show', $destination)
+        return redirect()->route('destinations.show', ['destination' => $destination->id])
             ->with('success', 'Destination updated successfully.');
+
+    } catch (\Exception $e) {
+        return redirect()->back()->withInput()->with('error', $e->getMessage());
     }
+}
+
+
 
     /**
      * Remove the specified destination.

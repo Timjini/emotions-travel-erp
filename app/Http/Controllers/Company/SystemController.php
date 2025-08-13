@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Company;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Currency;
+use App\Models\Destination;
 use App\Models\Setting;
 use App\Models\User;
 use App\Services\FileUploadService;
@@ -264,33 +266,58 @@ class SystemController extends Controller
     public function createTemporary(Request $request)
     {
         try {
+            $userId = Auth::id();
+
             // Get default values from .env or use fallbacks
             $defaultEmail = env('DEFAULT_COMPANY_EMAIL', 'temp-company@example.com');
             $defaultCountry = env('DEFAULT_COMPANY_COUNTRY', 'United States');
             $defaultCity = env('DEFAULT_COMPANY_CITY', 'New York');
+            $defaultCurrencyCode = env('DEFAULT_CURRENCY_CODE', 'USD');
+            $defaultCurrencyName = env('DEFAULT_CURRENCY_NAME', 'US Dollar');
 
-            // Create a minimal valid company
+            // Create temporary company
             $company = Company::create([
-                'name' => 'Temporary Company for User #' . Auth::id(),
+                'name' => 'Temporary Company for User #' . $userId,
                 'legal_name' => 'Temporary Company',
                 'type' => 'other',
-                'logo_path' => null, // Will be handled by default in model
+                'logo_path' => null,
                 'email' => $defaultEmail,
                 'address' => 'Temporary Address',
                 'post_code' => '00000',
                 'city' => $defaultCity,
                 'country' => $defaultCountry,
                 'status' => 'active',
-                'created_by' => Auth::id(),
-                'is_temporary' => true, // Add this column to your companies table
+                'created_by' => $userId,
+                'is_temporary' => true,
             ]);
 
-            // Assign company to current user
-            $user = User::find(Auth::user()->id);
+            // Assign company to user
+            $user = User::find($userId);
             $user->company_id = $company->id;
             $user->save();
 
-            return redirect()->route('dashboard')->with('success', 'Temporary company created. Please update your company details when ready.');
+            // Create default currency for this company
+            $currency = Currency::create([
+                'name' => $defaultCurrencyName,
+                'code' => $defaultCurrencyCode,
+                'symbol' => '$', // optional
+                'company_id' => $company->id,
+                'created_by' => $userId,
+                'is_active' => true,
+            ]);
+
+            // Create default destination for this company
+            Destination::create([
+                'name' => 'Default Destination',
+                'city' => $defaultCity,
+                'country' => $defaultCountry,
+                'currency_id' => $currency->id,
+                'company_id' => $company->id,
+                'created_by' => $userId,
+                'is_active' => true,
+            ]);
+
+            return redirect()->route('dashboard')->with('success', 'Temporary company created with default currency and destination.');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to create temporary company: ' . $e->getMessage());
         }

@@ -199,7 +199,12 @@
                     <!-- Notes -->
                     <div class="mb-6">
                         <x-input-label for="notes" :value="__('Notes')" />
-                        <textarea id="notes" name="notes" rows="3" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full">{{ old('notes') }}</textarea>
+                        <x-text-area 
+                                id="notes" 
+                                name="notes" 
+                                class="mt-1 block w-full" 
+                                rows="3"
+                            >{{ old('notes') }}</x-text-area>
                     </div>
 
                     <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">

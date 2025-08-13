@@ -103,9 +103,12 @@
                     <!-- Description -->
                     <div>
                         <x-input-label for="description" :value="__('Description')" />
-                        <textarea id="description" name="description" rows="3"
-                            class="mt-1 rounded bg-gray-50 border text-gray-900 block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5"
-                        >{{ old('description') }}</textarea>
+                        <x-text-area 
+                                id="description" 
+                                name="description" 
+                                class="mt-1 block w-full" 
+                                rows="3"
+                            >{{ old('description') }}</x-text-area>
                         <x-input-error class="mt-2" :messages="$errors->get('description')" />
                     </div>
                 </div>

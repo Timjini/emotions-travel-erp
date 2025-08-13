@@ -17,13 +17,24 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->decimal('base_price', 10, 2)->nullable();
             $table->boolean('is_active')->default(true);
-            // company
+
+            // Relationships
+            $table->uuid('destination_id');
+            $table->foreign('destination_id')->references('id')->on('destinations')->onDelete('cascade');
+
+            $table->uuid('currency_id')->nullable();
+            $table->foreign('currency_id')->references('id')->on('currencies')->nullOnDelete();
+
+            // Company
             $table->uuid('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+            // Created by
             $table->uuid('created_by');
             $table->foreign('created_by', 'fk_programs_created_by_users')
                 ->references('id')
                 ->on('users');
+
             $table->timestamps();
         });
     }

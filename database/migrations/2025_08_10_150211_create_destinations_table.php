@@ -13,11 +13,28 @@ return new class extends Migration
     {
         Schema::create('destinations', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('code')->nullable();
             $table->string('name');
+            $table->string('city')->nullable();
+            $table->string('region')->nullable();
             $table->string('country')->nullable();
+            $table->string('country_code', 2)->nullable();
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
+            $table->string('timezone')->nullable();
+            $table->string('airport_code', 3)->nullable();
+            $table->uuid('currency_id')->nullable();
+            $table->foreign('currency_id')->references('id')->on('currencies')->nullOnDelete();
+            $table->boolean('visa_required')->default(false);
+            $table->string('best_season')->nullable();
+            $table->string('average_temperature')->nullable();
             $table->text('description')->nullable();
+            $table->string('thumbnail_url')->nullable();
+            $table->json('gallery')->nullable();
+            $table->decimal('default_markup', 5, 2)->nullable();
+            $table->date('active_from')->nullable();
+            $table->date('active_until')->nullable();
             $table->boolean('is_active')->default(true);
-            // company
             $table->uuid('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->uuid('created_by');
@@ -26,6 +43,7 @@ return new class extends Migration
                 ->on('users');
             $table->timestamps();
         });
+
     }
 
     /**

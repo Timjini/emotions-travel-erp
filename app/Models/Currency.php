@@ -52,4 +52,14 @@ class Currency extends Model
     {
         return $this->hasMany(File::class);
     }
+
+     public function programs()
+    {
+        return $this->hasMany(Program::class);
+    }
+
+    public function destinations()
+    {
+        return $this->hasMany(Destination::class);
+    }
 }

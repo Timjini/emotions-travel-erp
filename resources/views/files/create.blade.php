@@ -122,7 +122,12 @@
                     <!-- Note -->
                     <div>
                         <x-input-label for="note" :value="__('Notes')" />
-                        <textarea id="note" name="note" rows="3" class="rounded bg-gray-50 border text-gray-900  flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">{{ old('note') }}</textarea>
+                         <x-text-area 
+                                id="notes" 
+                                name="notes" 
+                                class="mt-1 block w-full" 
+                                rows="3"
+                            >{{ old('note') }}</x-text-area>
                         <x-input-error class="mt-2" :messages="$errors->get('note')" />
                     </div>
                 </div>

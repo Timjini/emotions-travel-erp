@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreProgramRequest;
 use App\Models\Program;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProgramController extends Controller
 {
@@ -20,19 +21,17 @@ class ProgramController extends Controller
         return view('programs.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreProgramRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'base_price' => 'nullable|numeric|min:0',
-            'is_active' => 'boolean',
+        Program::create($request->validated() + [
+            'company_id' => Auth::user()->company_id,
+            'created_by' => Auth::id(),
         ]);
 
-        Program::create($validated);
-
-        return redirect()->route('programs.index')->with('success', 'Program created successfully.');
+        return redirect()->route('programs.index')
+            ->with('success', 'Program created successfully.');
     }
+
 
     public function show(Program $program)
     {
@@ -44,14 +43,10 @@ class ProgramController extends Controller
         return view('programs.edit', compact('program'));
     }
 
-    public function update(Request $request, Program $program)
+    public function update(StoreProgramRequest $request, Program $program)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'base_price' => 'nullable|numeric|min:0',
-            'is_active' => 'boolean',
-        ]);
+
+        $validated = $request->validated();
 
         $program->update($validated);
 

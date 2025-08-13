@@ -16,6 +16,7 @@
                 
                 <div class="px-6 py-4 space-y-4">
                     <div>
+                        @livewire('destination-search')
                         <x-input-label for="name" :value="__('Name')" />
                         <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" 
                             :value="old('name')" required />
@@ -24,8 +25,12 @@
                     
                     <div>
                         <x-input-label for="description" :value="__('Description')" />
-                        <textarea id="description" name="description" rows="4" 
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">{{ old('description') }}</textarea>
+                        <x-text-area 
+                                id="description" 
+                                name="description" 
+                                class="mt-1 block w-full" 
+                                rows="3"
+                            >{{ old('description') }}</x-text-area>
                         <x-input-error class="mt-2" :messages="$errors->get('description')" />
                     </div>
                     

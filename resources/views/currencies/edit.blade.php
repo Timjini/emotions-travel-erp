@@ -7,7 +7,7 @@
 
     <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
         <div class="bg-white shadow rounded-lg overflow-hidden">
-            <form method="POST" action="{{ route('currencies.update', $currency) }}">
+            <form method="POST" action="{{ route('currencies.update', $currency) }}" x-data="{ loading: false }" @submit="loading = true">
                 @csrf
                 @method('PATCH')
                 <input type="hidden" name="id" value="{{ $currency->id }}">
@@ -38,8 +38,7 @@
                     </div>
                     
                     <div class="flex items-center">
-                        <x-checkbox id="is_active" name="is_active" :checked="old('is_active', $currency->is_active)" />
-                        <x-input-label for="is_active" :value="__('Active')" class="ml-2" />
+                        <x-toggle id="is_active" name="is_active" :checked="old('is_active', $currency->is_active)" />
                     </div>
                 </div>
                 
@@ -47,9 +46,7 @@
                     <x-secondary-link class="mr-2" href="'{{ route('currencies.show', $currency) }}'">
                         Cancel
                     </x-secondary-button>
-                    <x-primary-button type="submit">
-                        Save Changes
-                    </x-primary-button>
+                    <x-loading-button label="Save Changes" />
                 </div>
             </form>
         </div>

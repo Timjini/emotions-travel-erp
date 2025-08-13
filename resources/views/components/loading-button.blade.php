@@ -5,7 +5,7 @@
 <button 
     type="{{ $attributes->get('type', 'submit') }}" 
     :disabled="loading" 
-    class="flex justify-center items-center rounded-md border border-transparent bg-gray-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200"
+    class="flex justify-center items-center  border border-transparent  text-sm  shadow-sm  focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-200 bg-[#4DA8DA] hover:bg-[#3a8cc4] text-white font-medium py-2 px-4 rounded-xl transition"
     {{ $attributes->except('type') }}
 >
     <template x-if="!loading">

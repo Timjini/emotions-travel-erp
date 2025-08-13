@@ -198,7 +198,9 @@
                     <div class="grid grid-cols-1 gap-6">
                         <div>
                             <x-input-label for="notes" :value="__('Notes')" />
-                            <textarea id="notes" name="notes" rows="3" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">{{ old('notes') }}</textarea>
+                            <x-text-area id="notes" name="notes" rows="4">
+                                {{ old('notes') }}
+                            </x-text-area>
                             <x-input-error :messages="$errors->get('notes')" class="mt-2" />
                         </div>
                     </div>
