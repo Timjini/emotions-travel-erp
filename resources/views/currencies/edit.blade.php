@@ -9,8 +9,8 @@
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <form method="POST" action="{{ route('currencies.update', $currency) }}">
                 @csrf
-                @method('PUT')
-                
+                @method('PATCH')
+                <input type="hidden" name="id" value="{{ $currency->id }}">
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h3 class="text-lg font-medium text-gray-900">Currency Information</h3>
                 </div>

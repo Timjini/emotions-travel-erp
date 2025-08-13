@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateCurrencyRequest;
 use App\Models\Currency;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -46,20 +47,13 @@ class CurrencyController extends Controller
         return view('currencies.edit', compact('currency'));
     }
 
-    public function update(Request $request, Currency $currency): RedirectResponse
-    {
-        $validated = $request->validate([
-            'code' => 'required|string|size:3|unique:currencies,code,'.$currency->id,
-            'name' => 'required|string|max:255',
-            'symbol' => 'nullable|string|max:5',
-            'is_active' => 'boolean',
-        ]);
+public function update(UpdateCurrencyRequest $request, Currency $currency): RedirectResponse
+{
+    $currency->update($request->validated());
 
-        $currency->update($validated);
-
-        return redirect()->route('currencies.show', $currency)
-            ->with('success', 'Currency updated successfully.');
-    }
+    return redirect()->route('currencies.show', $currency)
+        ->with('success', 'Currency updated successfully.');
+}
 
     public function destroy(Currency $currency): RedirectResponse
     {

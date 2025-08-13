@@ -260,4 +260,39 @@ class SystemController extends Controller
             'financial_year_start' => '01-01',
         ];
     }
+
+    public function createTemporary(Request $request)
+    {
+        try {
+            // Get default values from .env or use fallbacks
+            $defaultEmail = env('DEFAULT_COMPANY_EMAIL', 'temp-company@example.com');
+            $defaultCountry = env('DEFAULT_COMPANY_COUNTRY', 'United States');
+            $defaultCity = env('DEFAULT_COMPANY_CITY', 'New York');
+
+            // Create a minimal valid company
+            $company = Company::create([
+                'name' => 'Temporary Company for User #' . Auth::id(),
+                'legal_name' => 'Temporary Company',
+                'type' => 'other',
+                'logo_path' => null, // Will be handled by default in model
+                'email' => $defaultEmail,
+                'address' => 'Temporary Address',
+                'post_code' => '00000',
+                'city' => $defaultCity,
+                'country' => $defaultCountry,
+                'status' => 'active',
+                'created_by' => Auth::id(),
+                'is_temporary' => true, // Add this column to your companies table
+            ]);
+
+            // Assign company to current user
+            $user = User::find(Auth::user()->id);
+            $user->company_id = $company->id;
+            $user->save();
+
+            return redirect()->route('dashboard')->with('success', 'Temporary company created. Please update your company details when ready.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Failed to create temporary company: ' . $e->getMessage());
+        }
+    }
 }

@@ -26,6 +26,10 @@
 </head>
 
 <body class="font-sans antialiased">
+
+@if(Auth::check() && is_null(Auth::user()->company_id))
+@include('partials.setup-company')
+@endif
     @if(session('success'))
     <x-flash type="success"
         :title="session('success-title', 'Success')"
@@ -71,6 +75,7 @@
             Livewire.emit('refresh');
         });
     });
+
 </script>
     @livewire('livewire-ui-modal')
 

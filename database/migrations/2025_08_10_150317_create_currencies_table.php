@@ -20,6 +20,10 @@ return new class extends Migration
             // company
             $table->uuid('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->uuid('created_by');
+            $table->foreign('created_by', 'fk_currencies_created_by_users')
+                ->references('id')
+                ->on('users');
             $table->timestamps();
         });
     }

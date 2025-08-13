@@ -167,6 +167,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/system/settings/update', [SystemController::class, 'updateSettings'])->name('company.system.update-settings');
         Route::get('/system/create', [SystemController::class, 'createCompany'])->name('company.system.create');
         Route::post('/system/store', [SystemController::class, 'storeCompany'])->name('company.system.store');
+        Route::post('/temporary', [SystemController::class, 'createTemporary'])->name('company.system.create-temporary');
     });
 
 });
