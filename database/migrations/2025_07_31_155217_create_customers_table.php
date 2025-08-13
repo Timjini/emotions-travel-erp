@@ -50,11 +50,15 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->string('source')->nullable();
 
+            // company
+            $table->uuid('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
             // Tracking
             $table->uuid('created_by');
             $table->foreign('created_by', 'fk_customers_created_by_users')
-              ->references('id')
-              ->on('users');
+                ->references('id')
+                ->on('users');
             $table->timestamps();
             $table->softDeletes();
         });

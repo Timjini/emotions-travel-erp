@@ -1,29 +1,33 @@
 <?php
+
 return [
     'dashboard' => 'Panel',
     'users' => 'Użytkownicy',
     'reports' => 'Raporty',
     'customer' => 'Klient',
-    'bookings' => 'Rezerwacje',  
+    'bookings' => 'Rezerwacje',
     'billing_and_invoice' => 'rozliczenia i faktury',
     'payments' => 'Płatności',
     'settings' => 'Ustawienia',
     'help' => 'Pomoc',
     'documentation' => 'Dokumentacja',
     'log_out' => 'Wyloguj się',
-    //navigation menu
+    // navigation menu
     'front_office' => 'Front-Biuro',
     'back_office' => 'Zaplecze',
     'accounting' => 'Księgowość',
     'settings' => 'Ustawienia',
-    
+
     'customers' => 'Klienci',
     'suppliers' => 'dostawcy',
-     'programs' => 'programy',
+    'programs' => 'programy',
     'files' => 'Pliki',
-    'profomas' => 'Proformy',
+    'file_costs' => 'file costs',
+    'proformas' => 'Proformy',
     'client_invoices' => 'Faktury Klientów',
     'credit_notes' => 'Noty Kredytowe',
     'destinations' => 'miejsca docelowe',
-    'currencies' => 'waluty'
+    'currencies' => 'waluty',
+    'system' => 'system',
+
 ];

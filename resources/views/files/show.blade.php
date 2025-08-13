@@ -27,7 +27,7 @@
         </ol>
     </nav>
 
-    <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
+    <div class="max-w-8xl px-4 sm:px-6 lg:px-8 py-6">
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">
                 <div class="flex justify-between items-center">
@@ -73,10 +73,10 @@
                                         </button>
                                     </form>
                                     <!-- Confirm File Button -->
-                                    <form method="POST" action="{{ route('files.confirm', $file) }}" role="none">
+                                    <form method="POST" action="{{ route('proformas.store', $file->id) }}" role="none">
                                         @csrf
                                         <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem" onclick="return confirm('Are you sure you want to confirm this file?')">
-                                            Confirm File
+                                            Proformas
                                         </button>
                                     </form>
                                 </div>

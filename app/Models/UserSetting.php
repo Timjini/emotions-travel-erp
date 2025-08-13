@@ -10,9 +10,9 @@ class UserSetting extends Model
     protected $fillable = [
         'user_id',
         'language',
-        'timezone', 
+        'timezone',
         'theme',
-        'email_notifications'
+        'email_notifications',
     ];
 
     /**

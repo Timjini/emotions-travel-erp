@@ -25,12 +25,12 @@ class CustomerSeeder extends Seeder
 
         for ($i = 1; $i <= 20; $i++) {
             $isCompany = rand(0, 1);
-            $name = $isCompany 
-                ? fake()->company() 
+            $name = $isCompany
+                ? fake()->company()
                 : fake()->name();
-            
-            $invoicingEntity = $isCompany 
-                ? $name 
+
+            $invoicingEntity = $isCompany
+                ? $name
                 : fake()->company();
 
             $customers[] = [

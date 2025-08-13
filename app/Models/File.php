@@ -4,21 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class File extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public const STATUS_PENDING   = 'pending';
+    public const STATUS_PENDING = 'pending';
+
     public const STATUS_CONFIRMED = 'confirmed';
+
     public const STATUS_CANCELLED = 'cancelled';
 
     protected $table = 'files';
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -37,11 +42,10 @@ class File extends Model
 
     protected $casts = [
         'start_date' => 'date',
-        'end_date'   => 'date',
+        'end_date' => 'date',
     ];
 
-
-        protected static function boot()
+    protected static function boot()
     {
         parent::boot();
 
@@ -61,7 +65,7 @@ class File extends Model
         ];
     }
 
-    // Relations 
+    // Relations
     public function customer()
     {
         return $this->belongsTo(Customer::class);
@@ -82,9 +86,26 @@ class File extends Model
         return $this->belongsTo(Currency::class);
     }
 
-     public function items(): HasMany
+    public function items(): HasMany
     {
         return $this->hasMany(FileItem::class);
     }
 
+    /**
+     * Get all costs associated with this file
+     */
+    public function costs(): HasMany
+    {
+        return $this->hasMany(FileCost::class);
+    }
+
+    public function proformas()
+    {
+        return $this->hasMany(Proforma::class);
+    }
+
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
 }

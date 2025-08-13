@@ -15,8 +15,11 @@ class Customer extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'customers';
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected static function boot()
@@ -68,7 +71,7 @@ class Customer extends Model
     {
         return $query->whereNotIn('type', ['client', 'customer']);
     }
-    // relations 
+    // relations
 
     public function files()
     {

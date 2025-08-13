@@ -15,8 +15,11 @@ class Supplier extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'suppliers';
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected static function boot()
@@ -64,11 +67,10 @@ class Supplier extends Model
         'deleted_at' => 'datetime',
     ];
 
-    // relations 
+    // relations
 
     public function files()
     {
         return $this->hasMany(File::class);
     }
-
 }

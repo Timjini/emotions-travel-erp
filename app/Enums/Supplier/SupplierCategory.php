@@ -9,7 +9,7 @@ enum SupplierCategory: string
     case AGENCY = 'agency';
     case INDIVIDUAL = 'individual';
     case CORPORATE = 'corporate';
-    
+
     public static function values(): array
     {
         return array_column(self::cases(), 'value');
@@ -17,7 +17,7 @@ enum SupplierCategory: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::GUIDE => 'Guide',
             self::HOTEL => 'Hotel',
             self::AGENCY => 'Agency',

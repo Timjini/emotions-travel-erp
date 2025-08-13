@@ -10,8 +10,8 @@ use App\Models\FileItem;
 use App\Models\Program;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\View\View;
 
 class FileController extends Controller
 {
@@ -20,12 +20,134 @@ class FileController extends Controller
      */
     public function index(Request $request): View
     {
-        $files = File::with(['customer', 'program', 'destination', 'currency'])
-            ->latest()
-            ->paginate(10);
+        // Get sorting parameters
+        $sortField = $request->get('sort', 'created_at');
+        $sortDirection = $request->get('direction', 'desc');
+
+        // Base query with relationships and sums
+        $query = File::with([
+            'customer',
+            'program',
+            'destination',
+            'currency',
+            'items' => function ($query) {
+                $query->selectRaw('file_id, SUM(total_price) as total_price')
+                    ->groupBy('file_id');
+            },
+            'costs' => function ($query) {
+                $query->selectRaw('file_id, SUM(total_price) as total_price')
+                    ->groupBy('file_id');
+            },
+        ])
+            ->withSum('items', 'total_price')
+            ->withSum('costs', 'total_price');
+
+        // Apply search filter
+        if ($request->has('search')) {
+            $search = $request->get('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('reference', 'like', "%{$search}%")
+                    ->orWhereHas('customer', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('destination', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
+            });
+        }
+
+        // Apply status filter
+        if ($request->has('status')) {
+            $query->where('status', $request->get('status'));
+        }
+
+        // Apply date range filter
+        if ($request->has('start_date')) {
+            $query->where('start_date', '>=', $request->get('start_date'));
+        }
+        if ($request->has('end_date')) {
+            $query->where('end_date', '<=', $request->get('end_date'));
+        }
+
+        // Apply program filter
+        if ($request->has('program_id')) {
+            $query->where('program_id', $request->get('program_id'));
+        }
+
+        // Apply sorting
+        $query->orderBy($sortField, $sortDirection);
+
+        // Get paginated results
+        $files = $query->paginate(10)
+            ->appends($request->query());
+
+        // Calculate statistics
+        $stats = [
+            'total_bookings' => File::count(),
+            'confirmed_bookings' => File::where('status', 'confirmed')->count(),
+            'pending_bookings' => File::where('status', 'pending')->count(),
+            'cancelled_bookings' => File::where('status', 'cancelled')->count(),
+        ];
+
+        // Calculate financial summaries across all files
+        $allFiles = File::with(['items', 'costs'])->get();
+
+        $totalBilled = $allFiles->sum(function ($file) {
+            return $file->items->sum('total_price');
+        });
+
+        $totalCosts = $allFiles->sum(function ($file) {
+            return $file->costs->sum('total_price');
+        });
+
+        $profit = $totalBilled - $totalCosts;
+        $profitMargin = $totalBilled > 0 ? ($profit / $totalBilled) * 100 : 0;
+
+        // Calculate costs by service type (simplified example)
+        $costsByServiceType = [
+            'Accommodation' => $allFiles->sum(function ($file) {
+                return $file->costs->where('service_type', 'accommodation')->sum('total_price');
+            }),
+            'Transport' => $allFiles->sum(function ($file) {
+                return $file->costs->where('service_type', 'transport')->sum('total_price');
+            }),
+            'Activities' => $allFiles->sum(function ($file) {
+                return $file->costs->where('service_type', 'activities')->sum('total_price');
+            }),
+            'Meals' => $allFiles->sum(function ($file) {
+                return $file->costs->where('service_type', 'meals')->sum('total_price');
+            }),
+        ];
+
+        // Payment status summary (example - adjust based on your actual data structure)
+        $paymentStatusSummary = [
+            'Paid' => $allFiles->where('payment_status', 'paid')->count(),
+            'Partial' => $allFiles->where('payment_status', 'partial')->count(),
+            'Pending' => $allFiles->where('payment_status', 'pending')->count(),
+            'Overdue' => $allFiles->where('payment_status', 'overdue')->count(),
+        ];
+
+        // Prepare financial data for the view
+        $financials = [
+            'total_billed' => $totalBilled,
+            'total_costs' => $totalCosts,
+            'profit' => $profit,
+            'profit_margin' => $profitMargin,
+            'costs_by_service_type' => $costsByServiceType,
+            'payment_status_summary' => $paymentStatusSummary,
+        ];
+
+        // Get all programs for filter dropdown
+        $programs = Program::orderBy('name')->get();
 
         return view('files.index', [
             'files' => $files,
+            'stats' => $stats,
+            'financials' => $financials,
+            'programs' => $programs,
+            'sortField' => $sortField,
+            'sortDirection' => $sortDirection,
         ]);
     }
 
@@ -47,10 +169,10 @@ class FileController extends Controller
         // $file->load(['programs', 'customer', 'currency', 'destination']);
 
         return view('files.edit', [
-            'file'        => $file,
-            'programs'     => Program::all(),
-            'customers'    => Customer::all(),
-            'currencies'   => Currency::all(),
+            'file' => $file,
+            'programs' => Program::all(),
+            'customers' => Customer::all(),
+            'currencies' => Currency::all(),
             'destinations' => Destination::all(),
         ]);
     }
@@ -70,7 +192,7 @@ class FileController extends Controller
             'currency_id' => 'nullable|exists:currencies,id',
             'guide' => 'nullable|string|max:255',
             'note' => 'nullable|string',
-            'status' => 'required|string|in:pending,confirmed,cancelled',  
+            'status' => 'required|string|in:pending,confirmed,cancelled',
         ]);
 
         $file->update($validated);
@@ -169,7 +291,7 @@ class FileController extends Controller
         return redirect()->route('files.items.add', $file)
             ->with('success', 'Item removed successfully.');
     }
-    
+
     /**
      * Edit File Items
      */

@@ -1,17 +1,19 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserSettingController;
+use App\Http\Controllers\Company\SystemController;
 use App\Http\Controllers\CRM\CustomerController;
 use App\Http\Controllers\CRM\SupplierController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\FileController;
-use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\Payment\FileCostController;
+use App\Http\Controllers\Payment\InvoiceController;
+use App\Http\Controllers\Payment\ProformaController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserSettingController;
 use Illuminate\Support\Facades\Route;
 
 // Language switcher route
@@ -59,7 +61,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         // Route::get('/edit', 'edit')->name('user-settings.edit');
         Route::put('/', 'update')->name('user-settings.update');
     });
-     // CRM Customers
+    // CRM Customers
     Route::prefix('crm/customers')->controller(CustomerController::class)->group(function () {
         Route::get('/', 'index')->name('customers.index');
         Route::get('/create', 'create')->name('customers.create');
@@ -89,6 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{file}/edit', [FileController::class, 'edit'])->name('files.edit');
         Route::patch('/', [FileController::class, 'update'])->name('files.update');
         Route::delete('/', [FileController::class, 'destroy'])->name('files.destroy');
+        Route::get('/export', [FileController::class, 'index'])->name('files.export');
     });
 
     Route::prefix('destinations')->group(function () {
@@ -123,7 +126,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('invoices')->group(function () {
         Route::get('/', [InvoiceController::class, 'index'])->name('invoices.index');
+        Route::get('/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
         Route::get('/create', [FileController::class, 'create'])->name('invoices.create');
+        Route::get('/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
+        Route::patch('/', [InvoiceController::class, 'update'])->name('invoices.update');
+        Route::delete('/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
     });
 
     Route::prefix('files/{file}')->group(function () {
@@ -133,13 +140,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/items/{item}', [FileController::class, 'updateItem'])->name('files.items.update');
     });
 
-     Route::prefix('/costs')->group(function () {
-            Route::get('/', [FileCostController::class, 'index'])->name('files.costs.index');
-            Route::get('/create', [FileCostController::class, 'create'])->name('files.costs.create');
-            Route::post('/store', [FileCostController::class, 'store'])->name('file-costs.store');
-            Route::get('/export', [FileCostController::class, 'export'])->name('files.costs.export');
+    Route::prefix('/costs')->group(function () {
+        Route::get('/', [FileCostController::class, 'index'])->name('files.costs.index');
+        Route::get('/create', [FileCostController::class, 'create'])->name('file-costs.create');
+        Route::patch('/', [FileCostController::class, 'update'])->name('file-costs.update');
+        Route::get('/export', [FileCostController::class, 'export'])->name('files.costs.export');
+        Route::post('/files/{file}/costs', [FileCostController::class, 'store'])->name('file-costs.store');
     });
-    
+
+    Route::post('/files/{file}/proformas', [ProformaController::class, 'store'])->name('proformas.store');
+    Route::prefix('/proformas')->group(function () {
+        Route::get('/', [ProformaController::class, 'index'])->name('proformas.index');
+        Route::get('/{proforma}', [ProformaController::class, 'show'])->name('proformas.show');
+        Route::get('/{proforma}/edit', [ProformaController::class, 'edit'])->name('proformas.edit');
+        Route::delete('/{proforma}', [ProformaController::class, 'destroy'])->name('proformas.destroy');
+        Route::post('/{proforma}/convert', [ProformaController::class, 'convertToInvoice'])->name('proformas.convert-to-invoice');
+    });
+
+    Route::get('invoices/{invoice}/download', [InvoiceController::class, 'downloadPdf'])->name('invoices.download.pdf');
+
+    Route::prefix('/company')->group(function () {
+        Route::get('/system', [SystemController::class, 'index'])->name('company.system.index');
+        Route::get('/system/company/edit', [SystemController::class, 'editCompany'])->name('company.system.edit-company');
+        Route::put('/system/company/update', [SystemController::class, 'updateCompany'])->name('company.system.update-company');
+        Route::get('/system/settings/edit', [SystemController::class, 'editSettings'])->name('company.system.edit-settings');
+        Route::put('/system/settings/update', [SystemController::class, 'updateSettings'])->name('company.system.update-settings');
+        Route::get('/system/create', [SystemController::class, 'createCompany'])->name('company.system.create');
+        Route::post('/system/store', [SystemController::class, 'storeCompany'])->name('company.system.store');
+    });
 
 });
 

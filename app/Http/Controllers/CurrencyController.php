@@ -12,6 +12,7 @@ class CurrencyController extends Controller
     public function index(): View
     {
         $currencies = Currency::latest()->paginate(10);
+
         return view('currencies.index', compact('currencies'));
     }
 
@@ -26,7 +27,7 @@ class CurrencyController extends Controller
             'code' => 'required|string|size:3|unique:currencies',
             'name' => 'required|string|max:255',
             'symbol' => 'nullable|string|max:5',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
         ]);
 
         Currency::create($validated);
@@ -51,7 +52,7 @@ class CurrencyController extends Controller
             'code' => 'required|string|size:3|unique:currencies,code,'.$currency->id,
             'name' => 'required|string|max:255',
             'symbol' => 'nullable|string|max:5',
-            'is_active' => 'boolean'
+            'is_active' => 'boolean',
         ]);
 
         $currency->update($validated);
@@ -63,6 +64,7 @@ class CurrencyController extends Controller
     public function destroy(Currency $currency): RedirectResponse
     {
         $currency->delete();
+
         return redirect()->route('currencies.index')
             ->with('success', 'Currency deleted successfully.');
     }

@@ -11,6 +11,7 @@ class ProgramController extends Controller
     public function index()
     {
         $programs = Program::orderBy('created_at', 'desc')->paginate(10);
+
         return view('programs.index', compact('programs'));
     }
 
@@ -57,7 +58,7 @@ class ProgramController extends Controller
         return redirect()->route('programs.index')->with('success', 'Program updated successfully.');
     }
 
-     public function destroy(Program $program): RedirectResponse
+    public function destroy(Program $program): RedirectResponse
     {
         $program->delete();
 

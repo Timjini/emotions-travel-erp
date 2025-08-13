@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Enums\Payment\PaymentStatus;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Payment\StoreFileCostRequest;
+use App\Models\Currency;
 use App\Models\File;
 use App\Models\FileCost;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Payment\StoreFileCostRequest;
-use App\Http\Requests\Payment\UpdateFileCostRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class FileCostController extends Controller
@@ -26,7 +27,7 @@ class FileCostController extends Controller
             ->orderBy('service_date', 'desc')
             ->paginate(25);
 
-        return view('file-costs.index', [
+        return view('files.costs.index', [
             'file' => $file,
             'costs' => $fileCosts,
             'statuses' => PaymentStatus::cases(),
@@ -55,16 +56,23 @@ class FileCostController extends Controller
     {
         $validated = $request->validated();
 
-        // Calculate totals if not provided
+        // Calculate totals
         $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
         $validated['converted_total'] = $validated['total_price'] * $validated['exchange_rate'];
 
-        $fileCost = $file->costs()->create(array_merge($validated, [
-            // 'created_by' => auth()->id(),
-        ]));
+        // Set additional required fields
+        $validated = array_merge($validated, [
+            'customer_id' => $file->customer_id,
+            'base_currency' => config('app.currency', 'EUR'),
+            'created_by' => Auth::user()->id,
+            'file_id' => $file->id,
+        ]);
+
+        // Create the cost
+        $fileCost = $file->costs()->create($validated);
 
         return redirect()
-            ->route('files.costs.show', [$file, $fileCost])
+            ->route('files.items.add', $file->id)
             ->with('success', 'File cost created successfully');
     }
 
@@ -86,35 +94,27 @@ class FileCostController extends Controller
      */
     public function edit(File $file, FileCost $cost)
     {
-        // $this->authorize('update', $cost);
-
-        return view('file-costs.edit', [
+        return view('your.view', [
             'file' => $file,
             'cost' => $cost,
-            'suppliers' => Supplier::orderBy('name')->get(),
-            'statuses' => PaymentStatus::cases(),
-            'currencies' => config('currencies.supported'),
+            'fileItem' => $cost->fileItem,
+            'currencies' => Currency::all(),
         ]);
     }
 
-    /**
-     * Update the specified file cost.
-     */
-    public function update(UpdateFileCostRequest $request, File $file, FileCost $cost)
+    public function update(StoreFileCostRequest $request, File $file, FileCost $cost)
     {
         $validated = $request->validated();
 
-        // Recalculate totals if relevant fields changed
-        if ($request->hasAny(['quantity', 'unit_price', 'exchange_rate'])) {
-            $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
-            $validated['converted_total'] = $validated['total_price'] * $validated['exchange_rate'];
-        }
+        // Calculate totals
+        $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
+        $validated['converted_total'] = $validated['total_price'] * $validated['exchange_rate'];
 
         $cost->update($validated);
 
         return redirect()
-            ->route('files.costs.show', [$file, $cost])
-            ->with('success', 'File cost updated successfully');
+            ->to("/files/{$file->id}/items")
+            ->with('success', 'Cost updated successfully');
     }
 
     /**

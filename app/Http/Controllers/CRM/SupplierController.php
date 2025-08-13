@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\CRM;
 
-use App\Models\Supplier;
-use App\Enums\Supplier\SupplierType;
-use App\Enums\Supplier\SupplierStatus;
 use App\Enums\Supplier\SupplierCategory;
+use App\Enums\Supplier\SupplierStatus;
+use App\Enums\Supplier\SupplierType;
+use App\Http\Controllers\Controller;
+use App\Models\Supplier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use App\Http\Controllers\Controller;
 
 class SupplierController extends Controller
 {
@@ -20,10 +20,10 @@ class SupplierController extends Controller
 
         if ($request->filled('search')) {
             $query->where(function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('email', 'like', '%' . $request->search . '%')
-                    ->orWhere('invoicing_entity', 'like', '%' . $request->search . '%')
-                    ->orWhere('phone_1', 'like', '%' . $request->search . '%');
+                $q->where('name', 'like', '%'.$request->search.'%')
+                    ->orWhere('email', 'like', '%'.$request->search.'%')
+                    ->orWhere('invoicing_entity', 'like', '%'.$request->search.'%')
+                    ->orWhere('phone_1', 'like', '%'.$request->search.'%');
             });
         }
 
@@ -31,7 +31,6 @@ class SupplierController extends Controller
 
         return view('crm.suppliers.index', compact('suppliers'));
     }
-
 
     public function create(): View
     {
@@ -54,17 +53,15 @@ class SupplierController extends Controller
             'vat_number' => 'nullable|string|max:50',
             'phone_1' => 'nullable|string|max:20',
             'phone_2' => 'nullable|string|max:20',
-            'type' => 'required|in:' . implode(',', SupplierType::values()),
-            'category' => 'nullable|in:' . implode(',', SupplierCategory::values()),
+            'type' => 'required|in:'.implode(',', SupplierType::values()),
+            'category' => 'nullable|in:'.implode(',', SupplierCategory::values()),
             'iban' => 'nullable|string|max:34',
             'swift_code' => 'nullable|string|max:11',
-            'status' => 'required|in:' . implode(',', SupplierStatus::values()),
+            'status' => 'required|in:'.implode(',', SupplierStatus::values()),
             'preferred_language' => 'nullable|string|max:5',
             'source' => 'nullable|string|max:255',
             'notes' => 'nullable|string',
         ]);
-
-
 
         $validated['created_by'] = Auth::id();
 
@@ -75,7 +72,6 @@ class SupplierController extends Controller
 
         return back()->with('error', 'Something went wrong.');
     }
-
 
     public function show(Supplier $supplier): View
     {
@@ -97,17 +93,17 @@ class SupplierController extends Controller
             'city' => 'required|string|max:100',
             'district' => 'nullable|string|max:100',
             'country' => 'required|string|max:20',
-            'email' => 'nullable|email|max:255|unique:customers,email,' . $supplier->id,
+            'email' => 'nullable|email|max:255|unique:customers,email,'.$supplier->id,
             'contact_person' => 'nullable|string|max:255',
             'website' => 'nullable|url|max:255',
             'vat_number' => 'nullable|string|max:50',
             'phone_1' => 'nullable|string|max:20',
             'phone_2' => 'nullable|string|max:20',
-            'type' => 'required|in:' . implode(',', SupplierType::values()),
-            'category' => 'nullable|in:' . implode(',', SupplierCategory::values()),
+            'type' => 'required|in:'.implode(',', SupplierType::values()),
+            'category' => 'nullable|in:'.implode(',', SupplierCategory::values()),
             'iban' => 'nullable|string|max:34',
             'swift_code' => 'nullable|string|max:11',
-            'status' => 'required|in:' . implode(',', SupplierStatus::values()),
+            'status' => 'required|in:'.implode(',', SupplierStatus::values()),
             'preferred_language' => 'nullable|string|max:5',
             'source' => 'nullable|string|max:255',
             'notes' => 'nullable|string',

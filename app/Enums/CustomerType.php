@@ -15,7 +15,7 @@ enum CustomerType: string
     case OTHER = 'other';
     case INDIVIDUAL = 'individual';
     case BUSINESS = 'business';
-    
+
     public static function values(): array
     {
         return array_column(self::cases(), 'value');
@@ -23,7 +23,7 @@ enum CustomerType: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::CLIENT => 'Client',
             self::SUPPLIER => 'Supplier',
             self::CLIENT_AND_SUPPLIER => 'Client & Supplier',

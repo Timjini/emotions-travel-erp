@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use App\Enums\Payment\PaymentStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Str;
 
 class FileCost extends Model
@@ -13,8 +13,11 @@ class FileCost extends Model
     use HasFactory;
 
     protected $table = 'file_costs';
+
     protected $primaryKey = 'id';
+
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     protected $fillable = [
@@ -38,7 +41,7 @@ class FileCost extends Model
         'quantity_anomaly',
         'service_date',
         'notes',
-        'created_by'
+        'created_by',
     ];
 
     protected $casts = [

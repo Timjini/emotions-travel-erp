@@ -10,7 +10,7 @@
 //     public function createFileWithItems(array $data, array $items)
 //     {
 //         return DB::transaction(function () use ($data, $items) {
-//             // 
+//             //
 //         });
 //     }
 // }

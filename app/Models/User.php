@@ -3,23 +3,21 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-
-
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, SoftDeletes, HasUuids;
+    use HasFactory, HasUuids, Notifiable, SoftDeletes;
 
     protected $keyType = 'string';
+
     public $incrementing = false;
 
-    
     protected $dates = ['deleted_at'];
 
     /**
@@ -28,13 +26,13 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'tenant_id', 'is_super_admin'
+        'name', 'email', 'password', 'tenant_id', 'is_super_admin',
     ];
-    
+
     protected $casts = [
-        'is_super_admin' => 'boolean'
+        'is_super_admin' => 'boolean',
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -44,10 +42,15 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-    
+
     public function settings()
     {
         return $this->hasOne(UserSetting::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
     }
 
     /**
@@ -62,7 +65,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
+
     protected static function booted()
     {
         static::created(function ($user) {
@@ -70,9 +73,8 @@ class User extends Authenticatable
                 'language' => config('app.locale') || 'en',
                 'timezone' => config('app.timezone') || 'UTC',
                 'theme' => 'system',
-                'email_notifications' => true
+                'email_notifications' => true,
             ]);
         });
     }
-
 }

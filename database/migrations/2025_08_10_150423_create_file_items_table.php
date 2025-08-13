@@ -24,6 +24,15 @@ return new class extends Migration
 
             $table->foreign('file_id')->references('id')->on('files')->cascadeOnDelete();
             $table->foreign('currency_id')->references('id')->on('currencies')->nullOnDelete();
+            // company
+            $table->uuid('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+            // Tracking
+            $table->uuid('created_by');
+            $table->foreign('created_by', 'fk_file_items_created_by_users')
+                ->references('id')
+                ->on('users');
         });
     }
 

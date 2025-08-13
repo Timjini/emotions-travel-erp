@@ -24,15 +24,24 @@ return new class extends Migration
             $table->string('guide')->nullable();
             $table->longText('note')->nullable();
 
-            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->string('status')->default('pending');
 
-            $table->softDeletes(); 
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('customer_id')->references('id')->on('customers')->cascadeOnDelete();
             $table->foreign('program_id')->references('id')->on('programs')->nullOnDelete();
             $table->foreign('destination_id')->references('id')->on('destinations')->nullOnDelete();
             $table->foreign('currency_id')->references('id')->on('currencies')->nullOnDelete();
+            // company
+            $table->uuid('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+
+            // Tracking
+            $table->uuid('created_by');
+            $table->foreign('created_by', 'fk_files_created_by_users')
+                ->references('id')
+                ->on('users');
         });
 
     }

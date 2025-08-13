@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
+            // company
+            $table->uuid('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });
     }

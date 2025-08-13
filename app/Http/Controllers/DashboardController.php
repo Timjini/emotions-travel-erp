@@ -2,21 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use App\Models\Customer;
-use App\Models\User;
+use App\Models\File;
+use App\Models\Invoice;
+use App\Models\Supplier;
+use App\Services\FinancialCalculatorService;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $stats = [
-            'customers' => Customer::count(),
-            'users' => User::count(),
-            'recent_customers' => Customer::latest()->take(5)->get(),
-            'active_users' => User::where('last_active_at', '>=', now()->subDays(30))->count()
-        ];
+        $clientsCount = Customer::count();
+        $suppliersCount = Supplier::count();
+        $reservationsCount = Invoice::count();
 
-        return view('dashboard', compact('stats'));
+        // Sum total billed for all files
+        $revenue = 0;
+
+        // Efficient approach: load files with items and costs eager loaded
+        $files = File::with(['items', 'costs', 'currency'])->get();
+
+        foreach ($files as $file) {
+            $calculator = new FinancialCalculatorService($file);
+            $revenue += $calculator->totalBilled();
+        }
+
+        return view('dashboard', compact('clientsCount', 'suppliersCount', 'reservationsCount', 'revenue'));
     }
 }

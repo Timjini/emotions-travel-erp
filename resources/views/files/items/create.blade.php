@@ -35,7 +35,7 @@
         </ol>
     </nav>
 
-    <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
+    <div class="max-w-8xl px-4 sm:px-6 lg:px-8 py-6">
         <!-- Add Item Form -->
         <div class="bg-white shadow rounded-lg overflow-hidden mb-6">
             <form method="POST" action="{{ route('files.items.store', $file) }}" x-data="{ loading: false }" @submit="loading = true">
@@ -66,13 +66,13 @@
                         <x-text-input id="unit_price" name="unit_price" type="number" step="0.01" min="0" class="mt-1 block w-full" required />
                         <x-input-error class="mt-2" :messages="$errors->get('unit_price')" />
                     </div>
-                    
+                    <div>
                     <!-- Currency -->
                     <x-currency-select 
                             :currencies="$currencies" 
                             :selected="$file->currency_id"
                         />
-                    
+                    </div>
                     <!-- Description -->
                     <div class="md:col-span-4">
                         <x-input-label for="description" :value="__('Description')" />

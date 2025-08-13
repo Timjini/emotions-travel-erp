@@ -9,8 +9,11 @@ use Livewire\Component;
 class ItemsTable extends Component
 {
     public $file;
+
     public $editingId = null;
+
     public $editItem = [];
+
     public $selectedItemId;
 
     protected $rules = [
@@ -18,7 +21,7 @@ class ItemsTable extends Component
         'editItem.description' => 'nullable|string',
         'editItem.quantity' => 'required|numeric|min:1',
         'editItem.unit_price' => 'required|numeric|min:0',
-        'editItem.currency_id' => 'required|exists:currencies,id'
+        'editItem.currency_id' => 'required|exists:currencies,id',
     ];
 
     public function mount(File $file)
@@ -31,8 +34,8 @@ class ItemsTable extends Component
         $this->editingId = $itemId;
         $item = FileItem::find($itemId);
         $this->editItem = $item->only([
-            'service_name', 'description', 'quantity', 
-            'unit_price', 'currency_id'
+            'service_name', 'description', 'quantity',
+            'unit_price', 'currency_id',
         ]);
     }
 

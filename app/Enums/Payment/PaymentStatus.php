@@ -18,7 +18,7 @@ enum PaymentStatus: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
             self::PENDING => 'Pending Payment',
             self::PARTIALLY_PAID => 'Partially Paid',
             self::FULLY_PAID => 'Fully Paid',
@@ -30,7 +30,7 @@ enum PaymentStatus: string
 
     public function color(): string
     {
-        return match($this) {
+        return match ($this) {
             self::PENDING => 'bg-yellow-100 text-yellow-800',
             self::PARTIALLY_PAID => 'bg-blue-100 text-blue-800',
             self::FULLY_PAID => 'bg-green-100 text-green-800',
@@ -42,7 +42,7 @@ enum PaymentStatus: string
 
     public function icon(): string
     {
-        return match($this) {
+        return match ($this) {
             self::PENDING => 'M8.25 9.75h4.875a2.625 2.625 0 0 1 0 5.25H12M8.25 9.75 10.5 7.5M8.25 9.75 10.5 12',
             self::PARTIALLY_PAID => 'M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
             self::FULLY_PAID => 'M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z',
@@ -54,7 +54,7 @@ enum PaymentStatus: string
 
     public function isPaid(): bool
     {
-        return match($this) {
+        return match ($this) {
             self::FULLY_PAID, self::PARTIALLY_PAID => true,
             default => false,
         };

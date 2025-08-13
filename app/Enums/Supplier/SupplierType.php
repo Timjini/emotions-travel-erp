@@ -13,7 +13,7 @@ enum SupplierType: string
     case OTHER = 'other';
     case INDIVIDUAL = 'individual';
     case BUSINESS = 'business';
-    
+
     public static function values(): array
     {
         return array_column(self::cases(), 'value');
@@ -21,7 +21,22 @@ enum SupplierType: string
 
     public function label(): string
     {
-        return match($this) {
+        return match ($this) {
+            self::SUPPLIER => 'Supplier',
+            self::BANK => 'Bank',
+            self::ACCOMMODATION => 'Accommodation',
+            self::RESTAURANT => 'Restaurant',
+            self::TOUR_OPERATOR => 'Tour Operator',
+            self::TRANSPORT => 'Transport',
+            self::OTHER => 'Other',
+            self::INDIVIDUAL => 'Individual',
+            self::BUSINESS => 'Business',
+        };
+    }
+
+    public function name(): string
+    {
+        return match ($this) {
             self::SUPPLIER => 'Supplier',
             self::BANK => 'Bank',
             self::ACCOMMODATION => 'Accommodation',

@@ -14,7 +14,7 @@
                     <!-- Status Field -->
                     <div class="mb-6">
                         <x-input-label for="status" :value="__('Status *')" />
-                        <select id="status" name="status" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
+                        <select id="status" name="status" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
                             @foreach(\App\Enums\CustomerStatus::cases() as $status)
                                 <option value="{{ $status->value }}" {{ $status->value === 'active' ? 'selected' : '' }}>
                                     {{ $status->label() }}
@@ -79,7 +79,7 @@
                         <!-- Country -->
                         <div>
                             <x-input-label for="country" :value="__('Country *')" />
-                            <select id="country" name="country" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
+                            <select id="country" name="country" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
                                 <option value="">Select...</option>
                                 @foreach(config('countries') as $code => $name)
                                     <option value="{{ $code }}" {{ old('country') == $code ? 'selected' : '' }}>
@@ -152,7 +152,7 @@
                         <!-- Type -->
                         <div>
                             <x-input-label for="type" :value="__('Type *')" />
-                            <select id="type" name="type" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
+                            <select id="type" name="type" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
                                 @foreach(\App\Enums\CustomerType::cases() as $type)
                                     <option value="{{ $type->value }}" {{ old('type', 'client') == $type->value ? 'selected' : '' }}>
                                         {{ $type->label() }}
@@ -165,7 +165,7 @@
                         <!-- Category -->
                         <div>
                             <x-input-label for="category" :value="__('Category')" />
-                            <select id="category" name="category" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full">
+                            <select id="category" name="category" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
                                 <option value="">Select...</option>
                                 @foreach(\App\Enums\CustomerCategory::cases() as $category)
                                     <option value="{{ $category->value }}" {{ old('category') == $category->value ? 'selected' : '' }}>
@@ -199,7 +199,7 @@
                     <!-- Notes -->
                     <div class="mb-6">
                         <x-input-label for="notes" :value="__('Notes')" />
-                        <textarea id="notes" name="notes" rows="3" class="mt-2 rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 mt-1 block w-full">{{ old('notes') }}</textarea>
+                        <textarea id="notes" name="notes" rows="3" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">{{ old('notes') }}</textarea>
                     </div>
 
                     <div class="flex justify-end space-x-4 pt-6 border-t border-gray-200">
