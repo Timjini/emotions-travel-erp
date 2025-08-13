@@ -19,11 +19,22 @@ class UpdateCurrencyRequest extends FormRequest
                 'required',
                 'string',
                 'size:3',
-                Rule::unique('currencies')->ignore($this->currency),
+                Rule::unique('currencies')->ignore($this->currency->id),
             ],
             'name' => 'required|string|max:255',
             'symbol' => 'nullable|string|max:5',
             'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        // Ensure code is uppercase for consistency
+        $this->merge([
+            'code' => strtoupper($this->code),
+        ]);
     }
 }

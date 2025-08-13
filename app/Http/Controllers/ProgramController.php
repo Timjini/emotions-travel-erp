@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProgramRequest;
+use App\Models\Currency;
 use App\Models\Program;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,12 @@ class ProgramController extends Controller
 
     public function create()
     {
-        return view('programs.create');
+        $currencies = Currency::where('is_active', true)
+            ->orderBy('name')
+            ->get();
+        $program = new Program();
+
+        return view('programs.create', compact('currencies', 'program'));
     }
 
     public function store(StoreProgramRequest $request)
@@ -40,7 +46,11 @@ class ProgramController extends Controller
 
     public function edit(Program $program)
     {
-        return view('programs.edit', compact('program'));
+        $currencies = Currency::where('is_active', true)
+            ->orderBy('name')
+            ->get();
+
+        return view('programs.edit', compact('program', 'currencies'));
     }
 
     public function update(StoreProgramRequest $request, Program $program)

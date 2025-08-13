@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreFileRequest;
 use App\Models\Currency;
 use App\Models\Customer;
 use App\Models\Destination;
@@ -179,26 +180,14 @@ class FileController extends Controller
     /**
      * Update the specified file in storage.
      */
-    public function update(Request $request, File $file): RedirectResponse
-    {
-        $validated = $request->validate([
-            'reference' => 'required|string|max:255|unique:files,reference,'.$file->id,
-            'number_of_people' => 'required|string|max:255',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-            'program_id' => 'nullable|exists:programs,id',
-            'destination_id' => 'nullable|exists:destinations,id',
-            'currency_id' => 'nullable|exists:currencies,id',
-            'guide' => 'nullable|string|max:255',
-            'note' => 'nullable|string',
-            'status' => 'required|string|in:pending,confirmed,cancelled',
-        ]);
+   public function update(StoreFileRequest $request, File $file)
+{
+    $validated = $request->validated();
+    $file->update($validated);
 
-        $file->update($validated);
-
-        return redirect()->route('files.show', $file)
-            ->with('success', 'File updated successfully.');
-    }
+    return redirect()->route('files.show', $file)
+                     ->with('success', 'File updated successfully.');
+}
 
     /**
      * Show the form for creating a new file.

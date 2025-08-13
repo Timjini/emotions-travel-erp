@@ -40,7 +40,7 @@
                             </div>
                             <div class="grid grid-cols-3 gap-4">
                                 <dt class="text-sm text-gray-500">Country</dt>
-                                <dd class="text-sm text-gray-900 col-span-2">{{ $destination->country }}</dd>
+                                <dd class="text-sm text-gray-900 col-span-2">{{ $destination->country->name }}</dd>
                             </div>
                             <div class="grid grid-cols-3 gap-4">
                                 <dt class="text-sm text-gray-500">City</dt>

@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 
 class Currency extends Model
 {
-    use HasFactory, BelongsToCompany, CreatedByTrait;
+    use HasFactory;
 
     protected $table = 'currencies';
 

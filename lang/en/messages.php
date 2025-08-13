@@ -24,6 +24,7 @@ return [
     'programs' => 'programs',
     'files' => 'Files',
     'system' => 'system',
+    'reports' => 'reports',
     'file_costs' => 'costs',
     'proformas' => 'proformas',
     'client_invoices' => 'Client Invoices',

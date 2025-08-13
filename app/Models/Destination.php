@@ -18,6 +18,14 @@ class Destination extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
+     public function mount()
+    {
+        if ($this->selectedCountryId) {
+            $this->selectedCountry = Country::find($this->selectedCountryId);
+            $this->search = $this->initialSearch ?: $this->selectedCountry->name;
+        }
+    }
+
     protected static function boot()
     {
         parent::boot();
@@ -32,7 +40,7 @@ class Destination extends Model
     protected $fillable = [
         'name',
         'code',
-        'country',
+        'country_id',
         'city',
         'region',
         'latitude',
@@ -70,5 +78,10 @@ class Destination extends Model
      public function currency()
     {
         return $this->belongsTo(Currency::class);
+    }
+
+     public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 }

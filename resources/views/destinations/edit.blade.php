@@ -54,9 +54,13 @@
                             <x-input-error class="mt-2" :messages="$errors->get('name')" />
                         </div>
 
-                        <div>
-                            <x-country-select name="country" required :value="old('country', $destination->country)" />
+                       <div>
+                            @livewire('country-search', [
+                                'selectedCountryId' => old('country_id', $destination->country->id),
+                                'initialSearch' => old('country_name', $destination->country->name)
+                            ])
                         </div>
+                        <input type="hidden" name="country_id" value="{{ old('country_id', $destination->country->id) }}">
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

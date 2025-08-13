@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900">
                     <form method="POST" action="{{ route('users.store') }}">
                         @csrf
-
+                        <input type="hidden" name="company_id" value="{{ Auth::user()->company_id }}">
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- Name -->
                             <div>

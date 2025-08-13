@@ -12,6 +12,7 @@ use App\Http\Controllers\Payment\InvoiceController;
 use App\Http\Controllers\Payment\ProformaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingController;
 use Illuminate\Support\Facades\Route;
@@ -82,27 +83,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{supplier}', 'destroy')->name('suppliers.destroy');
     });
 
-    Route::prefix('files')->group(function () {
-        Route::get('/', [FileController::class, 'index'])->name('files.index');
-        Route::get('/create', [FileController::class, 'create'])->name('files.create');
-        Route::post('/store', [FileController::class, 'store'])->name('files.store');
-        Route::post('/{file}/confirm', [FileController::class, 'confirm'])->name('files.confirm');
-        Route::get('/{file}', [FileController::class, 'show'])->name('files.show');
-        Route::get('/{file}/edit', [FileController::class, 'edit'])->name('files.edit');
-        Route::patch('/', [FileController::class, 'update'])->name('files.update');
-        Route::delete('/', [FileController::class, 'destroy'])->name('files.destroy');
-        Route::get('/export', [FileController::class, 'index'])->name('files.export');
-    });
+   Route::prefix('files')->group(function () {
+    Route::get('/', [FileController::class, 'index'])->name('files.index');
+    Route::get('/create', [FileController::class, 'create'])->name('files.create');
+    Route::post('/store', [FileController::class, 'store'])->name('files.store');
+    Route::post('/{file}/confirm', [FileController::class, 'confirm'])->name('files.confirm');
+    Route::get('/{file}', [FileController::class, 'show'])->name('files.show');
+    Route::get('/{file}/edit', [FileController::class, 'edit'])->name('files.edit');
+    Route::patch('/{file}', [FileController::class, 'update'])->name('files.update');
+    Route::delete('/{file}', [FileController::class, 'destroy'])->name('files.destroy');
+    Route::get('/export', [FileController::class, 'index'])->name('files.export');
+});
 
-    Route::prefix('destinations')->group(function () {
-        Route::get('/', [DestinationController::class, 'index'])->name('destinations.index');
-        Route::get('/create', [DestinationController::class, 'create'])->name('destinations.create');
-        Route::post('/store', [DestinationController::class, 'store'])->name('destinations.store');
-        Route::get('/{destination}', [DestinationController::class, 'show'])->name('destinations.show');
-        Route::get('/{destination}/edit', [DestinationController::class, 'edit'])->name('destinations.edit');
-        Route::patch('/', [DestinationController::class, 'update'])->name('destinations.update');
-        Route::delete('/{destination}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
-    });
+
+   Route::prefix('destinations')->group(function () {
+    Route::get('/', [DestinationController::class, 'index'])->name('destinations.index');
+    Route::get('/create', [DestinationController::class, 'create'])->name('destinations.create');
+    Route::post('/store', [DestinationController::class, 'store'])->name('destinations.store');
+    Route::get('/{destination}', [DestinationController::class, 'show'])->name('destinations.show');
+    Route::get('/{destination}/edit', [DestinationController::class, 'edit'])->name('destinations.edit');
+    Route::patch('/{destination}', [DestinationController::class, 'update'])->name('destinations.update');
+    Route::delete('/{destination}', [DestinationController::class, 'destroy'])->name('destinations.destroy');
+});
+
 
     Route::prefix('currencies')->group(function () {
         Route::get('/', [CurrencyController::class, 'index'])->name('currencies.index');
@@ -110,7 +113,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/store', [CurrencyController::class, 'store'])->name('currencies.store');
         Route::get('/{currency}', [CurrencyController::class, 'show'])->name('currencies.show');
         Route::get('/{currency}/edit', [CurrencyController::class, 'edit'])->name('currencies.edit');
-        Route::patch('/', [CurrencyController::class, 'update'])->name('currencies.update');
+        Route::patch('/{currency}', [CurrencyController::class, 'update'])->name('currencies.update');
         Route::delete('/{currency}', [CurrencyController::class, 'destroy'])->name('currencies.destroy');
     });
 
@@ -170,6 +173,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/temporary', [SystemController::class, 'createTemporary'])->name('company.system.create-temporary');
     });
 
+     Route::prefix('reports')->group(function () {
+        Route::get('/', [ReportController::class, 'index'])->name('reports.index');
+        Route::post('/', [ReportController::class, 'generate'])->name('reports.generate');
+     });
 });
 
 require __DIR__.'/auth.php';

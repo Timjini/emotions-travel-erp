@@ -26,7 +26,7 @@ return [
             'items' => [
                 // ['name' => 'Payments', 'route' => 'payments.index', 'icon' => 'payments'],
                 // ['name' => 'Receipts', 'route' => 'receipts.index', 'icon' => 'receipts'],
-                // ['name' => 'Basic Reports', 'route' => 'basic-reports.index', 'icon' => 'reports'],
+                ['name' => 'reports', 'route' => 'reports.index', 'icon' => 'reports'],
             ],
         ],
         [

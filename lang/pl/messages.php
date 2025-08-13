@@ -24,6 +24,7 @@ return [
     'files' => 'Pliki',
     'file_costs' => 'file costs',
     'proformas' => 'Proformy',
+    'reports' => 'reports',
     'client_invoices' => 'Faktury Klientów',
     'credit_notes' => 'Noty Kredytowe',
     'destinations' => 'miejsca docelowe',

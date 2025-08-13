@@ -9,7 +9,4 @@
         <span class="inline-block h-4 w-4 transform rounded-full bg-white transition"
             :class="isActive ? 'translate-x-6' : 'translate-x-1'"></span>
     </button>
-        <label class="block font-medium text-sm text-gray-700 ml-3 " for="is_active">
-        Active Program
-</label>
 </div>

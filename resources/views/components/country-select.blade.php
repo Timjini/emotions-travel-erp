@@ -2,7 +2,7 @@
 @props(['name' => 'country', 'required' => false, 'value' => ''])
 
 <div x-data="{ 
-    query: '',
+    query: '{{ $value && array_key_exists($value, config('countries')) ? config('countries')[$value] : '' }}',
     open: false,
     selected: '{{ $value }}',
     countries: {{ json_encode(config('countries')) }},
@@ -14,6 +14,7 @@
             )
     }
 }">
+
     <x-input-label for="{{ $name }}" :value="__('Country') . ($required ? ' *' : '')" />
     
     <div class="relative mt-1">

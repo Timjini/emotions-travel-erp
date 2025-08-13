@@ -26,7 +26,7 @@
                     @forelse ($destinations as $destination)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $destination->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $destination->country }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $destination->country->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <x-action-buttons 
                                 viewRoute="{{ route('destinations.show', $destination) }}"

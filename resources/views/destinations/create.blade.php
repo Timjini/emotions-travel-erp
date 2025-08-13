@@ -47,7 +47,7 @@
                         </div>
 
                         <div>
-                            <x-country-select name="country" required :value="old('country')" />
+                            @livewire('country-search')
                         </div>
                     </div>
 

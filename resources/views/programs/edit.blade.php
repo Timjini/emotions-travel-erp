@@ -8,7 +8,6 @@
     <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
         <div class="bg-white rounded-xl shadow-sm overflow-hidden">
             <form method="POST" action="{{ route('programs.update', $program->id) }}" x-data="{ loading: false }" @submit="loading = true">
-
                 @csrf
                 @method('PATCH')
 
@@ -28,30 +27,59 @@
                     <div>
                         <x-input-label for="name" :value="__('Name')" class="block text-sm font-medium text-[#333333] mb-1" />
                         <x-text-input id="name" name="name" type="text"
-                            class=""
+                            class="w-full px-4 py-2 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:border-transparent transition"
                             :value="old('name', $program->name)"
                             required
                             placeholder="Program name" />
                         <x-input-error :messages="$errors->get('name')" class="mt-1 text-sm text-red-600" />
                     </div>
 
+                    <!-- Destination Field -->
+                    <div>
+                        @livewire('destination-search', [
+                            'selectedDestination' => $program->destination,
+                            'initialSearch' => $program->destination->name
+                        ])
+                        <input type="hidden" name="destination_id" value="{{ old('destination_id', $program->destination_id) }}">
+                        <x-input-error :messages="$errors->get('destination_id')" class="mt-1 text-sm text-red-600" />
+                    </div>
+
                     <!-- Description Field -->
                     <div>
                         <x-input-label for="description" :value="__('Description')" class="block text-sm font-medium text-[#333333] mb-1" />
-                         <x-text-area 
-                                id="description" 
-                                name="description" 
-                                class="mt-1 block w-full" 
-                                rows="3"
-                            >{{ old('description', $program->description) }}</x-text-area>
+                        <textarea id="description" name="description" 
+                            class="w-full px-4 py-2 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:border-transparent transition"
+                            rows="4">{{ old('description', $program->description) }}</textarea>
                         <x-input-error :messages="$errors->get('description')" class="mt-1 text-sm text-red-600" />
                     </div>
 
-                    <!-- Price Field -->
+                    <!-- Currency Field -->
+                    <div>
+                        <x-input-label for="currency_id" :value="__('Currency')" class="block text-sm font-medium text-[#333333] mb-1" />
+                        <div class="flex items-center">
+                            <select id="currency_id" name="currency_id" 
+                                class="flex-1 w-full px-4 py-2 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:border-transparent transition">
+                                <option value="">-- Select --</option>
+                                @foreach($currencies as $currency)
+                                <option value="{{ $currency->id }}" @selected(old('currency_id', $program->currency_id) == $currency->id)>
+                                    {{ $currency->name }} ({{ $currency->code }})
+                                </option>
+                                @endforeach
+                            </select>
+                            <a href="{{ route('currencies.create') }}" target="_blank" class="ml-2 text-blue-600 hover:text-blue-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                </svg>
+                            </a>
+                        </div>
+                        <x-input-error :messages="$errors->get('currency_id')" class="mt-1 text-sm text-red-600" />
+                    </div>
+
+                    <!-- Base Price Field -->
                     <div>
                         <x-input-label for="base_price" :value="__('Base Price')" class="block text-sm font-medium text-[#333333] mb-1" />
                         <div class="relative">
-                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#666666]">$</span>
+                            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#666666]"> {{ $currency->symbol }}</span>
                             <x-text-input id="base_price" name="base_price" type="number" step="0.01"
                                 class="w-full pl-8 pr-4 py-2 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:border-transparent transition"
                                 :value="old('base_price', $program->base_price)"
@@ -61,16 +89,9 @@
                     </div>
 
                     <!-- Status Toggle -->
-                    <div class="flex items-center" x-data="{ isActive: {{ old('is_active', $program->is_active) ? 'true' : 'false' }} }">
-                        <button type="button" @click="isActive = !isActive"
-                            class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-                            :class="isActive ? 'bg-[#4DA8DA]' : 'bg-gray-200'">
-                            <span class="sr-only">Active Status</span>
-                            <span class="inline-block h-4 w-4 transform rounded-full bg-white transition"
-                                :class="isActive ? 'translate-x-6' : 'translate-x-1'"></span>
-                        </button>
-                        <input type="hidden" name="is_active" :value="isActive ? 1 : 0">
-                        <x-input-label for="is_active" :value="__('Active Program')" class="ml-3 text-sm text-[#666666]" />
+                    <div class="flex items-center">
+                        <x-toggle id="is_active" name="is_active" :checked="old('is_active', $program->is_active)" />
+                        <x-input-label for="is_active" :value="__('Active Program')" class="ml-2 text-sm text-[#666666]" />
                     </div>
                 </div>
 

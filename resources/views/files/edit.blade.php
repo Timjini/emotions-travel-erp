@@ -39,7 +39,7 @@
         <div class="bg-white shadow rounded-lg overflow-hidden">
             <form method="POST" action="{{ route('files.update', $file) }}">
                 @csrf
-                @method('PUT')
+                @method('PATCH')
                 
                 <div class="px-6 py-4 border-b border-gray-200">
                     <h3 class="text-lg font-medium text-gray-900">Edit File Details</h3>
@@ -135,6 +135,28 @@
                             >{{ old('note', $file->note) }}</x-text-area>
                         <x-input-error class="mt-2" :messages="$errors->get('note')" />
                     </div>
+
+                    <div>
+    <x-input-label for="status" :value="__('Status')" />
+    <select id="status" name="status" 
+        class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
+        <option value="">Select Status</option>
+        <option value="{{ \App\Models\File::STATUS_PENDING }}" 
+            {{ old('status', $file->status) === \App\Models\File::STATUS_PENDING ? 'selected' : '' }}>
+            Pending
+        </option>
+        <option value="{{ \App\Models\File::STATUS_CONFIRMED }}" 
+            {{ old('status', $file->status) === \App\Models\File::STATUS_CONFIRMED ? 'selected' : '' }}>
+            Confirmed
+        </option>
+        <option value="{{ \App\Models\File::STATUS_CANCELLED }}" 
+            {{ old('status', $file->status) === \App\Models\File::STATUS_CANCELLED ? 'selected' : '' }}>
+            Cancelled
+        </option>
+    </select>
+    <x-input-error class="mt-2" :messages="$errors->get('status')" />
+</div>
+
                 </div>
                 
                 <div class="px-6 py-4 border-t border-gray-200 flex justify-end">

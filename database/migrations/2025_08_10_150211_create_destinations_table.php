@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('city')->nullable();
             $table->string('region')->nullable();
-            $table->string('country')->nullable();
-            $table->string('country_code', 2)->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->string('timezone')->nullable();
@@ -37,6 +35,8 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->uuid('company_id');
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->uuid('country_id');
+            $table->foreign('country_id')->references('id')->on('countries')->onDelete('cascade');
             $table->uuid('created_by');
             $table->foreign('created_by', 'fk_destinations_created_by_users')
                 ->references('id')

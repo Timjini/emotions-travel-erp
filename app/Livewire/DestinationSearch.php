@@ -21,9 +21,12 @@ class DestinationSearch extends Component
 
         if (strlen($this->search) >= 2) {
             $destinations = Destination::query()
+                ->with('country') 
                 ->where(function (Builder $query) {
                     $query->where('name', 'like', '%' . $this->search . '%')
-                          ->orWhere('country', 'like', '%' . $this->search . '%');
+                        ->orWhereHas('country', function (Builder $countryQuery) {
+                            $countryQuery->where('name', 'like', '%' . $this->search . '%');
+                        });
                 })
                 ->orderBy('name')
                 ->limit(10)
