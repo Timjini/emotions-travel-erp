@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\Supplier\SupplierCategory;
 use App\Enums\Supplier\SupplierStatus;
 use App\Enums\Supplier\SupplierType;
+use App\Traits\BelongsToCompany;
+use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +14,7 @@ use Illuminate\Support\Str;
 
 class Supplier extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BelongsToCompany, CreatedByTrait;
 
     protected $table = 'suppliers';
 

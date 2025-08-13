@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,6 +14,8 @@ class CustomerSeeder extends Seeder
     {
         // Get a user to set as created_by
         $user = User::first() ?? User::factory()->create();
+        $firstCompany = Company::first();
+
 
         $countries = ['United States', 'United Kingdom', 'Germany', 'France', 'Italy', 'Spain', 'Netherlands', 'Belgium'];
         $customerTypes = ['client', 'supplier', 'client_and_supplier', 'accommodation'];
@@ -56,6 +59,7 @@ class CustomerSeeder extends Seeder
                 'preferred_language' => fake()->randomElement($languages),
                 'notes' => rand(0, 1) ? fake()->paragraph() : null,
                 'source' => fake()->randomElement($sources),
+                'company_id' => $firstCompany->id,
                 'created_by' => $user->id,
                 'created_at' => now(),
                 'updated_at' => now(),

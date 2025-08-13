@@ -237,9 +237,18 @@ class InvoiceController extends Controller
         $invoice = Invoice::with(['file', 'file.customer', 'currency', 'items', 'items.currency'])
             ->findOrFail($id);
 
-        $pdf = Pdf::loadView('invoices.pdf', compact('invoice'));
+        // Pass company setting to the view
+        $companySetting = $invoice->file->company->setting ?? null; // if file has company relation
+        $company = $invoice->file->company ?? null;
+
+        $pdf = Pdf::loadView('invoices.pdf', [
+            'invoice' => $invoice,
+            'companySetting' => $companySetting,
+            'company' => $company
+        ]);
 
         // return $pdf->download('invoice-'.$invoice->invoice_number.'.pdf');
         return $pdf->stream('invoice-'.$invoice->invoice_number.'.pdf');
     }
+
 }

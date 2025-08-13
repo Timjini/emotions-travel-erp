@@ -20,6 +20,10 @@ class User extends Authenticatable
 
     protected $dates = ['deleted_at'];
 
+    const STATUS_ACTIVE = 'active';
+
+    const STATUS_INACTIVE = 'inactive';
+
     /**
      * The attributes that are mass assignable.
      *

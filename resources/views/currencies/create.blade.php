@@ -43,7 +43,7 @@
                 </div>
                 
                 <div class="px-6 py-4 border-t border-gray-200 flex justify-end">
-                    <x-secondary-link class="mr-2" href="'{{ route('currencies.index') }}'">
+                    <x-secondary-link class="mr-2" href="{{ route('currencies.index') }}">
                         Cancel
                     </x-secondary-button>
                     <x-primary-button type="submit">

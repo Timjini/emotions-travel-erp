@@ -4,7 +4,12 @@
         <!-- Logo -->
         <div class="flex items-center h-16 px-4 border-b border-gray-200">
             <a href="{{ route('dashboard') }}" class="flex items-center">
-                <x-application-logo class="block h-8 w-auto text-gray-900" />
+                <img 
+                    src="{{ $company && $company->logo_path ? Storage::url($company->logo_path) : asset('/public/images/default-company-logo.png') }}"
+                    alt="{{ $company->name ?? 'Default Company' }} Logo"
+                    class="h-16 w-auto mx-auto md:mx-0"
+                />
+
             </a>
         </div>
         

@@ -10,7 +10,6 @@ use App\Models\FileItem;
 use App\Models\Program;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class FileController extends Controller
@@ -221,7 +220,6 @@ class FileController extends Controller
     {
         $validated = $request->validate([
             'customer_id' => 'required|exists:customers,id',
-            'reference' => 'required|string|max:255|unique:files',
             'number_of_people' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -270,6 +268,7 @@ class FileController extends Controller
         $validated = $request->validate([
             'service_name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'external_ref' => 'nullable|string',
             'quantity' => 'required|integer|min:1',
             'unit_price' => 'required|numeric|min:0',
             'currency_id' => 'nullable|exists:currencies,id',
@@ -300,6 +299,7 @@ class FileController extends Controller
         $validated = $request->validate([
             'service_name' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'external_ref' => 'nullable|string',
             'quantity' => 'required|numeric|min:0',
             'unit_price' => 'required|numeric|min:0',
             'currency_id' => 'required|exists:currencies,id',

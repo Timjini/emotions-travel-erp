@@ -22,7 +22,7 @@
                             </x-danger-button>
                         </form>
             
-                        @if($proforma->invoice && $proforma->invoice->status === 'unpaid' || $proforma->invoice->status === 'paid')
+                        @if($proforma->invoice && ($proforma->invoice->status === 'unpaid' || $proforma->invoice->status === 'paid'))
                             <!-- Show link to invoice if invoice exists and status is unpaid or paid -->
                             <x-link-button :href="route('invoices.show', $proforma->invoice)">
                                 View Invoice

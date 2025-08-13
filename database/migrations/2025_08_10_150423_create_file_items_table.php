@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('file_items', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('file_id');
+            $table->string('external_ref');
             $table->string('service_name');
             $table->text('description')->nullable();
             $table->integer('quantity')->default(1);
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->foreign('file_id')->references('id')->on('files')->cascadeOnDelete();
             $table->foreign('currency_id')->references('id')->on('currencies')->nullOnDelete();
             // company
-            $table->uuid('company_id');
+            $table->uuid('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
             // Tracking

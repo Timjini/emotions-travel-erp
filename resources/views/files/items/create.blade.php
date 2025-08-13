@@ -52,6 +52,13 @@
                         <x-text-input id="service_name" name="service_name" type="text" class="mt-1 block w-full" required />
                         <x-input-error class="mt-2" :messages="$errors->get('service_name')" />
                     </div>
+
+                    <!-- External Ref -->
+                    <div class="md:col-span-2">
+                        <x-input-label for="external_ref" :value="__('External Ref')" />
+                        <x-text-input id="external_ref" name="external_ref" type="text" class="mt-1 block w-full" required />
+                        <x-input-error class="mt-2" :messages="$errors->get('external_ref')" />
+                    </div>
                     
                     <!-- Quantity -->
                     <div>

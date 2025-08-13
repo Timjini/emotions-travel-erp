@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -10,6 +11,7 @@ class ProgramSeeder extends Seeder
 {
     public function run()
     {
+        $firstCompany = Company::first();
         $programs = [
             ['name' => 'Romantic Getaway', 'description' => '3 nights in a luxury hotel with guided city tours.', 'base_price' => 1500.00],
             ['name' => 'Adventure Package', 'description' => 'Includes hiking, rafting, and camping.', 'base_price' => 900.00],
@@ -24,6 +26,7 @@ class ProgramSeeder extends Seeder
                 'name' => $prog['name'],
                 'description' => $prog['description'],
                 'base_price' => $prog['base_price'],
+                'company_id' => $firstCompany->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

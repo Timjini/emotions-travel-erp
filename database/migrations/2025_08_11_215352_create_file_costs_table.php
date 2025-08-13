@@ -50,7 +50,7 @@ return new class extends Migration
             $table->index('payment_status');
 
             // company
-            $table->uuid('company_id');
+            $table->uuid('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
             // Tracking

@@ -2,15 +2,19 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToCompany;
+use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+
 
 class File extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BelongsToCompany, CreatedByTrait;
 
     public const STATUS_PENDING = 'pending';
 
@@ -45,13 +49,18 @@ class File extends Model
         'end_date' => 'date',
     ];
 
-    protected static function boot()
+      protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
+
+            if (empty($model->id)) {
+                $model->id = (string) Str::uuid();
+            }
+
+            if (empty($model->reference)) {
+                $model->reference = 'REF-' . now()->format('Ymd') . '-' . random_int(1000, 9999);
             }
         });
     }

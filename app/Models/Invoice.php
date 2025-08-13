@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToCompany;
+use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    use HasUuids;
+    use HasUuids, BelongsToCompany, CreatedByTrait;
 
     const STATUS_UNPAID = 'unpaid';
 

@@ -40,7 +40,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     <div>
                                         <x-input-label for="default_currency" :value="__('Default Currency')" />
-                                        <select id="default_currency" name="default_currency" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                        <select id="default_currency" name="default_currency" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
                                             <option value="USD" {{ old('default_currency', $settings->default_currency) == 'USD' ? 'selected' : '' }}>USD - US Dollar</option>
                                             <option value="EUR" {{ old('default_currency', $settings->default_currency) == 'EUR' ? 'selected' : '' }}>EUR - Euro</option>
                                             <option value="GBP" {{ old('default_currency', $settings->default_currency) == 'GBP' ? 'selected' : '' }}>GBP - British Pound</option>
@@ -51,7 +51,7 @@
 
                                     <div>
                                         <x-input-label for="default_language" :value="__('Default Language')" />
-                                        <select id="default_language" name="default_language" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                        <select id="default_language" name="default_language" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
                                             <option value="en" {{ old('default_language', $settings->default_language) == 'en' ? 'selected' : '' }}>English</option>
                                             <option value="es" {{ old('default_language', $settings->default_language) == 'es' ? 'selected' : '' }}>Spanish</option>
                                             <option value="fr" {{ old('default_language', $settings->default_language) == 'fr' ? 'selected' : '' }}>French</option>
@@ -62,7 +62,7 @@
 
                                     <div>
                                         <x-input-label for="timezone" :value="__('Timezone')" />
-                                        <select id="timezone" name="timezone" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                        <select id="timezone" name="timezone" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
                                             @foreach(timezone_identifiers_list() as $timezone)
                                             <option value="{{ $timezone }}" {{ old('timezone', $settings->timezone) == $timezone ? 'selected' : '' }}>
                                                 {{ $timezone }}
@@ -74,7 +74,7 @@
 
                                     <div>
                                         <x-input-label for="date_format" :value="__('Date Format')" />
-                                        <select id="date_format" name="date_format" class="mt-1 block w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
+                                        <select id="date_format" name="date_format" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
                                             <option value="Y-m-d" {{ old('date_format', $settings->date_format) == 'Y-m-d' ? 'selected' : '' }}>YYYY-MM-DD</option>
                                             <option value="d/m/Y" {{ old('date_format', $settings->date_format) == 'd/m/Y' ? 'selected' : '' }}>DD/MM/YYYY</option>
                                             <option value="m/d/Y" {{ old('date_format', $settings->date_format) == 'm/d/Y' ? 'selected' : '' }}>MM/DD/YYYY</option>
@@ -84,7 +84,7 @@
 
                                     <div>
                                         <x-input-label for="financial_year_start" :value="__('Financial Year Start')" />
-                                        <x-text-input id="financial_year_start" name="financial_year_start" type="text" class="mt-1 block w-full" 
+                                        <x-text-input id="financial_year_start" name="financial_year_start" type="text" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full" 
                                             placeholder="MM-DD"
                                             :value="old('financial_year_start', $settings->financial_year_start)" required />
                                         <x-input-error class="mt-2" :messages="$errors->get('financial_year_start')" />

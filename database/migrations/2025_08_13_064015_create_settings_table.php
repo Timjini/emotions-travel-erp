@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('settings', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('company_id');
+            $table->uuid('company_id')->nullable();
 
             // Financial/Banking
             $table->string('iban')->nullable();

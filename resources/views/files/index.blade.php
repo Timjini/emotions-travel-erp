@@ -30,7 +30,7 @@
                         </svg>
                         New Booking File
                     </x-link-button>
-                    
+
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -47,12 +47,12 @@
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                                     <select name="status" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                                         <option value="">All Statuses</option>
-                                        <option value="confirmed" @selected(request('status') === 'confirmed')>Confirmed</option>
-                                        <option value="pending" @selected(request('status') === 'pending')>Pending</option>
-                                        <option value="cancelled" @selected(request('status') === 'cancelled')>Cancelled</option>
+                                        <option value="confirmed" @selected(request('status')==='confirmed' )>Confirmed</option>
+                                        <option value="pending" @selected(request('status')==='pending' )>Pending</option>
+                                        <option value="cancelled" @selected(request('status')==='cancelled' )>Cancelled</option>
                                     </select>
                                 </div>
-                                
+
                                 <!-- Date Range Filter -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Date Range</label>
@@ -61,18 +61,18 @@
                                         <input type="date" name="end_date" value="{{ request('end_date') }}" class="w-1/2 border-gray-300 rounded-md shadow-sm">
                                     </div>
                                 </div>
-                                
+
                                 <!-- Program Filter -->
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1">Program</label>
                                     <select name="program_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md">
                                         <option value="">All Programs</option>
                                         @foreach($programs as $program)
-                                            <option value="{{ $program->id }}" @selected(request('program_id') == $program->id)>{{ $program->name }}</option>
+                                        <option value="{{ $program->id }}" @selected(request('program_id')==$program->id)>{{ $program->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                
+
                                 <div class="flex justify-end space-x-2">
                                     <x-secondary-link href="'{{ route('files.index') }}'">
                                         Reset
@@ -84,7 +84,7 @@
                             </form>
                         </x-slot>
                     </x-dropdown>
-                    
+
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
@@ -120,7 +120,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="bg-white p-4 rounded-lg shadow border-l-4 border-green-500">
                     <div class="flex items-center justify-between">
                         <div>
@@ -134,7 +134,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="bg-white p-4 rounded-lg shadow border-l-4 border-yellow-500">
                     <div class="flex items-center justify-between">
                         <div>
@@ -148,7 +148,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="bg-white p-4 rounded-lg shadow border-l-4 border-red-500">
                     <div class="flex items-center justify-between">
                         <div>
@@ -176,25 +176,25 @@
                         </select>
                     </div>
                 </div>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div class="border rounded-lg p-4">
                         <p class="text-sm font-medium text-gray-500">Total Billed</p>
                         <p class="text-2xl font-semibold">{{ number_format($financials['total_billed'], 2) }} {{ config('app.currency') }}</p>
                     </div>
-                    
+
                     <div class="border rounded-lg p-4">
                         <p class="text-sm font-medium text-gray-500">Total Costs</p>
                         <p class="text-2xl font-semibold">{{ number_format($financials['total_costs'], 2) }} {{ config('app.currency') }}</p>
                     </div>
-                    
+
                     <div class="border rounded-lg p-4">
                         <p class="text-sm font-medium text-gray-500">Gross Profit</p>
                         <p class="text-2xl font-semibold {{ $financials['profit'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
                             {{ number_format($financials['profit'], 2) }} {{ config('app.currency') }}
                         </p>
                     </div>
-                    
+
                     <div class="border rounded-lg p-4">
                         <p class="text-sm font-medium text-gray-500">Profit Margin</p>
                         <p class="text-2xl font-semibold {{ $financials['profit_margin'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
@@ -202,7 +202,7 @@
                         </p>
                     </div>
                 </div>
-                
+
                 <!-- Cost Breakdown Chart -->
                 <div class="mt-6">
                     <h3 class="text-md font-medium text-gray-700 mb-3">Cost Breakdown</h3>
@@ -221,13 +221,18 @@
         <!-- Search Bar -->
         <form method="GET" action="{{ route('files.index') }}" class="mb-6">
             <div class="flex flex-col md:flex-row gap-3">
-                <div class="flex-1">
+                <div class="relative flex-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
                     <input
                         type="text"
                         name="search"
                         value="{{ request('search') }}"
                         placeholder="Search by reference, customer, or destination..."
-                        class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
                 <div>
                     <x-primary-button type="submit" class="w-full md:w-auto">
@@ -258,7 +263,9 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onclick="sortBy('customer_name')">
                                 <div class="flex items-center">
                                     Customer
-                                    <x-icons.sort-icon :field="'customer_name'" :sortField="$sortField" :sortDirection="$sortDirection" />
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                    </svg>
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -267,7 +274,9 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onclick="sortBy('start_date')">
                                 <div class="flex items-center">
                                     Dates
-                                    <x-icons.sort-icon :field="'start_date'" :sortField="$sortField" :sortDirection="$sortDirection" />
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                    </svg>
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -276,7 +285,9 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onclick="sortBy('status')">
                                 <div class="flex items-center">
                                     Status
-                                    <x-icons.sort-icon :field="'status'" :sortField="$sortField" :sortDirection="$sortDirection" />
+                                    <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                                    </svg>
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -327,38 +338,48 @@
                                 <div class="text-sm">
                                     <div class="flex justify-between">
                                         <span class="text-gray-500">Billed:</span>
-                                        <span class="font-medium">{{ number_format($file->items_sum_total_price, 2) }} {{ $file->currency->code }}</span>
+                                        <span class="font-medium">
+                                            {{ number_format($file->items_sum_total_price ?? 0, 2) }}
+                                            {{ optional($file->currency)->code ?? '' }}
+                                        </span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-gray-500">Costs:</span>
-                                        <span class="font-medium">{{ number_format($file->costs_sum_total_price, 2) }} {{ $file->currency->code }}</span>
+                                        <span class="font-medium">
+                                            {{ number_format($file->costs_sum_total_price ?? 0, 2) }}
+                                            {{ optional($file->currency)->code ?? '' }}
+                                        </span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-gray-500">Profit:</span>
-                                        <span class="font-medium {{ ($file->items_sum_total_price - $file->costs_sum_total_price) >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                                            {{ number_format($file->items_sum_total_price - $file->costs_sum_total_price, 2) }} {{ $file->currency->code }}
+                                        @php
+                                        $profit = ($file->items_sum_total_price ?? 0) - ($file->costs_sum_total_price ?? 0);
+                                        $textColor = $profit >= 0 ? 'text-green-600' : 'text-red-600';
+                                        @endphp
+                                        <span class="font-medium {{ $textColor }}">
+                                            {{ number_format($profit, 2) }}
+                                            {{ optional($file->currency)->code ?? '' }}
                                         </span>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @php
-                                    $statusClasses = [
-                                        'confirmed' => 'bg-green-100 text-green-800',
-                                        'pending' => 'bg-yellow-100 text-yellow-800',
-                                        'cancelled' => 'bg-red-100 text-red-800'
-                                    ][$file->status] ?? 'bg-gray-100 text-gray-800';
+                                $statusClasses = [
+                                'confirmed' => 'bg-green-100 text-green-800',
+                                'pending' => 'bg-yellow-100 text-yellow-800',
+                                'cancelled' => 'bg-red-100 text-red-800'
+                                ][$file->status] ?? 'bg-gray-100 text-gray-800';
                                 @endphp
                                 <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClasses }}">
                                     {{ ucfirst($file->status) }}
                                 </span>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                  <x-action-buttons 
+                                <x-action-buttons
                                     viewRoute="{{ route('files.show', $file->id) }}"
                                     editRoute="{{ route('files.edit', $file->id) }}"
-                                    deleteRoute="{{ route('files.destroy', $file->id) }}"
-                                />
+                                    deleteRoute="{{ route('files.destroy', $file->id) }}" />
                             </td>
                         </tr>
                         @empty
@@ -371,7 +392,7 @@
                     </tbody>
                 </table>
             </div>
-            
+
             <!-- Pagination -->
             <div class="bg-white px-4 py-3 border-t border-gray-200 sm:px-6">
                 {{ $files->appends(request()->query())->links() }}

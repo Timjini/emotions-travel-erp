@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -10,6 +11,7 @@ class CurrencySeeder extends Seeder
 {
     public function run()
     {
+        $firstCompany = Company::first();
         $currencies = [
             ['code' => 'USD', 'name' => 'US Dollar', 'symbol' => '$'],
             ['code' => 'EUR', 'name' => 'Euro', 'symbol' => '€'],
@@ -24,6 +26,7 @@ class CurrencySeeder extends Seeder
                 'code' => $currency['code'],
                 'name' => $currency['name'],
                 'symbol' => $currency['symbol'],
+                'company_id'=> $firstCompany->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

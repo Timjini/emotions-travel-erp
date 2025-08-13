@@ -81,22 +81,30 @@
             <div class="bg-white shadow rounded-lg p-5">
                 <h3 class="text-lg font-semibold mb-4">Recent Activities</h3>
                 <ul class="space-y-4">
+                    @foreach($recentActivities as $activity)
                     <li class="flex items-start">
                         <span class="h-2 w-2 bg-blue-500 rounded-full mt-2"></span>
                         <div class="ml-3">
-                            <p class="font-medium">John Smith</p>
-                            <p class="text-sm text-gray-500">New booking for Paris trip · 2 hours ago</p>
+                            <p class="font-medium">
+                                {{ $activity->file->customer->name ?? 'Unknown' }}
+                            </p>
+                            <p class="text-sm text-gray-500">
+                                @if($activity instanceof \App\Models\Invoice)
+                                Invoice #{{ $activity->invoice_number }} created · {{ $activity->updated_at->diffForHumans() }}
+                                @elseif($activity instanceof \App\Models\File)
+                                File {{ $activity->reference }} updated · {{ $activity->updated_at->diffForHumans() }}
+                                @elseif($activity instanceof \App\Models\FileItem)
+                                Item {{ $activity->service_name }} updated in File {{ $activity->file->reference ?? '' }} · {{ $activity->updated_at->diffForHumans() }}
+                                @elseif($activity instanceof \App\Models\FileCost)
+                                Cost {{ $activity->description }} updated in File {{ $activity->file->reference ?? '' }} · {{ $activity->updated_at->diffForHumans() }}
+                                @endif
+                            </p>
                         </div>
                     </li>
-                    <li class="flex items-start">
-                        <span class="h-2 w-2 bg-blue-500 rounded-full mt-2"></span>
-                        <div class="ml-3">
-                            <p class="font-medium">Sarah Johnson</p>
-                            <p class="text-sm text-gray-500">Payment received for Tokyo package · 4 hours ago</p>
-                        </div>
-                    </li>
+                    @endforeach
                 </ul>
             </div>
+
 
             <!-- Quick Actions -->
             <div class="bg-white shadow rounded-lg p-5">

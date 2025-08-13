@@ -22,6 +22,7 @@ return new class extends Migration
             $table->timestamp('last_active_at')->nullable();
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

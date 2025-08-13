@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToCompany;
+use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,7 +12,7 @@ use Illuminate\Support\Str;
 
 class FileItem extends Model
 {
-    use HasFactory;
+    use HasFactory, BelongsToCompany, CreatedByTrait;
 
     public $incrementing = false;
 
@@ -19,6 +21,7 @@ class FileItem extends Model
     protected $fillable = [
         'file_id',
         'service_name',
+        'external_ref',
         'description',
         'quantity',
         'unit_price',

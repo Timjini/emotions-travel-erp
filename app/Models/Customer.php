@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\CustomerCategory;
 use App\Enums\CustomerStatus;
 use App\Enums\CustomerType;
+use App\Traits\BelongsToCompany;
+use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,7 +14,7 @@ use Illuminate\Support\Str;
 
 class Customer extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, BelongsToCompany, CreatedByTrait;
 
     protected $table = 'customers';
 

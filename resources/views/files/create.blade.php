@@ -51,14 +51,6 @@
                         <x-input-error class="mt-2" :messages="$errors->get('customer_id')" />
                     </div>
                     
-                    <!-- Reference -->
-                    <div>
-                        <x-input-label for="reference" :value="__('Reference')" />
-                        <x-text-input id="reference" name="reference" type="text" class="mt-1 block w-full" 
-                            :value="old('reference')" required autofocus />
-                        <x-input-error class="mt-2" :messages="$errors->get('reference')" />
-                    </div>
-                    
                     <!-- Number of People -->
                     <div>
                         <x-input-label for="number_of_people" :value="__('Number of People')" />

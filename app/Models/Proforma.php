@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Traits\BelongsToCompany;
+use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
 
 class Proforma extends Model
 {
-    use HasUuids;
+    use HasUuids, BelongsToCompany, CreatedByTrait;
 
     protected $table = 'proformas';
 

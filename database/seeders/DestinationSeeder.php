@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Company;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -10,6 +11,7 @@ class DestinationSeeder extends Seeder
 {
     public function run()
     {
+        $firstCompany = Company::first();
         $destinations = [
             ['name' => 'Paris', 'country' => 'France', 'description' => 'City of Light and romance.'],
             ['name' => 'Rome', 'country' => 'Italy', 'description' => 'Historic city with ancient ruins.'],
@@ -24,6 +26,7 @@ class DestinationSeeder extends Seeder
                 'name' => $dest['name'],
                 'country' => $dest['country'],
                 'description' => $dest['description'],
+                'company_id' => $firstCompany->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
