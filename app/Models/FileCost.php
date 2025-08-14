@@ -41,6 +41,7 @@ class FileCost extends Model
         'quantity_anomaly',
         'service_date',
         'notes',
+        'created_by',
     ];
 
     protected $casts = [

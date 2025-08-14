@@ -60,6 +60,7 @@
                                         </button>
                                     </div>
                                 </div>
+                                @include('partials.edit-cost-modal', ['cost' => $cost])
                                 @endforeach
                             <div class="text-sm font-medium mt-1">
                                 Total Costs: {{ number_format($item->costs_sum_total_price, 2) }}
@@ -132,5 +133,5 @@
 
     <!-- Modal -->
     @include('partials.cost-modal', ['file' => $file])
-    @include('partials.edit-cost-modal', ['cost' => $cost])
+
 </div>
