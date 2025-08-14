@@ -131,7 +131,7 @@
         </div>
         <div class="address">
             {{$invoice->file->customer->address}}<br />
-            {{$invoice->file->customer->post_code}}
+            {{$invoice->file->customer->post_code}}<br />
             {{$invoice->file->customer->city}}<br />
             {{$invoice->file->customer->country}}
         </div>
@@ -179,20 +179,20 @@
             <p>Swift: {{$company->setting->swift}}</p>
         </div>
 
-        <div class="totals">
-        <div>
-            <strong class="label">Subtotal:</strong>
-            <span class="text-right">{{ number_format($invoice->items->sum('total_price'), 2) }} {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</span>
-    </div>
-        <div>
-            <strong class="label">Tax (0%):</strong>
-            <span class="text-right">0.00 {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</span>
-    </div>
-        <div>
-            <strong class="label total-row">TOTAL DUE:</strong>
-            <span class="text-right total-row">{{ number_format($invoice->total_amount, 2) }} {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</span>
-    </div>
-    </div>
+        <table class="total-table">
+        <tr>
+            <td class="label">Subtotal:</td>
+            <td class="text-right">{{ number_format($invoice->items->sum('total_price'), 2) }} {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</td>
+        </tr>
+        <tr>
+            <td class="label">Tax (0%):</td>
+            <td class="text-right">0.00 {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</td>
+        </tr>
+        <tr>
+            <td class="label total-row">TOTAL DUE:</td>
+            <td class="text-right total-row">{{ number_format($invoice->total_amount, 2) }} {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</td>
+        </tr>
+    </table>
     </div>
     <hr />
     <div class="footer">

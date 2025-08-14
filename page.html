@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Proforma Invoice</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 20px;
+                color: #333;
+            }
+
+            .header {
+                margin-bottom: 30px;
+            }
+
+            .logo_image {
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 5px;
+                height: 200px;
+                width: auto;
+            }
+
+            .company-name {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 20px;
+            }
+
+            .address {
+                position: absolute;
+                line-height: 1.4;
+                margin-bottom: 30px;
+                right: 20px;
+                top: 150px;
+            }
+
+            .invoice-number {
+                font-weight: bold;
+                margin-bottom: 30px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-bottom: 20px;
+            }
+
+            table.details {
+                margin-bottom: 30px;
+            }
+
+            th,
+            td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            th {
+                background-color: #f2f2f2;
+            }
+
+            .payment-details {
+                margin-bottom: 30px;
+                border: 1px solid #c0c0c0;
+                padding: 5px;
+            }
+
+            .payment-details p {
+                margin: 5px 0;
+            }
+
+            .totals {
+                width: 250px;
+                padding: 5px;
+                margin-bottom: 30px;
+            }
+
+            .footer {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                /* line-height: 1.4; */
+            }
+
+            .payment-container {
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+            }
+
+            .total-container {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                height: 30px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <div class="logo">
+                <img
+                    src="public/images/emotions-travel.png"
+                    class="logo_image"
+                />
+            </div>
+            <div class="address">
+                7 kontynentów sp. z o.o<br />
+                ul. Grabowa 2, lokal 301<br />
+                40-172 - Katowice<br />
+                PL
+            </div>
+        </div>
+
+        <div class="invoice-number">Proforma n°: 36/2025</div>
+
+        <table class="details">
+            <tr>
+                <th>File</th>
+                <th>Reference</th>
+                <th>Service</th>
+                <th>Requested by</th>
+            </tr>
+            <tr>
+                <td>149/2025</td>
+                <td>Morocco Grand Tour</td>
+                <td>27/09/2025</td>
+                <td>Paulina</td>
+            </tr>
+        </table>
+
+        <table>
+            <tr>
+                <th>Tax</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Amount</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td>Morocco Tour 27.09.2025-05.10.2025</td>
+                <td>6</td>
+                <td>1.110,00 EUR</td>
+                <td>6.660,00 EUR</td>
+            </tr>
+        </table>
+
+        <div class="payment-container">
+            <div class="payment-details">
+                <p><strong>Payment Details</strong></p>
+                <p>Bank: BMCE BANK OF AFRICA</p>
+                <p>Iban: MA64 0110 1000 0009 2100 0054 5605</p>
+                <p>Swift: BMCEMAMC</p>
+            </div>
+
+            <div class="totals">
+                <div class="total-container">
+                    <p><strong>Subtotal:</strong></p>
+                    <p>6.660,00 EUR</p>
+                </div>
+                <div class="total-container">
+                    <p><strong>Tax:</strong></p>
+                    <p>0,00 EUR</p>
+                </div>
+                <div class="total-container">
+                    <p><strong>Total:</strong></p>
+                    <p>6.660,00 EUR</p>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="footer">
+            <div class="total-container">
+                <p>Incoming Emotions Morocco SARL</p>
+            </div>
+
+            <div class="total-container">
+                <p>
+                    N° 15, 46me Etage, Inflass 24 Station Hamra, Bd. Abderahim
+                    Bouaabid I 80 033 I Agadir
+                </p>
+            </div>
+            <div class="total-container">
+                <p>booking@emotions-morocco.com</p>
+            </div>
+            <div class="total-container">
+                <p>NIF ICE 002063529000062 I License ODV-1821</p>
+            </div>
+        </div>
+    </body>
+</html>

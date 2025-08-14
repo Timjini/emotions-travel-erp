@@ -66,4 +66,10 @@ class Company extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function setting()
+    {
+        return $this->hasOne(Setting::class);
+    }
+
 }
