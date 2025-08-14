@@ -19,30 +19,31 @@ class ReportController extends Controller
 {
     public function index()
     {
-        // Initial empty data or default report
-        $initialReportData = File::where('company_id', Auth::user()->company_id)
-            ->orderByDesc('created_at')
+        $companyId = Auth::user()->company_id;
+
+        // Initial report (first page)
+        $initialReportData = File::with(['customer', 'owner', 'destination', 'proformas', 'invoices'])
+            ->where('company_id', $companyId)
+            ->orderByDesc('start_date')
             ->paginate(25);
-            
+
         return view('reports.index', compact('initialReportData'));
     }
 
     public function generate(Request $request)
     {
         $companyId = Auth::user()->company_id;
-        
-        $query = File::with(['file_costs'])
-        ->where('company_id', $companyId);
-            
-        // Apply filters
+
+        $query = File::with(['customer', 'owner', 'destination', 'proformas', 'invoices'])
+            ->where('company_id', $companyId);
+
+        // Filters
         if ($request->filled('start_date')) {
             $query->whereDate('start_date', '>=', $request->start_date);
         }
-        
         if ($request->filled('end_date')) {
             $query->whereDate('end_date', '<=', $request->end_date);
         }
-        
         if ($request->filled('document_type')) {
             switch ($request->document_type) {
                 case 'invoice':
@@ -51,16 +52,21 @@ class ReportController extends Controller
                 case 'proforma':
                     $query->has('proformas');
                     break;
+                case 'file':
+                    break;
             }
         }
-        
-        // Apply sorting
+
+        // Sorting
         switch ($request->order_by) {
             case 'date_asc':
                 $query->orderBy('start_date');
                 break;
+            case 'date_desc':
+                $query->orderByDesc('start_date');
+                break;
             case 'amount_asc':
-                $query->orderBy('profit');
+                $query->orderBy('profit'); 
                 break;
             case 'amount_desc':
                 $query->orderByDesc('profit');
@@ -68,15 +74,14 @@ class ReportController extends Controller
             default:
                 $query->orderByDesc('start_date');
         }
-        
-    
-    $reportData = $query->paginate(25);
 
-    if ($request->ajax()) {
-        // Do NOT call ->toArray() here
-        return view('reports._table', compact('reportData'))->render();
-    }
-        
-    return view('reports.index', compact('reportData'));
+        $reportData = $query->paginate(25);
+
+        if ($request->ajax()) {
+            return view('reports._table', compact('reportData'))->render();
+        }
+
+        return view('reports.index', compact('reportData'));
     }
 }
+

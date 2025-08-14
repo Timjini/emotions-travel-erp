@@ -7,9 +7,9 @@
 
     <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
         <div class="bg-white shadow rounded-lg overflow-hidden">
-            <form method="POST" action="{{ route('proformas.update', $proforma) }}">
+            <form method="POST" action="{{ route('proformas.update', $proforma) }}" x-data="{ loading: false }" @submit="loading = true">
                 @csrf
-                @method('PUT')
+                @method('PATCH')
                 
                 <div class="px-6 py-4 border-b border-gray-200">
                     <div class="flex justify-between items-center">
