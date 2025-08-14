@@ -82,10 +82,27 @@
                             <div>
                                  <!-- Currency -->
                                 <!-- Currency -->
-                                <x-currency-select 
-                                        :currencies="$currencies" 
-                                        :selected="$file->currency_id"
-                                    />
+                                 <div>
+                                <x-input-label for="base_currency_id" :value="__('Currency')" />
+                                <div class="flex">
+                                    <select id="base_currency_id" name="base_currency_id" class="rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0  text-sm  p-2.5 px-4 py-2  border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:border-transparent transition mt-1 block w-full">
+                                        <option value="">-- Select --</option>
+                                        @foreach($currencies as $currency)
+                                        <option value="{{ $currency->id }}" @selected(old('base_currency_id', $file->currency_id) == $currency->id)>
+                                            {{ $currency->code }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <a href="{{ route('currencies.create') }}" target="_blank"
+                                        class="ml-2 mt-1 text-blue-600 hover:text-blue-800 text-sm flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                        </svg>
+                                    </a>
+                                </div>
+                                <x-input-error class="mt-2" :messages="$errors->get('currency_id')" />
+                            </div>
+
                             </div>
                     
                             <!-- Description -->

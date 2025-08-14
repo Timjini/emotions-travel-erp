@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Payment;
 
 use App\Enums\Payment\PaymentStatus;
+use App\Models\Currency;
 use App\Models\File;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -22,9 +23,9 @@ class StoreFileCostRequest extends FormRequest
             'description' => ['nullable', 'string', 'max:500'],
             'quantity' => ['required', 'integer', 'min:1'],
             'unit_price' => ['required', 'numeric', 'min:0'],
-            'original_currency' => ['required', 'string', 'size:3', 'exists:currencies,code'],
-            'exchange_rate' => ['required', 'numeric', 'min:0'],
-            'base_currency' => ['required', 'string', 'size:3', 'exists:currencies,code'],
+            'original_currency_id' => 'required|exists:currencies,id',
+            'base_currency_id' => 'required|exists:currencies,id',
+            'exchange_rate' => 'required|numeric|min:0',
             'payment_status' => ['required', 'string', Rule::in(PaymentStatus::values())],
             'amount_paid' => [
                 'nullable',
@@ -54,11 +55,13 @@ class StoreFileCostRequest extends FormRequest
 
         $this->merge([
             'quantity_anomaly' => $this->boolean('quantity_anomaly'),
-            'base_currency' => $this->base_currency ?? config('app.currency', 'EUR'),
             'customer_id' => $file->customer_id,
             'amount_paid' => $this->payment_status === 'pending' ? 0 : ($this->amount_paid ?? 0),
             'payment_date' => $this->payment_status !== 'paid' ? null : $this->payment_date,
             'exchange_rate' => $this->exchange_rate ?? 1,
+            'original_currency_id' => $this->file->currency_id,
+            // this could be hanlded with base setting
+            'base_currency_id' => $this->base_currency_id ?? Currency::first(),
         ]);
     }
-}
+} 

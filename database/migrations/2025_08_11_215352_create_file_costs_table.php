@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('file_costs', function (Blueprint $table) {
+       Schema::create('file_costs', function (Blueprint $table) {
             // Primary Key
             $table->uuid('id')->primary();
 
@@ -17,19 +17,24 @@ return new class extends Migration
             $table->foreignUuid('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->foreignUuid('supplier_id')->nullable()->constrained('suppliers')->nullOnDelete();
             $table->foreignUuid('file_item_id')->nullable()->constrained('file_items')->nullOnDelete();
+            
+            // Currency Relationships - UPDATED
+            $table->uuid('original_currency_id')->nullable();
+            $table->foreign('original_currency_id')->references('id')->on('currencies')->nullOnDelete();
+            
+            $table->uuid('base_currency_id')->nullable();
+            $table->foreign('base_currency_id')->references('id')->on('currencies')->nullOnDelete();
 
             // Cost Details
-            $table->string('service_type'); // e.g., transport, management
+            $table->string('service_type');
             $table->text('description')->nullable();
             $table->unsignedInteger('quantity')->default(1);
             $table->decimal('unit_price', 12, 2);
             $table->decimal('total_price', 12, 2);
-            $table->string('original_currency', 3); // 3-letter ISO code
             $table->decimal('exchange_rate', 12, 6)->default(1);
-            $table->string('base_currency', 3)->default('EUR');
-            $table->decimal('converted_total', 12, 2); // Total in base currency
+            $table->decimal('converted_total', 12, 2);
 
-            // Payment Status (using string instead of enum)
+            // Payment Status
             $table->string('payment_status')->default('pending');
             $table->decimal('amount_paid', 12, 2)->default(0);
             $table->date('payment_date')->nullable();
@@ -44,12 +49,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            // Indexes
-            $table->index(['file_id', 'customer_id']);
-            $table->index(['supplier_id', 'service_date']);
-            $table->index('payment_status');
-
-            // company
+            // Company
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
@@ -58,6 +58,11 @@ return new class extends Migration
             $table->foreign('created_by', 'fk_file_costs_created_by_users')
                 ->references('id')
                 ->on('users');
+
+            // Indexes
+            $table->index(['file_id', 'customer_id']);
+            $table->index(['supplier_id', 'service_date']);
+            $table->index('payment_status');
         });
     }
 
