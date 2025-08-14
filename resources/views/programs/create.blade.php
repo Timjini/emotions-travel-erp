@@ -62,8 +62,8 @@
                     </div>
 
                     <div class="flex items-center">
-                        <x-checkbox id="is_active" name="is_active" :checked="old('is_active', true)" />
-                        <x-input-label for="is_active" :value="__('Active')" class="ml-2" />
+                        <x-toggle id="is_active" name="is_active" :checked="old('is_active', $program->is_active)" />
+                        <x-input-label for="is_active" :value="__('Active Program')" class="ml-2 text-sm text-[#666666]" />
                     </div>
                 </div>
 
@@ -71,9 +71,7 @@
                     <x-secondary-link class="mr-2" href="{{ route('programs.index') }}">
                         Cancel
                     </x-secondary-link>
-                    <x-primary-button type="submit">
-                        Create Program
-                    </x-primary-button>
+                    <x-loading-button label="Create Program" />
                 </div>
             </form>
         </div>

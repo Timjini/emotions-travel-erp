@@ -123,7 +123,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/store', [ProgramController::class, 'store'])->name('programs.store');
         Route::get('/{program}', [ProgramController::class, 'show'])->name('programs.show');
         Route::get('/{program}/edit', [ProgramController::class, 'edit'])->name('programs.edit');
-        Route::patch('/', [ProgramController::class, 'update'])->name('programs.update');
+        Route::patch('/{program}', [ProgramController::class, 'update'])->name('programs.update');
         Route::delete('/{program}', [ProgramController::class, 'destroy'])->name('programs.destroy');
     });
 
