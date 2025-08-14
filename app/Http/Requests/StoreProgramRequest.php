@@ -29,7 +29,6 @@ class StoreProgramRequest extends FormRequest
             'currency_id' => $this->currency_code 
                 ? \App\Models\Currency::where('code', strtoupper($this->currency_code))->value('id')
                 : $this->currency_id,
-            'is_active' => $this->has('is_active')
         ]);
     }
 }
