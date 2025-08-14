@@ -32,7 +32,20 @@ class ProformaController extends Controller
         // Generate proforma number
         $lastNumber = Proforma::max('proforma_number');
         $nextNumber = $lastNumber ? intval(substr($lastNumber, -3)) + 1 : 1;
-        $proformaNumber = 'PF-'.Carbon::now()->year.'-'.str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        $latest = Proforma::whereYear('created_at', Carbon::now()->year)
+            ->orderByDesc('proforma_number')
+            ->first();
+
+        if ($latest) {
+            // Extract numeric part from last proforma_number (e.g., "PF-2025-003" → 3)
+            $lastNumber = (int) Str::afterLast($latest->proforma_number, '-');
+            $nextNumber = $lastNumber + 1;
+        } else {
+            $nextNumber = 1;
+        }
+
+        $proformaNumber = 'PF-' . Carbon::now()->year . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+
 
         $proforma = Proforma::create([
             'id' => Str::uuid(),
@@ -101,7 +114,7 @@ class ProformaController extends Controller
         // Generate invoice number (different series)
         $lastNumber = Invoice::max('invoice_number');
         $nextNumber = $lastNumber ? intval(substr($lastNumber, -3)) + 1 : 1;
-        $invoiceNumber = 'INV-'.now()->year.'-'.str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        $invoiceNumber = 'INV-' . now()->year . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         $invoice = Invoice::create([
             'file_id' => $proforma->file_id,
