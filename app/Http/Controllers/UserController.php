@@ -65,12 +65,56 @@ class UserController extends Controller
             ->with('success', 'User created successfully');
     }
 
+    public function edit(User $user): View
+    {
+        return view('users.edit', compact('user'));
+    }
+
+    public function update(Request $request, User $user)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|confirmed|min:8',
+            'company_id' => 'nullable|exists:companies,id',
+            // 'role' => 'sometimes|in:user,editor,admin'
+        ]);
+
+        $data = [
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+        ];
+
+        // Only update password if provided
+        if (!empty($validated['password'])) {
+            $data['password'] = Hash::make($validated['password']);
+        }
+
+        // If you want to force company_id to be same as logged-in user
+        if (Auth::check() && Auth::user()->company_id) {
+            $data['company_id'] = Auth::user()->company_id;
+        } elseif (isset($validated['company_id'])) {
+            $data['company_id'] = $validated['company_id'];
+        }
+
+        $user->update($data);
+
+        // Handle role update if applicable
+        if (isset($validated['role'])) {
+            $user->syncRoles([$validated['role']]);
+        }
+
+        return redirect()->route('users.index')
+            ->with('success', 'User updated successfully');
+    }
+
+
     public function destroy($id)
     {
         $user = User::findOrFail($id);
 
         // Hash the email before soft deleting
-        $user->email = Hash::make($user->email.now()->timestamp);
+        $user->email = Hash::make($user->email . now()->timestamp);
         $user->save();
 
         // Soft delete the user

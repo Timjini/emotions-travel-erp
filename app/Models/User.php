@@ -30,7 +30,8 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'email', 'password', 'tenant_id', 'is_super_admin',
+        'name', 'email', 'password', 'is_super_admin',
+        'company_id', 'is_active'
     ];
 
     protected $casts = [

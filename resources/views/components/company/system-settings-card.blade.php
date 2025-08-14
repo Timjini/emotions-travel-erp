@@ -18,11 +18,11 @@
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-500">Default Currency</p>
-                            <p class="text-sm text-gray-900">{{ $settings->default_currency }}</p>
+                            <p class="text-sm text-gray-900">{{ $settings->invoice_currency }}</p>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-500">Default Language</p>
-                            <p class="text-sm text-gray-900">{{ $settings->default_language }}</p>
+                            <p class="text-sm text-gray-900">{{ $settings->preferred_language }}</p>
                         </div>
                         <div>
                             <p class="text-sm font-medium text-gray-500">Timezone</p>

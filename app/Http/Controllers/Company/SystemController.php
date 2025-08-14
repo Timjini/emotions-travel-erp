@@ -71,25 +71,23 @@ class SystemController extends Controller
             'legal_name' => 'nullable|string|max:255',
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'email' => 'required|email',
-            'phone' => 'required|string|max:20',
+            'phone_1' => 'required|string|max:20',
             'website' => 'nullable|url',
             'address' => 'required|string',
             'city' => 'required|string',
             'state' => 'nullable|string',
-            'zip_code' => 'required|string',
+            'post_code' => 'required|string',
             'country' => 'required|string',
-            'tax_id' => 'required|string',
+            'vat_number' => 'required|string',
         ]);
 
         $fileUploadService = new FileUploadService;
 
         // Handle logo upload
         if ($request->hasFile('logo')) {
-            Log::error('Logo file detected in request');
 
             // Delete old logo if exists
             if ($company->logo_path) {
-                Log::error('Attempting to delete old logo', ['path' => $company->logo_path]);
                 $fileUploadService->deleteLogo($company->logo_path);
             }
 
@@ -98,17 +96,13 @@ class SystemController extends Controller
 
             if ($path) {
                 $company->logo_path = $path;
-                Log::error('New logo path set', ['path' => $path]);
             } else {
-                Log::error('Failed to upload new logo');
 
                 return back()->with('error', 'Logo upload failed');
             }
         }
 
         $company->update($validated);
-
-        Log::error('Company updated successfully', ['company_id' => $company->id]);
 
         return redirect()->route('company.system.index')
             ->with('success', 'Company information updated successfully.');

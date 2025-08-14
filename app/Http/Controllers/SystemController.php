@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\Setting;
 use App\Models\SystemSetting;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class SystemController extends Controller
             ->paginate(10, ['*'], 'users_page');
 
         // Get system settings (create default if doesn't exist)
-        $settings = SystemSetting::firstOrCreate(
+        $settings = Setting::firstOrCreate(
             ['company_id' => $company->id],
             $this->defaultSettings($company)
         );
@@ -31,5 +32,22 @@ class SystemController extends Controller
             'users' => $users,
             'settings' => $settings,
         ]);
+    }
+
+    /**
+     * Default system settings for new companies
+     */
+    protected function defaultSettings(Company $company): array
+    {
+        return [
+            'company_id' => $company->id,
+            'invoice_prefix' => 'INV-',
+            'invoice_start_number' => 1,
+            'default_currency' => 'USD',
+            'default_language' => 'en',
+            'timezone' => 'UTC',
+            'date_format' => 'Y-m-d',
+            'financial_year_start' => '01-01',
+        ];
     }
 }
