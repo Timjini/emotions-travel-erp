@@ -44,7 +44,8 @@ class ProformaController extends Controller
             $nextNumber = 1;
         }
 
-        $proformaNumber = 'PF-' . Carbon::now()->year . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        $proformaNumber = 'PF-' . Carbon::now()->format('ymdHis');
+
 
 
         $proforma = Proforma::create([
