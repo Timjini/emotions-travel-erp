@@ -157,6 +157,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{proforma}', [ProformaController::class, 'show'])->name('proformas.show');
         Route::get('/{proforma}/edit', [ProformaController::class, 'edit'])->name('proformas.edit');
         Route::delete('/{proforma}', [ProformaController::class, 'destroy'])->name('proformas.destroy');
+        Route::patch('/{proforma}', [ProformaController::class, 'update'])->name('proformas.update');
         Route::post('/{proforma}/convert', [ProformaController::class, 'convertToInvoice'])->name('proformas.convert-to-invoice');
     });
 

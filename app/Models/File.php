@@ -117,4 +117,9 @@ class File extends Model
     {
         return $this->hasMany(Invoice::class);
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

@@ -28,7 +28,7 @@
                     <div>
                         <x-input-label for="document_type" :value="__('Document Type')" />
                         <select id="document_type" name="document_type" 
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                            class="rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 w-full px-4 py-2 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:border-transparent transition mt-1 block w-full">
                             <option value="">All Types</option>
                             <option value="file" @selected(old('document_type') == 'file')>File</option>
                             <option value="invoice" @selected(old('document_type') == 'invoice')>Invoice</option>
@@ -40,7 +40,7 @@
                     <div>
                         <x-input-label for="order_by" :value="__('Order By')" />
                         <select id="order_by" name="order_by" 
-                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                            class="rounded bg-gray-50 border text-gray-900  block flex-1 min-w-0 w-full text-sm border-gray-300 p-2.5 w-full px-4 py-2 border border-[#E5E7EB] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:border-transparent transition mt-1 block w-full">
                             <option value="date_asc" @selected(old('order_by') == 'date_asc')>Date (Oldest First)</option>
                             <option value="date_desc" @selected(old('order_by') == 'date_desc')>Date (Newest First)</option>
                             <option value="amount_asc" @selected(old('order_by') == 'amount_asc')>Amount (Low to High)</option>

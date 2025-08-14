@@ -113,10 +113,13 @@ class InvoiceController extends Controller
         $currencies = Currency::all();
         $statuses = ['unpaid', 'paid', 'cancelled', 'refunded'];
 
+
         return view('invoices.edit', [
             'invoice' => $invoice,
             'currencies' => $currencies,
             'statuses' => $statuses,
+            'proforma' => $invoice->proforma,
+            'file' => $invoice->file,
         ]);
     }
 
