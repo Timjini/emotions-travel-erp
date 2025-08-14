@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800  leading-tight">
-            {{ __('Create New User') }}
+            {{ __('Edit User') }}
         </h2>
     </x-slot>
 
@@ -9,21 +9,22 @@
         <div class="max-w-2xl sm:px-6 lg:px-8">
             <div class="bg-white  overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <form method="POST" action="{{ route('users.store') }}"  x-data="{ loading: false }" @submit="loading = true">
+                    <form method="POST" action="{{ route('users.update', $user)  }}"  x-data="{ loading: false }" @submit="loading = true">
                         @csrf
+                        @method('PATCH')
                         <input type="hidden" name="company_id" value="{{ Auth::user()->company_id }}">
                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                             <!-- Name -->
                             <div>
                                 <x-input-label for="name" :value="__('Name')" />
-                                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus />
+                                <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name', $user->name)" required autofocus />
                                 <x-input-error :messages="$errors->get('name')" class="mt-2" />
                             </div>
 
                             <!-- Email -->
                             <div>
                                 <x-input-label for="email" :value="__('Email')" />
-                                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
+                                <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $user->email)" required />
                                 <x-input-error :messages="$errors->get('email')" class="mt-2" />
                             </div>
 
@@ -61,7 +62,8 @@
                             <x-link-button :href="route('users.index')" class="mr-4">
                                 {{ __('Cancel') }}
                             </x-link-button>
-                            <x-loading-button label="{{ __('Create User') }}" />
+
+                            <x-loading-button label="{{ __('Edit User') }}" />
                         </div>
                     </form>
                 </div>

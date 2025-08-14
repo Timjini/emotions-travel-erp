@@ -33,10 +33,10 @@
                                     </div>
 
                                     <div>
-                                        <x-input-label for="tax_id" :value="__('Tax ID')" />
-                                        <x-text-input id="tax_id" name="tax_id" type="text" class="mt-1 block w-full" 
-                                            :value="old('tax_id', $company->tax_id)" required />
-                                        <x-input-error class="mt-2" :messages="$errors->get('tax_id')" />
+                                        <x-input-label for="vat_number" :value="__('VAT Number')" />
+                                        <x-text-input id="vat_number" name="vat_number" type="text" class="mt-1 block w-full" 
+                                            :value="old('vat_number', $company->vat_number)" required />
+                                        <x-input-error class="mt-2" :messages="$errors->get('vat_number')" />
                                     </div>
 
                                     <div>
@@ -64,9 +64,9 @@
                                     </div>
 
                                     <div>
-                                        <x-input-label for="phone" :value="__('Phone')" />
-                                        <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" 
-                                            :value="old('phone', $company->phone)" required />
+                                        <x-input-label for="phone_1" :value="__('Phone')" />
+                                        <x-text-input id="phone_1" name="phone_1" type="text" class="mt-1 block w-full" 
+                                            :value="old('phone_1', $company->phone_1)" required />
                                         <x-input-error class="mt-2" :messages="$errors->get('phone')" />
                                     </div>
 
@@ -105,10 +105,10 @@
                                     </div>
 
                                     <div>
-                                        <x-input-label for="zip_code" :value="__('Zip/Postal Code')" />
-                                        <x-text-input id="zip_code" name="zip_code" type="text" class="mt-1 block w-full" 
-                                            :value="old('zip_code', $company->zip_code)" required />
-                                        <x-input-error class="mt-2" :messages="$errors->get('zip_code')" />
+                                        <x-input-label for="post_code" :value="__('Zip/Postal Code')" />
+                                        <x-text-input id="post_code" name="post_code" type="text" class="mt-1 block w-full" 
+                                            :value="old('post_code', $company->post_code)" required />
+                                        <x-input-error class="mt-2" :messages="$errors->get('post_code')" />
                                     </div>
 
                                     <div>

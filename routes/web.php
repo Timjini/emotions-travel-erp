@@ -56,7 +56,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{user}', 'destroy')->name('users.destroy');
     });
 
-    // // Settings
+    // Settings
     Route::prefix('user-settings')->controller(UserSettingController::class)->group(function () {
         Route::get('/', 'show')->name('user-settings.show');
         // Route::get('/edit', 'edit')->name('user-settings.edit');

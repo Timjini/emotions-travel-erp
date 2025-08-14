@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <form method="POST" action="{{ route('company.system.update-settings') }}">
+                    <form method="POST" action="{{ route('company.system.update-settings') }}" x-data="{ loading: false }" @submit="loading = true">
                         @csrf
                         @method('PUT')
 
@@ -94,12 +94,10 @@
                         </div>
 
                         <div class="flex items-center justify-end mt-6">
-                            <x-secondary-button :href="route('company.system.index')">
+                            <x-secondary-link class="m-2" href="{{route('company.system.index')}}">
                                 Cancel
-                            </x-secondary-button>
-                            <x-primary-button class="ml-3">
-                                Save Changes
-                            </x-primary-button>
+                            </x-secondary-link>
+                            <x-loading-button label="Save Setting" />
                         </div>
                     </form>
                 </div>
