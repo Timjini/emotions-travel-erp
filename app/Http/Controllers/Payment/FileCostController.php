@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Payment;
 use App\Enums\Payment\PaymentStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Payment\StoreFileCostRequest;
+use App\Http\Requests\Payment\UpdateFileCostRequest;
 use App\Models\Currency;
 use App\Models\File;
 use App\Models\FileCost;
@@ -12,6 +13,7 @@ use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class FileCostController extends Controller
 {
@@ -63,8 +65,9 @@ class FileCostController extends Controller
         // Set additional required fields
         $validated = array_merge($validated, [
             'customer_id' => $file->customer_id,
-            'base_currency' => config('app.currency', 'EUR'),
-            'created_by' => Auth::user()->id,
+            // 'original_currency_id' => $file->currency_id, // Get from parent file
+            // 'base_currency_id' => $validated['currency_id'] ?? Currency::first(),
+            'created_by' => Auth::id(),
             'file_id' => $file->id,
         ]);
 
@@ -92,30 +95,115 @@ class FileCostController extends Controller
     /**
      * Show the form for editing the file cost.
      */
-    public function edit(File $file, FileCost $cost)
+    public function edit(FileCost $fileCost)
     {
-        return view('your.view', [
-            'file' => $file,
-            'cost' => $cost,
-            'fileItem' => $cost->fileItem,
-            'currencies' => Currency::all(),
-        ]);
+       return response()->json([
+        'id' => $fileCost->id,
+        'file_id' => $fileCost->file_id,
+        'customer_id' => $fileCost->customer_id,
+        'supplier_id' => $fileCost->supplier_id,
+        'file_item_id' => $fileCost->file_item_id,
+        'original_currency_id' => $fileCost->original_currency_id,
+        'base_currency_id' => $fileCost->base_currency_id,
+        'service_type' => $fileCost->service_type,
+        'description' => $fileCost->description,
+        'quantity' => $fileCost->quantity,
+        'unit_price' => $fileCost->unit_price,
+        'total_price' => $fileCost->total_price,
+        'exchange_rate' => $fileCost->exchange_rate,
+        'converted_total' => $fileCost->converted_total,
+        'payment_status' => $fileCost->payment_status,
+        'amount_paid' => $fileCost->amount_paid,
+        'payment_date' => $fileCost->payment_date?->format('Y-m-d'),
+        'number_of_people' => $fileCost->number_of_people,
+        'quantity_anomaly' => (bool)$fileCost->quantity_anomaly,
+        'service_date' => $fileCost->service_date?->format('Y-m-d'),
+        'notes' => $fileCost->notes,
+        'created_at' => $fileCost->created_at,
+        'updated_at' => $fileCost->updated_at
+    ]);
     }
 
-    public function update(StoreFileCostRequest $request, File $file, FileCost $cost)
-    {
-        $validated = $request->validated();
 
-        // Calculate totals
-        $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
-        $validated['converted_total'] = $validated['total_price'] * $validated['exchange_rate'];
+public function update(UpdateFileCostRequest $request, FileCost $cost)
+{
+    // Debug incoming request
+    Log::info('Update Request:', [
+        'payload' => $request->all(),
+        'route_parameters' => $request->route()->parameters(),
+        'authenticated_user' => Auth::id(),
+    ]);
 
-        $cost->update($validated);
+    $validated = $request->validated();
+
+        if (isset($validated['payment_status'])) {
+            $validated['payment_status'] = PaymentStatus::from($validated['payment_status']);
+        }
+
+        $validated = array_merge($validated, [
+            'customer_id' => $request->customer_id,
+            'created_by' => Auth::id(),
+            'file_id' => $request->file_id,
+        ]);
+
+        $cost->forceFill($validated)->save();
+
+            
+    // Debug validated data
+    Log::info('Validated Data:', $validated);
+
+    // Debug current model state
+    Log::info('Current Cost State:', $cost->toArray());
+
+    // Calculate totals
+    $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
+    $validated['converted_total'] = $validated['total_price'] * ($validated['exchange_rate'] ?? 1);
+
+    // Debug calculations
+    Log::info('Calculated Values:', [
+        'total_price' => $validated['total_price'],
+        'converted_total' => $validated['converted_total'],
+    ]);
+
+    try {
+
+        Log::info('Before update:', [
+            'cost_id' => $cost->id,
+            'exists' => $cost->exists,
+            'validated' => $validated
+        ]);
+
+        $updated = $cost->update($validated);
+        
+        // Debug update result
+        Log::info('Update Result:', [
+            'success' => $updated,
+            'updated_model' => $cost->toArray(),
+        ]);
+
+        if (!$updated) {
+            throw new \Exception('Update operation returned false');
+        }
 
         return redirect()
-            ->to("/files/{$file->id}/items")
+            ->route('files.items.add', $cost->file->id)
             ->with('success', 'Cost updated successfully');
+            
+    } catch (\Exception $e) {
+        // Log the full error
+        Log::error('Update Failed:', [
+            'error' => $e->getMessage(),
+            'trace' => $e->getTraceAsString(),
+            'input_data' => $request->all(),
+        ]);
+
+        return redirect()
+            ->route('files.items.add', $request->file_id)
+            ->with('error', 'Failed to update cost. Check logs for details.');
     }
+}
+
+
 
     /**
      * Update the payment status of a file cost.
@@ -136,7 +224,9 @@ class FileCostController extends Controller
             'payment_date' => $request->payment_date ?? ($cost->payment_date ?? now()),
         ]);
 
-        return back()->with('success', 'Payment status updated');
+         return redirect()
+            ->to("/files/{$file->id}/items")
+            ->with('success', 'Cost updated successfully');
     }
 
     /**

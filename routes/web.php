@@ -146,10 +146,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('/costs')->group(function () {
         Route::get('/', [FileCostController::class, 'index'])->name('files.costs.index');
         Route::get('/create', [FileCostController::class, 'create'])->name('file-costs.create');
-        Route::patch('/', [FileCostController::class, 'update'])->name('file-costs.update');
         Route::get('/export', [FileCostController::class, 'export'])->name('files.costs.export');
         Route::post('/files/{file}/costs', [FileCostController::class, 'store'])->name('file-costs.store');
     });
+
+    Route::get('/file-costs/{fileCost}/edit', [FileCostController::class, 'edit'])->name('file-costs.edit');
+    Route::patch('/file-costs/{cost}', [FileCostController::class, 'update'])->name('file-costs.update');
 
     Route::post('/files/{file}/proformas', [ProformaController::class, 'store'])->name('proformas.store');
     Route::prefix('/proformas')->group(function () {

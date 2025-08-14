@@ -43,16 +43,24 @@
                         @if($item->costs->isNotEmpty())
                         <div class="space-y-2">
                             @foreach($item->costs as $cost)
-                            <div class="flex items-center justify-between">
-                                <span class="text-sm">
-                                    {{ $cost->supplier?->name ?? 'No Supplier' }}:
-                                    {{ number_format($cost->total_price, 2) }} {{ $cost->original_currency }}
-                                </span>
-                                <span class="text-xs {{ $cost->payment_status->color() }} px-2 py-1 rounded-full">
-                                    {{ $cost->payment_status->label() }}
-                                </span>
-                            </div>
-                            @endforeach
+                                <div class="flex items-center justify-between group">
+                                    <span class="text-sm">
+                                        {{ $cost->supplier?->name ?? 'No Supplier' }}:
+                                        {{ number_format($cost->total_price, 2) }} {{ $cost->original_currency }}
+                                    </span>
+                                    <div class="flex items-center">
+                                        <span class="text-xs {{ $cost->payment_status->color() }} px-2 py-1 rounded-full mr-2">
+                                            {{ $cost->payment_status->label() }}
+                                        </span>
+                                        <button onclick="showEditCostModal('{{ $cost->id }}')" 
+                                                class="text-gray-400 hover:text-blue-500 invisible group-hover:visible">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                @endforeach
                             <div class="text-sm font-medium mt-1">
                                 Total Costs: {{ number_format($item->costs_sum_total_price, 2) }}
                             </div>
@@ -124,4 +132,5 @@
 
     <!-- Modal -->
     @include('partials.cost-modal', ['file' => $file])
+    @include('partials.edit-cost-modal', ['cost' => $cost])
 </div>

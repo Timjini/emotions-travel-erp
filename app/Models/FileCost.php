@@ -25,14 +25,14 @@ class FileCost extends Model
         'customer_id',
         'supplier_id',
         'file_item_id',
+        'original_currency_id',
+        'base_currency_id',
         'service_type',
         'description',
         'quantity',
         'unit_price',
         'total_price',
-        'original_currency',
         'exchange_rate',
-        'base_currency',
         'converted_total',
         'payment_status',
         'amount_paid',
@@ -41,21 +41,33 @@ class FileCost extends Model
         'quantity_anomaly',
         'service_date',
         'notes',
-        'created_by',
     ];
 
     protected $casts = [
         'quantity' => 'integer',
-        'unit_price' => 'decimal:2',
-        'total_price' => 'decimal:2',
-        'exchange_rate' => 'decimal:6',
-        'converted_total' => 'decimal:2',
-        'amount_paid' => 'decimal:2',
+        'unit_price' => 'float',
+        'total_price' => 'float',
+        'exchange_rate' => 'float',
+        'converted_total' => 'float',
+        'amount_paid' => 'float',
+        'number_of_people' => 'integer',
         'quantity_anomaly' => 'boolean',
         'service_date' => 'date',
-        'payment_date' => 'date',
+        'payment_date' => 'datetime',
         'payment_status' => PaymentStatus::class,
     ];
+    // protected $casts = [
+    //     'quantity' => 'integer',
+    //     'unit_price' => 'decimal:2',
+    //     'total_price' => 'decimal:2',
+    //     'exchange_rate' => 'decimal:6',
+    //     'converted_total' => 'decimal:2',
+    //     'amount_paid' => 'decimal:2',
+    //     'quantity_anomaly' => 'boolean',
+    //     'service_date' => 'date',
+    //     'payment_date' => 'date',
+    //     'payment_status' => PaymentStatus::class,
+    // ];
 
     protected static function boot()
     {
@@ -118,5 +130,15 @@ class FileCost extends Model
     public function scopePaymentStatus($query, $status)
     {
         return $query->where('payment_status', $status);
+    }
+
+    public function originalCurrency()
+    {
+        return $this->belongsTo(Currency::class, 'original_currency_id');
+    }
+
+    public function baseCurrency()
+    {
+        return $this->belongsTo(Currency::class, 'base_currency_id');
     }
 }
