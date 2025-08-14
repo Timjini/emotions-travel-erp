@@ -5,7 +5,7 @@
         <div class="flex items-center h-16 px-4 border-b border-gray-200">
             <a href="{{ route('dashboard') }}" class="flex items-center">
                 <img 
-                    src="{{ $company && $company->logo_path ? Storage::url($company->logo_path) : asset('/public/images/default-company-logo.png') }}"
+                    src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : asset('/public/images/default-company-logo.png') }}"
                     alt="Logo"
                     class="h-16 w-auto mx-auto md:mx-0"
                 />
