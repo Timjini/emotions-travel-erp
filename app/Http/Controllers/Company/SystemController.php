@@ -135,9 +135,14 @@ class SystemController extends Controller
 
         $validated = $request->validate([
             'invoice_prefix' => 'required|string|max:10',
+            'iban' => 'required|string|max:40',
+            'swift_code' => 'nullable|string|max:40',
+            'bank_name' => 'nullable|string|max:40',
+            'bank_account_name' => 'nullable|string|max:40',
+            'website' => 'nullable|string|max:40',
             'invoice_start_number' => 'required|integer|min:1',
-            'default_currency' => 'required|string|size:3',
-            'default_language' => 'required|string|size:2',
+            'invoice_currency' => 'required|string|size:3',
+            'preferred_language' => 'required|string|size:2',
             'timezone' => 'required|timezone',
             'date_format' => 'required|string',
             'financial_year_start' => 'required|date_format:m-d',

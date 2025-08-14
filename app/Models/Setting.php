@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class Setting extends Model
@@ -39,4 +40,9 @@ class Setting extends Model
     {
         return $this->belongsTo(Company::class);
     }
+
+    //  public function currency(): BelongsTo
+    // {
+    //     return $this->belongsTo(Currency::class);
+    // }
 }
