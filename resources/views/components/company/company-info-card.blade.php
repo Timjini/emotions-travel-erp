@@ -10,7 +10,7 @@
                     <div class="flex items-start">
                         @if($company->logo_path)
                         <div class="mr-6">
-                            <img src="{{ Storage::url($company->logo_path) }}" alt="Company Logo" class="h-20">
+                            <img src="/public{{ Storage::url($company->logo_path) }}" alt="Company Logo" class="h-20">
                         </div>
                         @endif
                         

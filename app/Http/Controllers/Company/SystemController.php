@@ -72,7 +72,7 @@ class SystemController extends Controller
             'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'email' => 'required|email',
             'phone_1' => 'required|string|max:20',
-            'website' => 'nullable|url',
+            'website' => 'nullable|string',
             'address' => 'required|string',
             'city' => 'required|string',
             'state' => 'nullable|string',
