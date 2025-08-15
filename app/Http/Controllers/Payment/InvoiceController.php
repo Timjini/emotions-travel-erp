@@ -57,7 +57,7 @@ class InvoiceController extends Controller
         // Generate invoice number
         $lastNumber = Invoice::max('invoice_number');
         $nextNumber = $lastNumber ? intval(substr($lastNumber, -3)) + 1 : 1;
-        $invoiceNumber = 'INV-'.Carbon::now()->year.'-'.str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        $invoiceNumber = 'INV-'.Carbon::now()->toDateTimeString().'-'.str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         // Create the invoice
         $invoice = Invoice::create([

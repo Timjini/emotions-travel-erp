@@ -74,7 +74,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 <a href="{{ route('files.show', $invoice->file_id) }}" class="text-blue-600 hover:underline">
-                                    {{ $invoice->file->reference }}
+                                    {{ $invoice->file->reference ?? 'NAN' }}
                                 </a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

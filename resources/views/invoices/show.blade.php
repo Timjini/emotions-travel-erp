@@ -51,7 +51,7 @@
                                 <p class="text-sm text-gray-900">
                                     <span class="font-medium">File:</span> 
                                     <a href="{{ route('files.show', $invoice->file_id) }}" class="text-blue-600 hover:underline">
-                                        {{ $invoice->file->reference }}
+                                        {{ $invoice->file->reference ?? 'NAN' }}
                                     </a>
                                 </p>
                                 @if($invoice->proforma_id)

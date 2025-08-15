@@ -147,7 +147,7 @@
         <th>Requested by</th>
     </tr>
     <tr>
-        <td>{{ $invoice->file->reference }}</td>
+        <td>{{ $invoice->file->reference 'NAN'}}</td>
         <td>{{ $invoice->file->destination->name }}</td>
         <td>{{ $invoice->file->start_date ? \Carbon\Carbon::parse($invoice->file->start_date)->format('d/m/Y') : '' }}</td>
         <td>{{ $invoice->owner->name}}</td>
