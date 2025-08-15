@@ -16,16 +16,19 @@ return [
             'title' => 'back_office',
             'items' => [
                 ['name' => 'suppliers', 'route' => 'suppliers.index', 'icon' => 'suppliers'],
-                ['name' => 'file_costs', 'route' => 'files.costs.index', 'icon' => 'costs'],
-                // ['name' => 'Supplier Invoices', 'route' => 'supplier-invoices.index', 'icon' => 'invoices'],
+                // ['name' => 'file_costs', 'route' => 'file-costs.index', 'icon' => 'costs'],
+                // ['name' => 'Supplier Invoices', 'route' => 'supplier-invoices.index', 'icon' => 'invoices'], get invoice from email and save to database.
                 // ['name' => 'Credit Notes', 'route' => 'supplier-credit-notes.index', 'icon' => 'credit-notes'],
+                // over payment / hotel or service cancelled and they should pay / 
+                // get it as a credit with the service.
             ],
         ],
         [
             'title' => 'accounting',
             'items' => [
-                // ['name' => 'Payments', 'route' => 'payments.index', 'icon' => 'payments'],
-                // ['name' => 'Receipts', 'route' => 'receipts.index', 'icon' => 'receipts'],
+                // ['name' => 'Payments', 'route' => 'payments.index', 'icon' => 'payments'], // what I paid the services. 
+                // ['name' => 'Receipts', 'route' => 'receipts.index', 'icon' => 'receipts'], // get the receipt of the customer by email 
+                // usual customer get directly from invoice. flag with (trust payment) 
                 ['name' => 'reports', 'route' => 'reports.index', 'icon' => 'reports'],
             ],
         ],

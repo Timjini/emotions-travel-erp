@@ -23,13 +23,13 @@ class FileCostController extends Controller
     public function index(File $file)
     {
         // $this->authorize('viewAny', FileCost::class);
-
+       
         $fileCosts = $file->costs()
             ->with(['supplier', 'fileItem', 'creator'])
             ->orderBy('service_date', 'desc')
             ->paginate(25);
 
-        return view('files.costs.index', [
+        return view('file-costs.index', [
             'file' => $file,
             'costs' => $fileCosts,
             'statuses' => PaymentStatus::cases(),

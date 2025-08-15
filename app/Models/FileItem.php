@@ -40,11 +40,11 @@ class FileItem extends Model
         static::creating(function ($model) {
             $model->id = Str::uuid()->toString();
             // Calculate total price
-            $model->total_price = $model->unit_price * $model->quantity * $model->file->number_of_people;
+            $model->total_price = $model->unit_price * $model->quantity;
         });
 
         static::updating(function ($model) {
-            $model->total_price = $model->unit_price * $model->quantity * $model->file->number_of_people;
+            $model->total_price = $model->unit_price * $model->quantity;
         });
     }
 

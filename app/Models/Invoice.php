@@ -63,4 +63,9 @@ class Invoice extends Model
     {
         return $this->hasMany(InvoiceItem::class);
     }
+
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

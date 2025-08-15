@@ -25,13 +25,12 @@
     </nav>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        @if(optional($file)->exists)
         <!-- Header and Controls -->
         <div class="mb-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                 <div>
                     <h1 class="text-2xl font-bold text-gray-900">Cost Management</h1>
-                    <p class="text-sm text-gray-500 mt-1">Manage all costs for File #{{ $file->reference }} - {{ $file->customer->name }}</p>
+                    <p class="text-sm text-gray-500 mt-1">Manage all costs for File #{{ $file->reference }} - {{ $file->customer->name ?? ''}}</p>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                     <x-link-button :href="route('file-costs.create', $file->id)" class="">
@@ -122,7 +121,6 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-medium text-gray-500">Total Costs</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{ number_format($stats['total_costs'], 2) }} {{ $file->currency->code }}</p>
                         </div>
                         <div class="p-3 rounded-full bg-blue-100 text-blue-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,7 +134,6 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-medium text-gray-500">Paid</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{ number_format($stats['paid_amount'], 2) }} {{ $file->currency->code }}</p>
                         </div>
                         <div class="p-3 rounded-full bg-green-100 text-green-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,7 +147,6 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-medium text-gray-500">Pending</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{ number_format($stats['pending_amount'], 2) }} {{ $file->currency->code }}</p>
                         </div>
                         <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -164,7 +160,6 @@
                     <div class="flex items-center justify-between">
                         <div>
                             <p class="text-sm font-medium text-gray-500">Overdue</p>
-                            <p class="text-2xl font-semibold text-gray-900">{{ number_format($stats['overdue_amount'], 2) }} {{ $file->currency->code }}</p>
                         </div>
                         <div class="p-3 rounded-full bg-red-100 text-red-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -191,17 +186,14 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="border rounded-lg p-4">
                         <p class="text-sm font-medium text-gray-500">Transport Costs</p>
-                        <p class="text-2xl font-semibold">{{ number_format($stats['transport_costs'], 2) }} {{ $file->currency->code }}</p>
                     </div>
                     
                     <div class="border rounded-lg p-4">
                         <p class="text-sm font-medium text-gray-500">Accommodation</p>
-                        <p class="text-2xl font-semibold">{{ number_format($stats['accommodation_costs'], 2) }} {{ $file->currency->code }}</p>
                     </div>
                     
                     <div class="border rounded-lg p-4">
                         <p class="text-sm font-medium text-gray-500">Activities</p>
-                        <p class="text-2xl font-semibold">{{ number_format($stats['activity_costs'], 2) }} {{ $file->currency->code }}</p>
                     </div>
                 </div>
                 
@@ -356,19 +348,7 @@
                 {{ $costs->appends(request()->query())->links() }}
             </div>
         </div>
-        @else
 
-         <!-- No File yet -->
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6 text-center">
-                    <h3 class="text-lg font-medium mb-4">Opps!</h3>
-                    <p class="text-gray-700 mb-6">
-                        You don’t have a company setup yet. Please create your file to start managing bookings.
-                    </p>
-                    <x-link-button :href="route('files.create')">
-                        Create File
-                    </x-link-button>
-                </div>
-        @endif
     </div>
 
     @push('scripts')

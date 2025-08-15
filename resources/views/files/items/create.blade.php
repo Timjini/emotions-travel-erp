@@ -42,9 +42,13 @@
                 @csrf
                 
                 <div class="px-6 py-4 border-b border-gray-200">
+                    <div class="flex flex-row justify-between">
                     <h3 class="text-lg font-medium text-gray-900">Add New Item</h3>
+                    <!-- provide tax if all included or not  -->
+                     <!-- provide service by pax or Quantity.  -->
+                      <!-- quantity x Unit Price -->
+                    </div>
                 </div>
-                
                 <div class="px-6 py-4 grid grid-cols-1 md:grid-cols-4 gap-4">
                     <!-- Service Name -->
                     <div class="md:col-span-2">
@@ -63,7 +67,7 @@
                     <!-- Quantity -->
                     <div>
                         <x-input-label for="quantity" :value="__('Quantity')" />
-                        <x-text-input id="quantity" name="quantity" type="number" min="1" value="1" class="mt-1 block w-full" required />
+                        <x-text-input id="quantity" name="quantity" type="number" min="1" value="{{($file->number_of_people)}}" class="mt-1 block w-full" required />
                         <x-input-error class="mt-2" :messages="$errors->get('quantity')" />
                     </div>
                     

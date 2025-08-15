@@ -150,7 +150,7 @@
         <td>{{ $invoice->file->reference }}</td>
         <td>{{ $invoice->file->destination->name }}</td>
         <td>{{ $invoice->file->start_date ? \Carbon\Carbon::parse($invoice->file->start_date)->format('d/m/Y') : '' }}</td>
-        <td>{{ $invoice->created_by}}</td>
+        <td>{{ $invoice->owner->name}}</td>
     </tr>
 </table>
 
@@ -166,7 +166,7 @@
     <tr>
         <td>{{ $invoice->tax_rate }}</td>
         <td>{{ $item->service_name }}</td>
-        <td>{{ $item->quantity }}</td>
+        <td>{{ $invoice->file->number_of_people }}</td>
         <td>{{ number_format($item->unit_price ) }} {{ $item->currency->code }}</td>
         <td>{{ number_format($item->total_price) }} {{ $item->currency->code }}</td>
     </tr>
