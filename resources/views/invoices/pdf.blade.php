@@ -137,7 +137,7 @@
         </div>
     </div>
 
-    <div class="invoice-number">Proforma n°: {{$invoice->file->reference}}</div>
+    <div class="invoice-number">Proforma n°: {{$invoice->proforma->proforma_number}}</div>
 
 <table class="details">
     <tr>
@@ -147,10 +147,10 @@
         <th>Requested by</th>
     </tr>
     <tr>
-        <td>{{ $invoice->file_number ?? '149/2025' }}</td>
-        <td>{{ $invoice->reference ?? 'Morocco Grand Tour' }}</td>
-        <td>{{ $invoice->service_date ? \Carbon\Carbon::parse($invoice->service_date)->format('d/m/Y') : '27/09/2025' }}</td>
-        <td>{{ $invoice->requested_by ?? 'Paulina' }}</td>
+        <td>{{ $invoice->file->reference }}</td>
+        <td>{{ $invoice->file->destination->name }}</td>
+        <td>{{ $invoice->file->start_date ? \Carbon\Carbon::parse($invoice->file->start_date)->format('d/m/Y') : '' }}</td>
+        <td>{{ $invoice->created_by}}</td>
     </tr>
 </table>
 
@@ -162,13 +162,15 @@
         <th>Amount</th>
         <th>Total</th>
     </tr>
+    @foreach ($invoice->items as $item)
     <tr>
-        <td>{{ $invoice->tax_rate ?? '' }}</td>
-        <td>{{ $invoice->description ?? 'Morocco Tour 27.09.2025-05.10.2025' }}</td>
-        <td>{{ $invoice->quantity ?? 6 }}</td>
-        <td>{{ number_format($invoice->unit_price ?? 1110, 2, ',', '.') }} {{ $invoice->currency->code ?? 'EUR' }}</td>
-        <td>{{ number_format($invoice->total_amount ?? 6660, 2, ',', '.') }} {{ $invoice->currency->code ?? 'EUR' }}</td>
+        <td>{{ $invoice->tax_rate }}</td>
+        <td>{{ $item->service_name }}</td>
+        <td>{{ $item->quantity }}</td>
+        <td>{{ number_format($item->unit_price ) }} {{ $item->currency->code }}</td>
+        <td>{{ number_format($item->total_price) }} {{ $item->currency->code }}</td>
     </tr>
+    @endforeach
 </table>
 
     <div class="payment-container">
@@ -182,15 +184,15 @@
         <div class="totals">
         <div>
             <strong class="label">Subtotal:</strong>
-            <span class="text-right">{{ number_format($invoice->items->sum('total_price'), 2) }} {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</span>
+            <span class="text-right">{{ number_format($invoice->items->sum('total_price'), 2) }} {{ $invoice->currency->code }}</span>
     </div>
         <div>
             <strong class="label">Tax (0%):</strong>
-            <span class="text-right">0.00 {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</span>
+            <span class="text-right">0.00 {{ $invoice->currency->code }}</span>
     </div>
         <div>
             <strong class="label total-row">TOTAL DUE:</strong>
-            <span class="text-right total-row">{{ number_format($invoice->total_amount, 2) }} {{ $invoice->currency->code ?? ($companySetting->invoice_currency ?? 'EUR') }}</span>
+            <span class="text-right total-row">{{ number_format($invoice->total_amount, 2) }} {{ $invoice->currency->code }}</span>
     </div>
     </div>
     </div>
