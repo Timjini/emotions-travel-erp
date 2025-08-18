@@ -147,10 +147,10 @@
         <th>Requested by</th>
     </tr>
     <tr>
-        <td>{{ $invoice->file->reference 'NAN'}}</td>
-        <td>{{ $invoice->file->destination->name }}</td>
+        <td>{{ $invoice->file->reference ?? 'NAN'}}</td>
+        <td>{{ $invoice->file->destination->name ?? '' }}</td>
         <td>{{ $invoice->file->start_date ? \Carbon\Carbon::parse($invoice->file->start_date)->format('d/m/Y') : '' }}</td>
-        <td>{{ $invoice->owner->name}}</td>
+        <td>{{ $invoice->owner->name ?? ''}}</td>
     </tr>
 </table>
 
@@ -164,9 +164,9 @@
     </tr>
     @foreach ($invoice->items as $item)
     <tr>
-        <td>{{ $invoice->tax_rate }}</td>
-        <td>{{ $item->service_name }}</td>
-        <td>{{ $invoice->file->number_of_people }}</td>
+        <td>{{ $invoice->tax_rate ?? '0' }}</td>
+        <td>{{ $item->service_name ?? 'NAN' }}</td>
+        <td>{{ $invoice->file->number_of_people ?? 'NAN' }}</td>
         <td>{{ number_format($item->unit_price ) }} {{ $item->currency->code }}</td>
         <td>{{ number_format($item->total_price) }} {{ $item->currency->code }}</td>
     </tr>
