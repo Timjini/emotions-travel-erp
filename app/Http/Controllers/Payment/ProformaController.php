@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Events\ProformaSendFailed;
+use App\Events\ProformaSent;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\File;
 use App\Models\Proforma;
 use App\Services\FileServices\ProformaService;
 use App\Services\Proformas\ProformaMailerService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class ProformaController extends Controller
 {
@@ -110,15 +111,26 @@ class ProformaController extends Controller
         }
     
         try {
-            // send proforma to client
-            $service->sendProforma($proforma, $proforma->file->customer->email);
+            // email the customer
+            // $service->sendProforma($proforma, $proforma->file->customer->email);
 
-            // send copy to Admin
-            $service->sendProforma($proforma, $proforma->company->email);
+            // // email the Admin
+            // $service->sendProforma($proforma, $proforma->file->company->email);
+
+            // // email the current User
+            // $service->sendProforma($proforma, Auth::user()->email);
+
+            
+            // Dispatch success event
+            ProformaSent::dispatch($proforma, Auth::user());
             
             return redirect()->route('proformas.show', $proforma->id)
                 ->with('success', 'Proforma sent successfully!');
+    
         } catch (\Exception $e) {
+            // Dispatch failure event
+            ProformaSendFailed::dispatch($proforma, Auth::user(), $e->getMessage());
+            
             return redirect()->route('proformas.show', $proforma->id)
                 ->with('error', 'Failed to send proforma: ' . $e->getMessage());
         }

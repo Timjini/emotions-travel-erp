@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Observers\FileObserver;
+// use App\Observers\FileObserver;
 use App\Traits\BelongsToCompany;
 use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +13,7 @@ use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
 
-#[ObservedBy([FileObserver::class])]
+// #[ObservedBy([FileObserver::class])]
 class File extends Model
 {
     use HasFactory, SoftDeletes, BelongsToCompany, CreatedByTrait;

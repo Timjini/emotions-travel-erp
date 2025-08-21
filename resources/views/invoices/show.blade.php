@@ -105,6 +105,16 @@
                                 {{ $invoice->notes ?? 'No additional notes' }}
                             </p>
                         </div>
+                        <div class="mt-2">
+
+                            <p class="text-sm font-medium text-gray-500">Email to customer</p>
+                            <p class="mt-1 text-sm text-gray-900">
+                                <form method="POST" action="{{ route('invoice.send', $invoice) }}"  x-data="{ loading: false }" @submit="loading = true">
+                                    @csrf
+                                    <x-loading-button label="Send Now" />
+                                </form>
+                            </p>
+                        </div>
                     </div>
                 </div>
 

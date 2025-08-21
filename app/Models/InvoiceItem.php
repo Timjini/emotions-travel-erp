@@ -27,6 +27,7 @@ class InvoiceItem extends Model
         'unit_price',
         'total_price',
         'currency_id',
+        'file_item_id'
     ];
 
     public function invoice()

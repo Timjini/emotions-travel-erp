@@ -2,7 +2,7 @@
 
 namespace App\Enums\NotificationLog;
 
-enum NotificationLogStatusStatus: string
+enum NotificationLogStatus: string
 {
     case SENT = 'sent';
     case PENDING = 'pending';

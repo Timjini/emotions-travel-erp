@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\NotificationLog\NotificationLogChannel;
-use App\Enums\NotificationLog\NotificationLogStatusStatus;
+use App\Enums\NotificationLog\NotificationLogStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,9 +11,16 @@ class NotificationLog extends Model
 {
     use HasFactory;
 
+    protected $table = 'notification_logs';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
+        'id',
         'channel',
         'notifiable_id',
+        'notifiable_type',
         'sender_id',
         'receiver_name',
         'receiver_email',
@@ -25,7 +32,7 @@ class NotificationLog extends Model
 
     protected $casts = [
         'channel' => NotificationLogChannel::class,
-        'status' => NotificationLogStatusStatus::class,
+        'status' => NotificationLogStatus::class,
     ];
 
     public function notifiable()

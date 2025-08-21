@@ -8,6 +8,7 @@ use App\Models\File;
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
 use App\Models\Proforma;
+use App\Services\Invoices\InvoiceMailerService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -253,6 +254,38 @@ class InvoiceController extends Controller
 
         // return $pdf->download('invoice-'.$invoice->invoice_number.'.pdf');
         return $pdf->stream('invoice-'.$invoice->invoice_number.'.pdf');
+    }
+
+    public function send(Invoice $invoice, InvoiceMailerService $service)
+    {
+        // Check if proforma has items
+        if ($invoice->file->items === null || $invoice->file->items->isEmpty()) {
+            return redirect()->route('invoices.show', $invoice->id)
+                ->with('error', 'Please add at least one item!');
+        }
+    
+        // Check if customer email exists
+        if (empty($invoice->file->customer->email)) {
+            return redirect()->route('invoices.show', $invoice->id)
+                ->with('error', 'Customer email is missing!');
+        }
+    
+        try {
+            $service->sendProforma($invoice, $invoice->file->customer->email);
+            
+            // Dispatch success event
+            // ProformaSent::dispatch($invoice, Auth::user());
+            
+            return redirect()->route('invoices.show', $invoice->id)
+                ->with('success', 'Invoice sent successfully!');
+    
+        } catch (\Exception $e) {
+            // Dispatch failure event
+            // ProformaSendFailed::dispatch($invoice, Auth::user(), $e->getMessage());
+            
+            return redirect()->route('invoices.show', $invoice->id)
+                ->with('error', 'Failed to send invoice: ' . $e->getMessage());
+        }
     }
 
 }

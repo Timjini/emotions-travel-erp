@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('notification_logs', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('channel')->default('email');
-            $table->morphs('notifiable');
+            $table->uuidMorphs('notifiable');
             $table->uuid('sender_id')->nullable();
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
 

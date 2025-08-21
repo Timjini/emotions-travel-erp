@@ -22,9 +22,15 @@ class InvoiceService
         ]);
 
         foreach ($proforma->file->items as $item) {
-            $invoice->items()->create($item->only([
-                'service_name', 'description', 'quantity', 'unit_price', 'total_price', 'currency_id'
-            ]));
+            $invoice->items()->create([
+                'file_item_id' => $item->id,
+                'service_name' => $item->service_name,
+                'description' => $item->description,
+                'quantity' => $item->quantity,
+                'unit_price' => $item->unit_price,
+                'total_price' => $item->total_price,
+                'currency_id' => $item->currency_id,
+            ]);
         }
 
         $proforma->update(['status' => Proforma::STATUS_CONVERTED]);

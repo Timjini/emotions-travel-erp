@@ -134,6 +134,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{invoice}/edit', [InvoiceController::class, 'edit'])->name('invoices.edit');
         Route::patch('/', [InvoiceController::class, 'update'])->name('invoices.update');
         Route::delete('/{invoice}', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+        Route::post('/{invoice}/send', [InvoiceController::class, 'send'])->name('invoice.send');
     });
 
     Route::prefix('files/{file}')->group(function () {

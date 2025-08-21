@@ -51,8 +51,8 @@
                                 </a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                <a href="{{ route('files.show', $proforma->file_id) }}" class="text-blue-600 hover:underline">
-                                    {{ $proforma->file->file_number }}
+                                <a href="{{ $proforma->file?->id ? route('files.show', $proforma->file_id) : '#' }}" class="text-blue-600 hover:underline">
+                                    {{ $proforma->file?->file_number ?? 'N/A' }}
                                 </a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
+use App\Observers\ProformaObserver;
 use App\Traits\BelongsToCompany;
 use App\Traits\CreatedByTrait;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
+
+#[ObservedBy([ProformaObserver::class])]
 
 class Proforma extends Model
 {
