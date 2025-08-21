@@ -115,9 +115,9 @@ class File extends Model
         return $this->hasMany(Proforma::class);
     }
 
-    public function invoices()
+    public function invoice()
     {
-        return $this->hasMany(Invoice::class);
+        return $this->hasOne(Invoice::class);
     }
 
     public function owner()

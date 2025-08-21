@@ -37,7 +37,7 @@ class InvoiceItem extends Model
 
     public function fileItem()
     {
-        return $this->belongsTo(FileItem::class);
+        return $this->belongsTo(\App\Models\FileItem::class, 'file_item_id');
     }
 
     public function currency()

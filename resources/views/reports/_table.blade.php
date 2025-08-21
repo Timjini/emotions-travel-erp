@@ -8,7 +8,7 @@
             <th class="px-6 py-3">End</th>
             <th class="px-6 py-3">Owner</th>
             <th class="px-6 py-3">Proformas</th>
-            <th class="px-6 py-3">Invoices</th>
+            <th class="px-6 py-3">Invoices</
         </tr>
     </thead>
     <tbody class="divide-y divide-gray-200">
@@ -21,7 +21,7 @@
             <td class="px-6 py-4">{{ $file->end_date->format('Y-m-d') }}</td>
             <td class="px-6 py-4">{{ $file->owner->name ?? '-' }}</td>
             <td class="px-6 py-4">{{ $file->proformas->count() }}</td>
-            <td class="px-6 py-4">{{ $file->invoices->count() }}</td>
+            <td class="px-6 py-4">{{ $file->invoice->id }}</td>
         </tr>
         @empty
         <tr>
