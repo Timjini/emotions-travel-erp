@@ -39,15 +39,7 @@
                 <div class="px-6 py-4 space-y-4">
                     <!-- Customer -->
                     <div>
-                        <x-input-label for="customer_id" :value="__('Customer')" />
-                        <select id="customer_id" name="customer_id" class="rounded bg-gray-50 border text-gray-900  flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full" required>
-                            <option value="">Select Customer</option>
-                            @foreach($customers as $customer)
-                                <option value="{{ $customer->id }}" {{ old('customer_id') == $customer->id ? 'selected' : '' }}>
-                                    {{ $customer->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                        @livewire('customer-search')
                         <x-input-error class="mt-2" :messages="$errors->get('customer_id')" />
                     </div>
                     

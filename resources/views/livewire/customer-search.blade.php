@@ -13,7 +13,7 @@
             id="customer_search"
             wire:model.live.debounce.500ms="search" 
             placeholder="Search by name, email, phone..." 
-            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             wire:keydown.escape="resetSearch"
             wire:keydown.arrow-up="decrementHighlight"
             wire:keydown.arrow-down="incrementHighlight"
@@ -35,7 +35,7 @@
                             class="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9 hover:bg-blue-50 {{ $highlightIndex === $index ? 'bg-blue-50' : '' }}"
                         >
                             <div class="flex flex-col">
-                                <span class="font-medium">{{ $customerr->name }}</span>
+                                <span class="font-medium">{{ $customer->name }}</span>
                                 <div class="flex flex-wrap gap-x-2 text-xs text-gray-500">
                                     @if($customer->email)
                                         <span>{{ $customer->email }}</span>

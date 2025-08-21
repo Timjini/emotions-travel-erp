@@ -7,7 +7,7 @@
 
     <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
         <div class="bg-white shadow rounded-lg overflow-hidden">
-            <form method="POST" action="{{ route('programs.store') }}">
+            <form method="POST" action="{{ route('programs.store') }}" x-data="{ loading: false }" @submit="loading = true">
                 @csrf
 
                 <div class="px-6 py-4 border-b border-gray-200">
@@ -17,6 +17,8 @@
                 <div class="px-6 py-4 space-y-4">
                     <div>
                         @livewire('destination-search')
+                    </div>
+                    <div>
                         <x-input-label for="name" :value="__('Name')" />
                         <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
                             :value="old('name')" required />

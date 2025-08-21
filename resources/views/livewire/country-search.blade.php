@@ -13,7 +13,7 @@
             id="country_search"
             wire:model.live.debounce.500ms="search" 
             placeholder="Search by country name or code..." 
-            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+            class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-xl leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             wire:keydown.escape="resetSearch"
             wire:keydown.arrow-up="decrementHighlight"
             wire:keydown.arrow-down="incrementHighlight"

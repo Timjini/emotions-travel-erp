@@ -106,7 +106,7 @@
             </div>
 
             <!-- Quick Stats Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 hidden">
                 <div class="bg-white p-4 rounded-lg shadow border-l-4 border-blue-500">
                     <div class="flex items-center justify-between">
                         <div>
@@ -165,7 +165,7 @@
             </div>
 
             <!-- Financial Summary -->
-            <div class="bg-white p-6 rounded-lg shadow mb-6">
+            <div class="bg-white p-6 rounded-lg shadow mb-6 hidden">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-semibold text-gray-900">Financial Overview</h2>
                     <div class="flex items-center space-x-2">
