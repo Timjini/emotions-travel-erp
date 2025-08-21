@@ -112,13 +112,13 @@ class ProformaController extends Controller
     
         try {
             // email the customer
-            // $service->sendProforma($proforma, $proforma->file->customer->email);
+            $service->sendProforma($proforma, $proforma->file->customer->email);
 
-            // // email the Admin
-            // $service->sendProforma($proforma, $proforma->file->company->email);
+            // email the Admin
+            $service->sendProforma($proforma, $proforma->file->company->email);
 
-            // // email the current User
-            // $service->sendProforma($proforma, Auth::user()->email);
+            // email the current User
+            $service->sendProforma($proforma, Auth::user()->email);
 
             
             // Dispatch success event
