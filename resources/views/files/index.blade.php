@@ -300,8 +300,8 @@
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
-                                    <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                        <svg class="h-6 w-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div class="flex-shrink-0 h-5 w-5 bg-blue-100 rounded-full flex items-center justify-center">
+                                        <svg class="h-4 w-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
                                         </svg>
                                     </div>
@@ -328,7 +328,7 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">
-                                    {{ $file->start_date->format('M d, Y') }} - {{ $file->end_date->format('M d, Y') }}
+                                    {{ $file->start_date->format('M d, Y') }} <br/> {{ $file->end_date->format('M d, Y') }}
                                 </div>
                                 <div class="text-sm text-gray-500">
                                     {{ $file->start_date->diffInDays($file->end_date) }} days

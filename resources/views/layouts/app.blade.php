@@ -36,6 +36,12 @@
         :message="session('success')" />
     @endif
 
+    @if(session('error'))
+    <x-flash type="error"
+        :title="session('error-title', 'Error')"
+        :message="session('error')" />
+    @endif
+    
     @if ($errors->any())
     <x-flash type="error"
         title="Validation Error"

@@ -14,12 +14,12 @@
                         <x-link-button :href="route('proformas.edit', $proforma)">
                             Edit
                         </x-link-button>
-                        <form method="POST" action="{{ route('proformas.destroy', $proforma) }}">
+                        <form method="POST" action="{{ route('proformas.destroy', $proforma) }}" class="inline-flex items-center px-4 py-2 bg-red-500 border border-gray-300 rounded-md font-semibold text-xs text-white uppercase tracking-widest shadow-sm hover:bg-gray-50 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
                             @csrf
                             @method('DELETE')
-                            <x-danger-button type="submit" onclick="return confirm('Are you sure you want to delete this proforma?')">
+                            <button type="submit" onclick="return confirm('Are you sure you want to delete this proforma?')">
                                 Delete
-                            </x-danger-button>
+                            </button>
                         </form>
             
                         @if($proforma->invoice && ($proforma->invoice->status === 'unpaid' || $proforma->invoice->status === 'paid'))
@@ -75,13 +75,23 @@
                         </p>
                     </div>
                     <div>
-                        <p class="text-sm font-medium text-gray-500">Associated File</p>
+                        <div class="mb-2">
+                            <p class="text-sm font-medium text-gray-500">Associated File</p>
+                            <p class="mt-1 text-sm text-gray-900">
+                                <a href="{{ route('files.show', $proforma->file_id) }}" class="text-blue-600 hover:underline">
+                                    View File
+                                </a>
+                            </p>
+                        </div>
+                        <p class="text-sm font-medium text-gray-500">Email to customer</p>
                         <p class="mt-1 text-sm text-gray-900">
-                            <a href="{{ route('files.show', $proforma->file_id) }}" class="text-blue-600 hover:underline">
-                                View File
-                            </a>
+                            <form method="POST" action="{{ route('proformas.send', $proforma) }}"  x-data="{ loading: false }" @submit="loading = true">
+                                @csrf
+                                <x-loading-button label="Send Now" />
+                            </form>
                         </p>
                     </div>
+                    
                     <div class="md:col-span-2">
                         <p class="text-sm font-medium text-gray-500">Notes</p>
                         <p class="mt-1 text-sm text-gray-900 whitespace-pre-line">{{ $proforma->notes ?? 'N/A' }}</p>

@@ -11,6 +11,7 @@ use App\Models\FileItem;
 use App\Models\Program;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class FileController extends Controller
@@ -182,6 +183,7 @@ class FileController extends Controller
      */
    public function update(StoreFileRequest $request, File $file)
 {
+    Log::info("-------------->updating file");
     $validated = $request->validated();
     $file->update($validated);
 
@@ -285,6 +287,7 @@ class FileController extends Controller
      */
     public function updateItem(File $file, FileItem $item, Request $request)
     {
+        Log::info("----> updating fileItem");
         $validated = $request->validate([
             'service_name' => 'required|string|max:255',
             'description' => 'nullable|string',

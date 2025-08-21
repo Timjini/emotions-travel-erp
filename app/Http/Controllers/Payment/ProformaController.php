@@ -5,14 +5,23 @@ namespace App\Http\Controllers\Payment;
 use App\Http\Controllers\Controller;
 use App\Models\Currency;
 use App\Models\File;
-use App\Models\Invoice;
 use App\Models\Proforma;
+use App\Services\FileServices\ProformaService;
+use App\Services\Proformas\ProformaMailerService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ProformaController extends Controller
 {
+
+    protected ProformaService $service;
+
+    public function __construct(ProformaService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
         $proformas = Proforma::with(['file', 'currency'])
@@ -25,40 +34,7 @@ class ProformaController extends Controller
     public function store(Request $request, $fileId)
     {
         $file = File::with('items')->findOrFail($fileId);
-
-        // Calculate total
-        $total = $file->items->sum('total_price');
-
-        // Generate proforma number
-        $lastNumber = Proforma::max('proforma_number');
-        $nextNumber = $lastNumber ? intval(substr($lastNumber, -3)) + 1 : 1;
-        $latest = Proforma::whereYear('created_at', Carbon::now()->year)
-            ->orderByDesc('proforma_number')
-            ->first();
-
-        if ($latest) {
-            // Extract numeric part from last proforma_number (e.g., "PF-2025-003" → 3)
-            $lastNumber = (int) Str::afterLast($latest->proforma_number, '-');
-            $nextNumber = $lastNumber + 1;
-        } else {
-            $nextNumber = 1;
-        }
-
-        $proformaNumber = 'PF-' . Carbon::now()->format('ymdHis');
-
-
-
-        $proforma = Proforma::create([
-            'id' => Str::uuid(),
-            'file_id' => $file->id,
-            'proforma_number' => $proformaNumber,
-            'issue_date' => Carbon::now()->toDateString(),
-            'due_date' => Carbon::now()->addDays(7)->toDateString(),
-            'total_amount' => $total,
-            'currency_id' => $file->currency_id,
-            'notes' => $request->input('notes'),
-            'status' => 'draft',
-        ]);
+        $proforma = $this->service->createFromFile($file, $request->notes);
 
         return redirect()->route('proformas.show', $proforma->id)
             ->with('success', 'Proforma created successfully.');
@@ -111,38 +87,40 @@ class ProformaController extends Controller
     public function convertToInvoice($proformaId)
     {
         $proforma = Proforma::with(['file.items'])->findOrFail($proformaId);
-
-        // Generate invoice number (different series)
-        $lastNumber = Invoice::max('invoice_number');
-        $nextNumber = $lastNumber ? intval(substr($lastNumber, -3)) + 1 : 1;
-        $invoiceNumber = 'INV-' . Carbon::now()->toDateTimeString() . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
-
-        $invoice = Invoice::create([
-            'file_id' => $proforma->file_id,
-            'proforma_id' => $proforma->id,
-            'invoice_number' => $invoiceNumber,
-            'issue_date' => now()->toDateString(),
-            'due_date' => now()->addDays(14)->toDateString(),
-            'total_amount' => $proforma->total_amount,
-            'currency_id' => $proforma->currency_id,
-            'status' => 'unpaid',
-        ]);
-
-        // Optionally: copy file items into invoice_items table
-        foreach ($proforma->file->items as $item) {
-            $invoice->items()->create([
-                'service_name' => $item->service_name,
-                'description' => $item->description,
-                'quantity' => $item->quantity,
-                'unit_price' => $item->unit_price,
-                'total_price' => $item->total_price,
-                'currency_id' => $item->currency_id,
-            ]);
-        }
+        $invoice = $this->service->convertToInvoice($proforma);
 
         // Mark proforma as converted
         $proforma->update(['status' => Proforma::STATUS_CONVERTED]);
 
         return redirect()->route('invoices.show', $invoice->id);
+    }
+
+    public function send(Proforma $proforma, ProformaMailerService $service)
+    {
+        // Check if proforma has items
+        if ($proforma->file->items === null || $proforma->file->items->isEmpty()) {
+            return redirect()->route('proformas.show', $proforma->id)
+                ->with('error', 'Please add at least one item!');
+        }
+    
+        // Check if customer email exists
+        if (empty($proforma->file->customer->email)) {
+            return redirect()->route('proformas.show', $proforma->id)
+                ->with('error', 'Customer email is missing!');
+        }
+    
+        try {
+            // send proforma to client
+            $service->sendProforma($proforma, $proforma->file->customer->email);
+
+            // send copy to Admin
+            $service->sendProforma($proforma, $proforma->company->email);
+            
+            return redirect()->route('proformas.show', $proforma->id)
+                ->with('success', 'Proforma sent successfully!');
+        } catch (\Exception $e) {
+            return redirect()->route('proformas.show', $proforma->id)
+                ->with('error', 'Failed to send proforma: ' . $e->getMessage());
+        }
     }
 }

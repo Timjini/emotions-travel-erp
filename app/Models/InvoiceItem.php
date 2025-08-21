@@ -34,6 +34,11 @@ class InvoiceItem extends Model
         return $this->belongsTo(Invoice::class);
     }
 
+    public function fileItem()
+    {
+        return $this->belongsTo(FileItem::class);
+    }
+
     public function currency()
     {
         return $this->belongsTo(Currency::class);

@@ -84,6 +84,7 @@ class InvoiceController extends Controller
                 'unit_price' => $item->unit_price,
                 'total_price' => $item->total_price,
                 'currency_id' => $item->currency_id,
+                'file_item_id' => $item->id,
             ]);
         }
 

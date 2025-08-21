@@ -67,47 +67,47 @@
                                     </a>
 
                                     <!-- Create Invoice Button -->
-@if($file->proformas->isNotEmpty())
-    <form method="POST" action="{{ route('proformas.convert-to-invoice', $file->proformas->first()) }}" role="none">
-        @csrf
-        <button 
-            type="submit" 
-            class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-            role="menuitem" 
-            onclick="return confirm('Are you sure you want to create an invoice from this proforma?')">
-            Create Invoice
-        </button>
-    </form>
-@else
-    <button 
-        type="button" 
-        class="w-full text-left block px-4 py-2 text-sm text-gray-400 cursor-not-allowed" 
-        disabled>
-        Create Invoice
-    </button>
-@endif
+                                    @if($file->proformas->isNotEmpty())
+                                        <form method="POST" action="{{ route('proformas.convert-to-invoice', $file->proformas->first()) }}" role="none">
+                                            @csrf
+                                            <button 
+                                                type="submit" 
+                                                class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                role="menuitem" 
+                                                onclick="return confirm('Are you sure you want to create an invoice from this proforma?')">
+                                                Create Invoice
+                                            </button>
+                                        </form>
+                                    @else
+                                        <button 
+                                            type="button" 
+                                            class="w-full text-left block px-4 py-2 text-sm text-gray-400 cursor-not-allowed" 
+                                            disabled>
+                                            Create Invoice
+                                        </button>
+                                    @endif
 
 
-<!-- Proforma Button -->
-@if($file->proformas->isEmpty())
-    <form method="POST" action="{{ route('proformas.store', $file->id) }}" role="none">
-        @csrf
-        <button 
-            type="submit" 
-            class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-            role="menuitem" 
-            onclick="return confirm('Are you sure you want to confirm this file?')">
-            Proformas
-        </button>
-    </form>
-@else
-    <button 
-        type="button" 
-        class="w-full text-left block px-4 py-2 text-sm text-gray-400 cursor-not-allowed" 
-        disabled>
-        Proformas
-    </button>
-@endif
+                                    <!-- Proforma Button -->
+                                    @if($file->proformas->isEmpty())
+                                        <form method="POST" action="{{ route('proformas.store', $file->id) }}" role="none">
+                                            @csrf
+                                            <button 
+                                                type="submit" 
+                                                class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                role="menuitem" 
+                                                onclick="return confirm('Are you sure you want to confirm this file?')">
+                                                Proformas
+                                            </button>
+                                        </form>
+                                    @else
+                                        <button 
+                                            type="button" 
+                                            class="w-full text-left block px-4 py-2 text-sm text-gray-400 cursor-not-allowed" 
+                                            disabled>
+                                            Proformas
+                                        </button>
+                                    @endif
 
                                 </div>
                                 </div>

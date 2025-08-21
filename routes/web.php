@@ -161,6 +161,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/{proforma}', [ProformaController::class, 'destroy'])->name('proformas.destroy');
         Route::patch('/{proforma}', [ProformaController::class, 'update'])->name('proformas.update');
         Route::post('/{proforma}/convert', [ProformaController::class, 'convertToInvoice'])->name('proformas.convert-to-invoice');
+        Route::post('/{proforma}/send', [ProformaController::class, 'send'])->name('proformas.send');
     });
 
     Route::get('invoices/{invoice}/download', [InvoiceController::class, 'downloadPdf'])->name('invoices.download.pdf');

@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use App\Observers\FileObserver;
 use App\Traits\BelongsToCompany;
 use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 
 
+#[ObservedBy([FileObserver::class])]
 class File extends Model
 {
     use HasFactory, SoftDeletes, BelongsToCompany, CreatedByTrait;
@@ -121,5 +123,12 @@ class File extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    // Calculate total_price of the file
+
+    public function totalPrice()
+    {
+        return $this->items->sum('total_price');
     }
 }

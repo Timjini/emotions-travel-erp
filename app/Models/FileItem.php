@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\FileItemObserver;
 use App\Traits\BelongsToCompany;
 use App\Traits\CreatedByTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +10,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
+#[ObservedBy([FileItemObserver::class])]
 class FileItem extends Model
 {
     use HasFactory, BelongsToCompany, CreatedByTrait;
@@ -67,6 +71,11 @@ class FileItem extends Model
     public function costs(): HasMany
     {
         return $this->hasMany(FileCost::class, 'file_item_id');
+    }
+
+    public function invoiceItem()
+    {
+        return $this->hasOne(InvoiceItem::class);
     }
 
     /**

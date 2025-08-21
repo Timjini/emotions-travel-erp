@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\File;
 use App\Models\FileItem;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ItemsTable extends Component
@@ -47,6 +48,7 @@ class ItemsTable extends Component
 
     public function save()
     {
+        Log::info('on the wire');
         $this->validate();
         FileItem::find($this->editingId)->update($this->editItem);
         $this->file->refresh();

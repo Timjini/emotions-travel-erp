@@ -29,6 +29,10 @@ return new class extends Migration
             $table->uuid('company_id')->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
 
+            // fileItem
+            $table->uuid('file_item_id');
+            $table->foreign('file_item_id')->references('id')->on('file_items')->onDelete('cascade');
+
             // Tracking
             $table->uuid('created_by');
             $table->foreign('created_by', 'fk_invoice_items_created_by_users')

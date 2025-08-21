@@ -67,7 +67,7 @@
                     <!-- Quantity -->
                     <div>
                         <x-input-label for="quantity" :value="__('Quantity')" />
-                        <x-text-input id="quantity" name="quantity" type="number" min="1" value="{{($file->number_of_people)}}" class="mt-1 block w-full" required />
+                        <x-text-input id="quantity" name="quantity" type="number" min="1" value="1" class="mt-1 block w-full" required />
                         <x-input-error class="mt-2" :messages="$errors->get('quantity')" />
                     </div>
                     
