@@ -1,4 +1,4 @@
-<x-app-layout>
+e<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight capitalize">
             Invoice Details
@@ -21,9 +21,7 @@
                         </span>
                     </h3>
                     <div class="flex space-x-2">
-                        <x-link-button :href="route('invoices.edit', $invoice)">
-                            Edit
-                        </x-link-button>
+                     
                         <form method="POST" action="{{ route('invoices.destroy', $invoice) }}">
                             @csrf
                             @method('DELETE')
@@ -184,6 +182,76 @@
                     </div>
                 </div>
             </div>
+            
+            
+               <!-- Financial Section - Redesigned -->
+                <div class="mt-8 p-4">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">Financial Summary</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <!-- Total Billed Card -->
+                        <div class="financial-card bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-sm font-medium text-gray-500">Total Billed</h4>
+                                <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-receipt text-blue-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-2xl font-bold text-gray-900">{{ number_format($invoice->items->sum('total_price'), 2) }}
+                                        @if($invoice->currency)
+                                            {{ $invoice->currency->code }}
+                                        @endif</p>
+                            <div class="mt-2 flex items-center">
+                                <span class="text-xs font-medium text-gray-500">Amount including taxes</span>
+                            </div>
+                        </div>
+
+                        <!-- Total Costs Card -->
+                        <div class="financial-card bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-sm font-medium text-gray-500">Total Costs</h4>
+                                <div class="w-10 h-10 rounded-lg bg-red-100 flex items-center justify-center">
+                                    <i class="fas fa-money-bill-wave text-red-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-2xl font-bold text-gray-900">{{ number_format($financials['total_costs'], 2) }} {{ config('app.currency') }}</p>
+                            <div class="mt-2 flex items-center">
+                                <span class="text-xs font-medium text-gray-500">Operational & service costs</span>
+                            </div>
+                        </div>
+
+                        <!-- Gross Profit Card -->
+                        <div class="financial-card bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-sm font-medium text-gray-500">Gross Profit</h4>
+                                <div class="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center">
+                                    <i class="fas fa-chart-line text-green-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-2xl font-bold text-green-600">{{ number_format($financials['profit'], 2) }} {{ config('app.currency') }}</p>
+                            <div class="mt-2 flex items-center">
+                                <span class="text-xs font-medium text-green-600">+12.5% from last month</span>
+                            </div>
+                        </div>
+
+                        <!-- Profit Margin Card -->
+                        <div class="financial-card bg-white border border-gray-200 rounded-xl p-5 shadow-sm">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="text-sm font-medium text-gray-500">Profit Margin</h4>
+                                <div class="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                                    <i class="fas fa-percent text-purple-600"></i>
+                                </div>
+                            </div>
+                            <p class="text-2xl font-bold text-purple-600"> {{ number_format($financials['profit_margin'], 2) }}%</p>
+                            <div class="mt-2 flex items-center">
+                                <span class="text-xs font-medium text-gray-500">Industry avg: 32.5%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Other content would be here -->
+            </div>
+            
 
             <!-- Footer Section -->
             <div class="px-6 py-4 border-t border-gray-200 text-sm text-gray-500">

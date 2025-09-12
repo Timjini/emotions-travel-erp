@@ -98,6 +98,72 @@
                     </div>
                 </div>
             </div>
+            
+             <!-- Invoice Items Table -->
+                <div class="mt-8 p-4">
+                    <h4 class="text-sm font-medium text-gray-500 mb-2">Services</h4>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Service
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Description
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Qty
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Unit Price
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Total
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                @foreach($proforma->file->items as $item)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ $item->service_name }}
+                                    </td>
+                                    <td class="px-6 py-4 text-sm text-gray-500">
+                                        {{ $item->description ?? 'N/A' }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ $item->quantity }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ number_format($item->unit_price, 2) }}
+                                        @if($item->currency)
+                                            {{ $item->currency->code }}
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ number_format($item->total_price, 2) }}
+                                        @if($item->currency)
+                                            {{ $item->currency->code }}
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endforeach
+                                <tr class="bg-gray-50">
+                                    <td colspan="4" class="px-6 py-4 text-right text-sm font-medium text-gray-500">
+                                        Subtotal
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        {{ number_format($proforma->file->items->sum('total_price'), 2) }}
+                                        @if($proforma->file->currency)
+                                            {{ $proforma->file->currency->code }}
+                                        @endif
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             <div class="px-6 py-4 border-t border-gray-200 text-sm text-gray-500">
                 Created {{ $proforma->created_at->diffForHumans() }} | Last updated {{ $proforma->updated_at->diffForHumans() }}
             </div>

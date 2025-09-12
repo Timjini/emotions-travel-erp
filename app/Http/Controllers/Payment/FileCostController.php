@@ -57,6 +57,7 @@ class FileCostController extends Controller
     public function store(StoreFileCostRequest $request, File $file)
     {
         $validated = $request->validated();
+        
 
         // Calculate totals
         $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
@@ -72,7 +73,7 @@ class FileCostController extends Controller
         ]);
 
         // Create the cost
-        $fileCost = $file->costs()->create($validated);
+        // $fileCost = $file->costs()->create($validated);
 
         return redirect()
             ->route('files.items.add', $file->id)

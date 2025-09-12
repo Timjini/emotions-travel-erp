@@ -106,9 +106,7 @@
                                     <x-link-button :href="route('invoices.download.pdf', $invoice)" size="sm">
                                         PDF
                                     </x-link-button>
-                                    <x-link-button :href="route('invoices.edit', $invoice)" size="sm">
-                                        Edit
-                                    </x-link-button>
+                                   
                                     <form method="POST" action="{{ route('invoices.destroy', $invoice) }}">
                                         @csrf
                                         @method('DELETE')

@@ -100,9 +100,66 @@ class InvoiceController extends Controller
     {
         $invoice = Invoice::with(['file', 'proforma', 'currency', 'items', 'items.currency'])
             ->findOrFail($id);
+            
+                    // Calculate statistics
+        $stats = [
+            'total_bookings' => File::count(),
+            'confirmed_bookings' => File::where('status', 'confirmed')->count(),
+            'pending_bookings' => File::where('status', 'pending')->count(),
+            'cancelled_bookings' => File::where('status', 'cancelled')->count(),
+        ];
+
+        // Calculate financial summaries across all files
+        $allFiles = File::with(['items', 'costs'])->get();
+
+        $totalBilled = $allFiles->sum(function ($file) {
+            return $file->items->sum('total_price');
+        });
+
+        $totalCosts = $allFiles->sum(function ($file) {
+            return $file->costs->sum('total_price');
+        });
+
+        $profit = $totalBilled - $totalCosts;
+        $profitMargin = $totalBilled > 0 ? ($profit / $totalBilled) * 100 : 0;
+
+        // Calculate costs by service type (simplified example)
+        $costsByServiceType = [
+            'Accommodation' => $allFiles->sum(function ($file) {
+                return $file->costs->where('service_type', 'accommodation')->sum('total_price');
+            }),
+            'Transport' => $allFiles->sum(function ($file) {
+                return $file->costs->where('service_type', 'transport')->sum('total_price');
+            }),
+            'Activities' => $allFiles->sum(function ($file) {
+                return $file->costs->where('service_type', 'activities')->sum('total_price');
+            }),
+            'Meals' => $allFiles->sum(function ($file) {
+                return $file->costs->where('service_type', 'meals')->sum('total_price');
+            }),
+        ];
+
+        // Payment status summary (example - adjust based on your actual data structure)
+        $paymentStatusSummary = [
+            'Paid' => $allFiles->where('payment_status', 'paid')->count(),
+            'Partial' => $allFiles->where('payment_status', 'partial')->count(),
+            'Pending' => $allFiles->where('payment_status', 'pending')->count(),
+            'Overdue' => $allFiles->where('payment_status', 'overdue')->count(),
+        ];
+
+        // Prepare financial data for the view
+        $financials = [
+            'total_billed' => $totalBilled,
+            'total_costs' => $totalCosts,
+            'profit' => $profit,
+            'profit_margin' => $profitMargin,
+            'costs_by_service_type' => $costsByServiceType,
+            'payment_status_summary' => $paymentStatusSummary,
+        ];
 
         return view('invoices.show', [
             'invoice' => $invoice,
+            'financials' => $financials,
         ]);
     }
 
@@ -111,18 +168,18 @@ class InvoiceController extends Controller
      */
     public function edit($id): View
     {
-        $invoice = Invoice::with(['file', 'items'])->findOrFail($id);
-        $currencies = Currency::all();
-        $statuses = ['unpaid', 'paid', 'cancelled', 'refunded'];
+        // $invoice = Invoice::with(['file', 'items'])->findOrFail($id);
+        // $currencies = Currency::all();
+        // $statuses = ['unpaid', 'paid', 'cancelled', 'refunded'];
 
 
-        return view('invoices.edit', [
-            'invoice' => $invoice,
-            'currencies' => $currencies,
-            'statuses' => $statuses,
-            'proforma' => $invoice->proforma,
-            'file' => $invoice->file,
-        ]);
+        // return view('invoices.edit', [
+        //     'invoice' => $invoice,
+        //     'currencies' => $currencies,
+        //     'statuses' => $statuses,
+        //     'proforma' => $invoice->proforma,
+        //     'file' => $invoice->file,
+        // ]);
     }
 
     /**

@@ -117,9 +117,9 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 flex space-x-2">
                         <form wire:submit.prevent="save">
-                            <button type="submit" wire:loading.attr="disabled">Save</button>
+                            <button type="submit" class="text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" wire:loading.attr="disabled">Save</button>
                         </form>
-                        <button wire:click="cancel" class="text-gray-600 hover:text-gray-900">
+                        <button wire:click="cancel" class="text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" class="text-gray-600 hover:text-gray-900">
                             Cancel
                         </button>
                     </td>

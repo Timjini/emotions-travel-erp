@@ -33,37 +33,41 @@ class ReportController extends Controller
     public function generate(Request $request)
     {
         $companyId = Auth::user()->company_id;
-
-        $query = File::with(['customer', 'owner', 'destination', 'proformas', 'invoices'])
-            ->where('company_id', $companyId);
-
+    
+        switch ($request->document_type) {
+            case 'invoice':
+                $query = Invoice::with(['file.customer', 'file.owner', 'file.destination'])
+                    ->whereHas('file', fn($q) => $q->where('company_id', $companyId));
+                $dateColumn = 'created_at';
+                break;
+    
+            case 'proforma':
+                $query = Proforma::with(['file.customer', 'file.owner', 'file.destination'])
+                    ->whereHas('file', fn($q) => $q->where('company_id', $companyId));
+                $dateColumn = 'created_at';
+                break;
+    
+            default: // file
+                $query = File::with(['customer', 'owner', 'destination', 'proformas', 'invoices'])
+                    ->where('company_id', $companyId);
+                $dateColumn = 'start_date';
+        }
+    
         // Filters
         if ($request->filled('start_date')) {
-            $query->whereDate('start_date', '>=', $request->start_date);
+            $query->whereDate($dateColumn, '>=', $request->start_date);
         }
         if ($request->filled('end_date')) {
-            $query->whereDate('end_date', '<=', $request->end_date);
+            $query->whereDate($dateColumn, '<=', $request->end_date);
         }
-        if ($request->filled('document_type')) {
-            switch ($request->document_type) {
-                case 'invoice':
-                    $query->has('invoices');
-                    break;
-                case 'proforma':
-                    $query->has('proformas');
-                    break;
-                case 'file':
-                    break;
-            }
-        }
-
-        // Sorting
+    
+        // Sorting (use $dateColumn instead of hardcoding start_date)
         switch ($request->order_by) {
             case 'date_asc':
-                $query->orderBy('start_date');
+                $query->orderBy($dateColumn);
                 break;
             case 'date_desc':
-                $query->orderByDesc('start_date');
+                $query->orderByDesc($dateColumn);
                 break;
             case 'amount_asc':
                 $query->orderBy('profit'); 
@@ -72,16 +76,54 @@ class ReportController extends Controller
                 $query->orderByDesc('profit');
                 break;
             default:
-                $query->orderByDesc('start_date');
+                $query->orderByDesc($dateColumn);
         }
+    
+       $reportData = $query->paginate(25);
 
-        $reportData = $query->paginate(25);
-
+        $reportData->getCollection()->transform(function ($item) use ($request) {
+            if ($request->document_type === 'invoice') {
+                return [
+                    'id' => $item->id,
+                    'number' => $item->invoice_number,
+                    'date' => $item->issue_date,
+                    'type' => 'Invoice',
+                    'customer' => $item->file?->customer?->name,
+                    'owner' => $item->file?->owner?->name,
+                    'destination' => $item->file?->destination?->name,
+                    'amount' => $item->total ?? null,
+                ];
+            } elseif ($request->document_type === 'proforma') {
+                return [
+                    'id' => $item->id,
+                    'number' => $item->proforma_number,
+                    'date' => $item->issue_date,
+                    'type' => 'Proforma',
+                    'customer' => $item->file?->customer?->name,
+                    'owner' => $item->file?->owner?->name,
+                    'destination' => $item->file?->destination?->name,
+                    'amount' => $item->total ?? null,
+                ];
+            } else {
+                return [
+                    'id' => $item->id,
+                    'number' => $item->file_number,
+                    'date' => $item->start_date,
+                    'type' => 'File',
+                    'customer' => $item->customer?->name,
+                    'owner' => $item->owner?->name,
+                    'destination' => $item->destination?->name,
+                    'amount' => $item->profit ?? null,
+                ];
+            }
+        });
+    
         if ($request->ajax()) {
             return view('reports._table', compact('reportData'))->render();
         }
-
+    
         return view('reports.index', compact('reportData'));
     }
+
 }
 
