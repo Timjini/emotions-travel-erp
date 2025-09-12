@@ -10,6 +10,7 @@ use App\Models\Currency;
 use App\Models\File;
 use App\Models\FileCost;
 use App\Models\Supplier;
+use App\Services\ExchangeRateCalculator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -57,23 +58,32 @@ class FileCostController extends Controller
     public function store(StoreFileCostRequest $request, File $file)
     {
         $validated = $request->validated();
+        $baseCurrency = Currency::find($validated['base_currency_id'])->code;
         
+        $calculator = app(ExchangeRateCalculator::class);
+        $exchangeRate = $calculator->convertCurrency($baseCurrency, $request['original_currency']);
 
         // Calculate totals
         $validated['total_price'] = $validated['quantity'] * $validated['unit_price'];
-        $validated['converted_total'] = $validated['total_price'] * $validated['exchange_rate'];
+        $validated['converted_total'] = $validated['total_price'] * $exchangeRate;
+
+        Log::info($validated['converted_total']);
+        Log::info($validated['total_price']);
 
         // Set additional required fields
         $validated = array_merge($validated, [
             'customer_id' => $file->customer_id,
-            // 'original_currency_id' => $file->currency_id, // Get from parent file
-            // 'base_currency_id' => $validated['currency_id'] ?? Currency::first(),
+            'exchange_rate' => $exchangeRate,
+            'converted_total' => $validated['converted_total'],
+            'total_price' => $validated['total_price'],
+            'original_currency_id' => $file->currency_id,
+            'base_currency_id' => $validated['base_currency_id'] ?? Currency::first(),
             'created_by' => Auth::id(),
             'file_id' => $file->id,
         ]);
 
         // Create the cost
-        // $fileCost = $file->costs()->create($validated);
+        $fileCost = $file->costs()->create($validated);
 
         return redirect()
             ->route('files.items.add', $file->id)

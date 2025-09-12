@@ -42,6 +42,7 @@ class FileCost extends Model
         'service_date',
         'notes',
         'created_by',
+        'original_currency',
     ];
 
     protected $casts = [
