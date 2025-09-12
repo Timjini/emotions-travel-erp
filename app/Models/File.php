@@ -131,4 +131,9 @@ class File extends Model
     {
         return $this->items->sum('total_price');
     }
+    
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class, 'file_id');
+    }
 }

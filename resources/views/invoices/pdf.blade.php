@@ -137,8 +137,11 @@
         </div>
     </div>
 
-    <div class="invoice-number">Proforma n°: {{$invoice->proforma->proforma_number}}</div>
-
+    <div class="invoice-number">
+        Proforma n°: {{$invoice->proforma->proforma_number}}
+        <br/>
+        Invoice n°: {{$invoice->proforma->invoice->invoice_number}}
+    </div>
 <table class="details">
     <tr>
         <th>File</th>
@@ -164,9 +167,9 @@
     </tr>
     @foreach ($invoice->items as $item)
     <tr>
-        <td>{{ $invoice->tax_rate ?? '0' }}</td>
+        <td>{{ $invoice->tax_rate ?? '-' }}</td>
         <td>{{ $item->service_name ?? 'NAN' }}</td>
-        <td>{{ $invoice->file->number_of_people ?? 'NAN' }}</td>
+        <td>{{ $item->quantity ?? 'NAN' }}</td>
         <td>{{ number_format($item->unit_price ) }} {{ $item->currency->code }}</td>
         <td>{{ number_format($item->total_price) }} {{ $item->currency->code }}</td>
     </tr>
@@ -178,7 +181,7 @@
             <p><strong>Payment Details</strong></p>
             <p>Bank: {{$company->setting->bank_name}}</p>
             <p>Iban: {{$company->setting->iban}}</p>
-            <p>Swift: {{$company->setting->swift}}</p>
+            <p>Swift: {{$company->setting->swift_code}}</p>
         </div>
 
         <div class="totals">

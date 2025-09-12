@@ -5,7 +5,8 @@
             <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                 <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <h3 class="text-lg font-medium mb-4">Add Cost to Item</h3>
-                    <form method="POST" action="{{ route('file-costs.store', $file) }}" x-data="{ loading: false }" @submit="loading = true">
+                    <span>Number of People : {{ ($file->number_of_people) }}</span>
+                    <form method="POST" class="py-4" action="{{ route('file-costs.store', $file) }}" x-data="{ loading: false }" @submit="loading = true">
                         @csrf
                         <input type="hidden" name="file_item_id" id="file_item_id" value="{{ $fileItem->id ?? '' }}">
                         <input type="hidden" name="original_currency" id="original_currency" value="{{ $file->currency->code ?? 'EUR' }}">
@@ -66,8 +67,7 @@
                             <!-- Number of People-->
                             
                             <div>
-                                <label for="number_of_people" class="block text-sm font-medium text-gray-700">Number of People</label>
-                                <input type="number" id="number_of_people" name="number_of_people" min="1" 
+                                <input type="hidden" id="number_of_people" name="number_of_people" min="1" 
                                        value="{{ ($file->number_of_people) }}"
                                        class="block w-full px-2 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             </div>
@@ -136,7 +136,7 @@
                             </div>
                         </div>
                     
-                        <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                        <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-1 sm:gap-3 sm:grid-flow-row-dense">
                             <x-loading-button label="Save Cost" />
 
                             <button type="button" onclick="hideCostModal()" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm">

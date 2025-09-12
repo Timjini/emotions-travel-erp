@@ -135,7 +135,7 @@
                     </div>
 
                     <!-- Invoice Items Section -->
-                    <div class="mt-8">
+                    <div class="mt-8 hidden">
                         <h4 class="text-sm font-medium text-gray-500 mb-4">Services</h4>
                         
                         <div id="items-container">
