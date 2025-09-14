@@ -7,10 +7,11 @@
                 <img 
                     src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : asset('/public/images/default-company-logo.png') }}"
                     alt="Logo"
-                    class="h-16 w-auto mx-auto md:mx-0"
+                    class="p-2 rounded-full h-16 w-auto mx-auto md:mx-0"
                 />
 
             </a>
+            <span class="truncate"> {{$company->name}} </span>
         </div>
         
         <!-- Navigation Menu -->
