@@ -2,7 +2,7 @@
     <!-- Desktop Sidebar -->
     <div class="flex flex-col w-64 border-r border-gray-200 bg-white">
         <!-- Logo -->
-        <div class="flex items-center h-16 px-4 border-b border-gray-200">
+        <div class="grid grid-cols-2 items-center h-16 px-4 border-b border-gray-200">
             <a href="{{ route('dashboard') }}" class="flex items-center">
                 <img 
                     src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : asset('/public/images/default-company-logo.png') }}"
