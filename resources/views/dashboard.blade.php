@@ -113,7 +113,7 @@
                     <a href="{{ route('files.create') }}" class="bg-blue-50 text-blue-500 rounded-lg p-4 font-medium hover:bg-blue-100">New Booking</a>
                     <a href="{{ route('customers.create') }}" class="bg-green-50 text-green-500 rounded-lg p-4 font-medium hover:bg-green-100">Add Client</a>
                     <a href="{{ route('suppliers.create') }}" class="bg-purple-50 text-purple-500 rounded-lg p-4 font-medium hover:bg-purple-100">Add Supplier</a>
-                    <button class="bg-orange-50 text-orange-500 rounded-lg p-4 font-medium hover:bg-orange-100">Create Invoice</button>
+                    <button class="hidden bg-orange-50 text-orange-500 rounded-lg p-4 font-medium hover:bg-orange-100">Create Invoice</button>
                 </div>
 
             </div>
