@@ -21,7 +21,7 @@
             <td class="px-6 py-4">{{ $file->end_date->format('Y-m-d') }}</td>
             <td class="px-6 py-4">{{ $file->owner->name ?? '-' }}</td>
             <td class="px-6 py-4">{{ $file->proformas->count() }}</td>
-            <td class="px-6 py-4">{{ $file->invoice->id }}</td>
+            <td class="px-6 py-4">{{ $file->invoice?->id }}</td>
         </tr>
         @empty
         <tr>

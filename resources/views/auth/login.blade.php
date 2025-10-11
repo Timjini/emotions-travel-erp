@@ -9,10 +9,10 @@
     <div class="w-full max-w-md  rounded-2xl p-10 space-y-8 border border-gray-100">
         <!-- Logo/Header -->
         <div class="text-center">
-            <div class="mx-auto w-14 h-14 flex items-center justify-center rounded-full bg-[#4DA8DA]/10 mb-3">
-                <svg class="w-7 h-7 text-[#4DA8DA]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 01-8 0m8 0a4 4 0 01-8 0m8 0v4a4 4 0 01-8 0v-4m8 0H8" />
-                </svg>
+            <div class="mx-auto  flex items-center justify-center ">
+                <a href="/">
+                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
+                </a>
             </div>
             <h1 class="text-2xl font-extrabold text-[#333333]">Welcome Back</h1>
             <p class="text-[#666666] mt-1 text-sm">Log in to continue to your account</p>

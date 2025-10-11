@@ -22,12 +22,12 @@ class ReportController extends Controller
         $companyId = Auth::user()->company_id;
 
         // Initial report (first page)
-        $initialReportData = File::with(['customer', 'owner', 'destination', 'proformas', 'invoices'])
+        $reportData = File::with(['customer', 'owner', 'destination', 'proformas', 'invoices'])
             ->where('company_id', $companyId)
             ->orderByDesc('start_date')
             ->paginate(25);
 
-        return view('reports.index', compact('initialReportData'));
+        return view('reports.index', compact('reportData'));
     }
 
     public function generate(Request $request)

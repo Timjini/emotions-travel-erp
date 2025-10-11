@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $suppliersCount = Supplier::count();
         $reservationsCount = Invoice::count();
 
-        // Sum total billed for all files
+        // get file sum
         $revenue = 0;
         $files = File::with(['items', 'costs', 'currency'])->get();
 
@@ -27,7 +27,7 @@ class DashboardController extends Controller
             $revenue += $calculator->totalBilled();
         }
 
-        // Get recent activities: last 5 models created or updated
+        // Invoice, File, FileItem, FileCost
         $recentInvoices = Invoice::with('file.customer')
             ->latest('updated_at')
             ->take(5)
@@ -48,14 +48,14 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        // Merge all recent activities into one collection and sort by latest
+        // merge all activities
         $recentActivities = collect()
             ->merge($recentInvoices)
             ->merge($recentFiles)
             ->merge($recentFileItems)
             ->merge($recentFileCosts)
             ->sortByDesc('updated_at')
-            ->take(10); // limit total displayed activities
+            ->take(10);
 
         return view('dashboard', compact(
             'clientsCount',
