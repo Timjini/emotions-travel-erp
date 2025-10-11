@@ -65,7 +65,6 @@
                                     <a href="{{ route('files.items.add', $file) }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">
                                         Manage Items
                                     </a>
-
                                     <!-- Create Invoice Button -->
                                     @if($file->proformas->isNotEmpty())
                                         <form method="POST" action="{{ route('proformas.convert-to-invoice', $file->proformas->first()) }}" role="none">

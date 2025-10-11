@@ -14,7 +14,7 @@
             <li class="text-gray-800 font-medium">Booking Files</li>
         </ol>
     </nav>
-
+    {{var_dump($financials)}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <!-- Header and Controls -->
         <div class="mb-8">
