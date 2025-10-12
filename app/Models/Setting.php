@@ -41,8 +41,8 @@ class Setting extends Model
         return $this->belongsTo(Company::class);
     }
 
-    //  public function currency(): BelongsTo
-    // {
-    //     return $this->belongsTo(Currency::class);
-    // }
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
 }

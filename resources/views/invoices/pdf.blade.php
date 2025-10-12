@@ -202,7 +202,7 @@
     <hr />
     <div class="footer">
         <div class="total-container">
-            <p>{{$company->name}}</p>
+            <p>{{$company->name ?? ''}}</p>
         </div>
 
         <div class="total-container">

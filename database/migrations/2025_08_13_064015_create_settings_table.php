@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('settings', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('company_id')->nullable();
+            $table->uuid('currency_id')->nullable();
 
             // Financial/Banking
             $table->string('iban')->nullable();
@@ -32,6 +33,7 @@ return new class extends Migration
             $table->integer('invoice_start_number')->default(1);
             $table->integer('invoice_due_days')->default(30);
             $table->string('invoice_currency')->default('EUR');
+            $table->foreign('currency_id')->references('id')->on('currencies')->nullOnDelete();
 
             // Additional contact
             $table->string('contact_person')->nullable();

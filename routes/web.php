@@ -12,6 +12,7 @@ use App\Http\Controllers\Payment\InvoiceController;
 use App\Http\Controllers\Payment\ProformaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
+use App\Http\Controllers\Report\AnalyticsController;
 use App\Http\Controllers\Report\ReportController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserSettingController;
@@ -181,6 +182,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
      Route::prefix('reports')->group(function () {
         Route::get('/', [ReportController::class, 'index'])->name('reports.index');
         Route::post('/', [ReportController::class, 'generate'])->name('reports.generate');
+        Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
      });
 });
 

@@ -136,4 +136,9 @@ class File extends Model
     {
         return $this->hasMany(Invoice::class, 'file_id');
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class, 'company_id');
+    }
 }

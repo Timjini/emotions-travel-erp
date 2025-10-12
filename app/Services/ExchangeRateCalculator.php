@@ -100,7 +100,7 @@ class ExchangeRateCalculator
     /**
      * Get fallback rate from config with validation
      */
-    private function getFallbackRate($currency)
+    public function getFallbackRate($currency)
     {
         $fallbackRates = [
             'MAD' => [

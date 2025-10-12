@@ -41,7 +41,7 @@
 
                                     <div>
                                         <x-input-label for="invoice_currency" :value="__('Invoice Currency')" />
-                                        <select id="invoice_currency" name="invoice_currency" class="rounded bg-gray-50 border text-gray-900 flex-1 min-w-0 text-sm border-gray-300 p-2.5 mt-1 block w-full">
+                                        <select id="invoice_currency" name="invoice_currency" class=" bg-gray-50 border text-gray-900  flex-1 min-w-0  text-sm border-gray-300 p-2.5  px-4 py-2 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:border-transparent transition mt-1 block w-full">
                                             <option value="EUR" {{ old('invoice_currency', $settings->invoice_currency) == 'EUR' ? 'selected' : '' }}>EUR - Euro</option>
                                             <option value="USD" {{ old('invoice_currency', $settings->invoice_currency) == 'USD' ? 'selected' : '' }}>USD - US Dollar</option>
                                             <option value="GBP" {{ old('invoice_currency', $settings->invoice_currency) == 'GBP' ? 'selected' : '' }}>GBP - British Pound</option>

@@ -31,4 +31,5 @@ return [
     'credit_notes' => 'Credit Notes',
     'destinations' => 'destinations',
     'currencies' => 'currencies',
+    'Analytics' => 'analytics',
 ];

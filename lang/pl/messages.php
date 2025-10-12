@@ -30,5 +30,5 @@ return [
     'destinations' => 'miejsca docelowe',
     'currencies' => 'waluty',
     'system' => 'system',
-
+    'Analytics' => 'analytics',
 ];

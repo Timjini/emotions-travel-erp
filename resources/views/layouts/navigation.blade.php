@@ -11,7 +11,7 @@
                 />
 
             </a>
-            <span class="truncate"> {{$company->name}} </span>
+            <span class="truncate"> {{$company->name ?? ''}} </span>
         </div>
         
         <!-- Navigation Menu -->
