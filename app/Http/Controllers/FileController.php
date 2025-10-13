@@ -17,6 +17,13 @@ use Illuminate\View\View;
 
 class FileController extends Controller
 {
+
+    protected StatsService $stats;
+
+    public function __construct(StatsService $stats)
+    {
+        $this->stats = $stats;
+    }
     /**
      * Display the files.
      */
@@ -85,18 +92,17 @@ class FileController extends Controller
             ->appends($request->query());
 
         // financial data
-        $statsService = new StatsService();
-        $stats = $statsService->FileStats();
+        $data = $this->stats->FileStats();
     
         $allFiles = File::with(['items', 'costs'])->get();
-        $financials = $statsService->CalculateFinances($allFiles);
+        $financials = $this->stats->calculateFinances($allFiles);
         
         // Get all programs for filter dropdown
         $programs = Program::orderBy('name')->get();
 
         return view('files.index', [
             'files' => $files,
-            'stats' => $stats,
+            'stats' => $data,
             'financials' => $financials,
             'programs' => $programs,
             'sortField' => $sortField,

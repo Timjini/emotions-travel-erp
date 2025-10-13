@@ -33,7 +33,7 @@ class Setting extends Model
         'preferred_language', 'timezone', 'date_format', 'financial_year_start',
         'invoice_prefix', 'invoice_start_number', 'invoice_due_days', 'invoice_currency',
         'contact_person', 'phone_2', 'website', 'district',
-        'notes', 'source',
+        'notes', 'source','currency_id',
     ];
 
     public function company()

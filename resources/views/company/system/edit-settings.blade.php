@@ -49,6 +49,9 @@
                                         <input type="hidden" name="invoice_currency" id="invoice_currency" value="{{old('invoice_currency', $settings->invoice_currency ?? '')}}" />
                                         <x-input-error class="mt-2" :messages="$errors->get('invoice_currency')" />
                                     </div>
+                                    <x-currency-select 
+                                        :currencies="$currencies" 
+                                    />
                                 </div>
                             </div>
 

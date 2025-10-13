@@ -79,6 +79,7 @@ class SystemController extends Controller
             'post_code' => 'required|string',
             'country' => 'required|string',
             'vat_number' => 'required|string',
+            'currency_id' => 'nullable|exists:currencies,id',
         ]);
 
         $fileUploadService = new FileUploadService;
@@ -119,7 +120,7 @@ class SystemController extends Controller
             $this->defaultSettings($company)
         );
 
-        return view('company.system.edit-settings', compact('settings'));
+        return view('company.system.edit-settings', compact('settings'), ['currencies' => Currency::all()]);
     }
 
     /**
@@ -146,6 +147,7 @@ class SystemController extends Controller
             'timezone' => 'required|timezone',
             'date_format' => 'required|string',
             'financial_year_start' => 'required|date_format:m-d',
+            'currency_id' => 'nullable|exists:currencies,id',
         ]);
 
         $settings->update($validated);

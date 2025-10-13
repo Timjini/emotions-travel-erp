@@ -90,18 +90,18 @@
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div class="border rounded-lg p-4">
             <p class="text-sm font-medium text-gray-500">Total Billed</p>
-            <p class="text-2xl font-semibold">{{ number_format($financials['total_billed'], 2) }} {{ config('app.currency') }}</p>
+            <p class="text-2xl font-semibold">{{ number_format($financials['total_billed'], 2) }} {{$financials['company_currency']}}</p>
         </div>
 
         <div class="border rounded-lg p-4">
             <p class="text-sm font-medium text-gray-500">Total Costs</p>
-            <p class="text-2xl font-semibold">{{ number_format($financials['total_costs'], 2) }} {{ config('app.currency') }}</p>
+            <p class="text-2xl font-semibold">{{ number_format($financials['total_costs'], 2) }} {{$financials['company_currency']}}</p>
         </div>
 
         <div class="border rounded-lg p-4">
             <p class="text-sm font-medium text-gray-500">Gross Profit</p>
             <p class="text-2xl font-semibold {{ $financials['profit'] >= 0 ? 'text-green-600' : 'text-red-600' }}">
-                {{ number_format($financials['profit'], 2) }} {{ config('app.currency') }}
+                {{ number_format($financials['profit'], 2) }} {{$financials['company_currency']}}
             </p>
         </div>
 
@@ -114,7 +114,16 @@
     </div>
 
     <!-- Cost Breakdown Chart -->
-    <div class="mt-6">
+    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-lg border flex items-center justify-center h-64">
+            <span class="text-gray-400 text-lg font-semibold">Cost Breakdown Graph Coming Soon</span>
+        </div>
+        <div class="bg-white p-6 rounded-lg border flex items-center justify-center h-64">
+            <span class="text-gray-400 text-lg font-semibold">Payment Status Graph Coming Soon</span>
+        </div>
+    </div>
+    
+    <div class="mt-6 hidden">
         <h3 class="text-md font-medium text-gray-700 mb-3">Cost Breakdown</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="bg-white p-4 rounded-lg border">

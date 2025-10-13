@@ -227,7 +227,7 @@
                                     <i class="fas fa-chart-line text-green-600"></i>
                                 </div>
                             </div>
-                            <p class="text-2xl font-bold text-green-600">{{ number_format($financials['profit'], 2) }} {{ config('app.currency') }}</p>
+                            <p class="text-2xl font-bold text-green-600">{{ number_format($financials['profit'], 2) }} {{$financials['company_currency']}}</p>
                             <div class="mt-2 flex items-center">
                                 <span class="text-xs font-medium text-green-600">+12.5% from last month</span>
                             </div>

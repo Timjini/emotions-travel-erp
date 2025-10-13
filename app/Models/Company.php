@@ -39,6 +39,7 @@ class Company extends Model
 
         // Business information
         'vat_number',
+        'currency_id',
 
         // Financial information
         'iban',
@@ -70,6 +71,11 @@ class Company extends Model
     public function setting()
     {
         return $this->hasOne(Setting::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class, 'base_currency_id');
     }
 
 }

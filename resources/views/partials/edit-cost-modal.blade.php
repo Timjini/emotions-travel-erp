@@ -68,9 +68,9 @@
 
                         <!-- Unit Price -->
                         <div>
-                            <label for="edit_unit_price" class="block text-sm font-medium text-gray-700">Unit Price</label>
+                            <label for="edit_unit_price" class="block text-sm font-medium text-gray-700">Unit Price "{{$cost->baseCurrency->code}}"</label>
                             <input type="number" id="edit_unit_price" name="unit_price" step="0.01" min="0" required
-                                value="{{ old('unit_price', $cost->unit_price) }}"
+                                value="{{ old('unit_price', $cost->unit_price) }} "
                                 class="block w-full px-2 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                         </div>
 

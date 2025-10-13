@@ -9,16 +9,22 @@ use App\Services\Reports\StatsService;
 class AnalyticsController extends Controller
 {
 
+    protected StatsService $stats;
+
+    public function __construct(StatsService $stats)
+    {
+        $this->stats = $stats;
+    }
+
     public function index()
     {
-        $statsService = new StatsService();
-        $stats = $statsService->FileStats();
+        $data = $this->stats->FileStats();
 
         $allFiles = File::with(['items', 'costs'])->get();
-        $financials = $statsService->CalculateFinances($allFiles);
+        $financials = $this->stats->CalculateFinances($allFiles);
 
         return view('reports.analytics.index', [
-            'stats' => $stats,
+            'stats' => $data,
             'financials' => $financials,
         ]);
     }

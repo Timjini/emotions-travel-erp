@@ -171,7 +171,7 @@
             </div>
 
             <!-- Cost Breakdown -->
-            <div class="bg-white p-6 rounded-lg shadow mb-6">
+            <div class="bg-white p-6 rounded-lg shadow mb-6 hidden">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-lg font-semibold text-gray-900">Cost Breakdown</h2>
                     <div class="flex items-center space-x-2">
@@ -198,7 +198,7 @@
                 </div>
                 
                 <!-- Cost Breakdown Chart -->
-                <div class="mt-6">
+                <div class="mt-6 hidden">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="bg-white p-4 rounded-lg border">
                             <canvas id="costBreakdownChart" height="250"></canvas>

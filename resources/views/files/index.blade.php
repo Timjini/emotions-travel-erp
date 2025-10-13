@@ -166,7 +166,7 @@
                                     </svg>
                                 </div>
                             </th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th scope="col" class="hidden px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Financials
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onclick="sortBy('status')">
@@ -221,31 +221,31 @@
                                     {{ $file->start_date->diffInDays($file->end_date) }} days
                                 </div>
                             </td>
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-4 hidden">
                                 <div class="text-sm">
                                     <div class="flex justify-between">
                                         <span class="text-gray-500">Billed:</span>
                                         <span class="font-medium">
-                                            {{ number_format($file->items_sum_total_price ?? 0, 2) }}
-                                            {{ optional($file->currency)->code ?? '' }}
+                                            {{ number_format($financials['total_billed']) }}
+                                            {{ $financials['company_currency'] ?? '' }}
                                         </span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-gray-500">Costs:</span>
                                         <span class="font-medium">
-                                            {{ number_format($file->costs_sum_total_price ?? 0, 2) }}
-                                            {{ optional($file->currency)->code ?? '' }}
+                                            {{ number_format($financials['total_costs'] ?? 0, 2) }}
+                                            {{ $financials['company_currency'] ?? '' }}
                                         </span>
                                     </div>
                                     <div class="flex justify-between">
                                         <span class="text-gray-500">Profit:</span>
                                         @php
-                                        $profit = ($file->items_sum_total_price ?? 0) - ($file->costs_sum_total_price ?? 0);
+                                        $profit = $financials['profit'];
                                         $textColor = $profit >= 0 ? 'text-green-600' : 'text-red-600';
                                         @endphp
                                         <span class="font-medium {{ $textColor }}">
-                                            {{ number_format($profit, 2) }}
-                                            {{ optional($file->currency)->code ?? '' }}
+                                            {{ number_format($financials['profit'], 2) }}
+                                            {{ $financials['company_currency'] ?? '' }}
                                         </span>
                                     </div>
                                 </div>

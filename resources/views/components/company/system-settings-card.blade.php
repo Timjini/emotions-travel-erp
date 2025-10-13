@@ -41,6 +41,11 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-500">Default Currency</p>
+                <p class="text-sm text-gray-900">{{ $settings->currency->code }}</p>
+            </div>
+
+            <div>
+                <p class="text-sm font-medium text-gray-500">Invoice Currency</p>
                 <p class="text-sm text-gray-900">{{ $settings->invoice_currency }}</p>
             </div>
 
