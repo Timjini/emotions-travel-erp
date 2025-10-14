@@ -1,14 +1,25 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight capitalize">
-            Proformas
-        </h2>
-    </x-slot>
+     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+                <a href="{{ route('dashboard') }}" class="hover:text-blue-600">Dashboard</a>
+            </li>
+            <li>
+                <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l6 6a1 1 0 010 1.414l-6 6A1 1 0 0110 17V3z" clip-rule="evenodd"></path>
+                </svg>
+            </li>
+            <li class="text-gray-800 font-medium">Proformas</li>
+        </ol>
+    </nav>
 
-    <div class="max-w-6xl px-4 sm:px-6 lg:px-8 py-6">
+     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div class="mb-4 flex justify-between items-center">
             <div class="flex-1">
-               
+               <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Proforma Management</h1>
+                    <p class="text-sm text-gray-500 mt-1">Manage all pre booking profoma files</p>
+                </div>
             </div>
             @can('create', App\Models\Proforma::class)
             <x-link-button :href="route('proformas.create')" class="ml-4">

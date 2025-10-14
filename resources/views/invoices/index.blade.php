@@ -1,11 +1,5 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight capitalize">
-            Invoices
-        </h2>
-    </x-slot>
-
-    <nav class="max-w-3xl sm:px-6 lg:px-8" aria-label="Breadcrumb">  
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2 text-sm text-gray-500">
             <li>
                 <a href="{{ route('dashboard') }}" class="hover:text-blue-600">Dashboard</a>
@@ -15,16 +9,17 @@
                     <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l6 6a1 1 0 010 1.414l-6 6A1 1 0 0110 17V3z" clip-rule="evenodd"></path>
                 </svg>
             </li>
-            <li>
-                <a href="{{ route('invoices.index') }}" class="hover:text-blue-600">Invoices</a>
-            </li>
+            <li class="text-gray-800 font-medium">Invoices</li>
         </ol>
     </nav>
 
-    <div class="max-w-8xl px-4 sm:px-6 lg:px-8 py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div class="mb-4 flex justify-between items-center">
             <div class="flex-1">
-                
+                 <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Invoices Managment</h1>
+                    <p class="text-sm text-gray-500 mt-1">Process bookings and files payments.</p>
+                </div>
             </div>
             @can('create', App\Models\Invoice::class)
             <x-link-button :href="route('invoices.create')" class="ml-4">

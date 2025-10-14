@@ -1,11 +1,6 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight capitalize">
-            {{ __('messages.suppliers') }}
-        </h2>
-    </x-slot>
      <!-- Breadcrumbs -->
-        <nav class="max-w-3xl sm:px-6 lg:px-8" aria-label="Breadcrumb">  
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3" aria-label="Breadcrumb"> 
             <ol class="flex items-center space-x-2 text-sm text-gray-500">
                 <li>
                     <a href="{{ route('dashboard') }}" class="hover:text-blue-600">Dashboard</a>
@@ -18,28 +13,39 @@
                 <li class="text-gray-800 font-medium">suppliers</li>
             </ol>
         </nav>
-    <div class="max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
 
         <div>
             <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-bold">suppliers List</h1>
+                  <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Suppliers List</h1>
+                    <p class="text-sm text-gray-500 mt-1"></p>
+                </div>
                 <x-link-button :href="route('suppliers.create')">
                     Add New supplier
                 </x-link-button>
             </div>
-             <h1 class="text-md text-gray-500">Search</h1>
+             <form method="GET" action="{{ route('suppliers.index') }}" class="mb-6" x-data="{ loading: false }" @submit="loading = true">
+            <div class="flex flex-col md:flex-row gap-3">
+                <div class="relative flex-1">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input
+                        type="text" 
+                        name="search" 
+                        value="{{ request('search') }}" 
+                        placeholder="Search by name or email..." 
+                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div>
+                    <x-loading-button label=" {{ __('Search') }}" />
+                </div>
+            </div>
+        </form>
 
-            <!-- Search Bar -->
-            <form method="GET" action="{{ route('suppliers.index') }}" class="mb-4 flex items-center gap-2">
-                <input 
-                    type="text" 
-                    name="search" 
-                    value="{{ request('search') }}" 
-                    placeholder="Search by name or email..." 
-                    class="border rounded px-3 py-2 w-full max-w-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-                >
-                <x-primary-button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Search</x-primary-button>
-            </form>
         </div>
 
 

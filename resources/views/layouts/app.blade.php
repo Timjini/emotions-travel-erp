@@ -50,9 +50,13 @@
 
 
 
-    <div class="flex flex-col md:flex-row h-screen">
+    <div class="flex flex-col md:flex-row h-screen bg-gradient-to-br from-white via-[#f5f7fa] to-[#e6ecf5] relative overflow-hidden">
+            <!-- Futuristic subtle elements -->
+            <div class="absolute top-20 left-20 w-72 h-72 bg-gradient-to-r from-[#c4d7ff]/40 to-[#ffffff]/0 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 right-32 w-96 h-96 bg-gradient-to-l from-[#d4f1ff]/50 to-[#ffffff]/0 rounded-full blur-3xl"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.2),transparent_70%)]"></div>
         @include('layouts.navigation')
-        <div class="flex-1 p-4 overflow-auto bg-gray-100">
+        <div class="z-10 flex-1 p-4 overflow-auto">
             <!-- Page Heading -->
             @isset($header)
             <header class="mt-4 p-1">
