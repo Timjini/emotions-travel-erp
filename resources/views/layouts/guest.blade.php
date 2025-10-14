@@ -15,6 +15,23 @@
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
+        @if(session('success'))
+        <x-flash type="success"
+            :title="session('success-title', 'Success')"
+            :message="session('success')" />
+        @endif
+    
+        @if(session('error'))
+        <x-flash type="error"
+            :title="session('error-title', 'Error')"
+            :message="session('error')" />
+        @endif
+        
+        @if ($errors->any())
+        <x-flash type="error"
+            title="Validation Error"
+            :message="$errors->all()" />
+        @endif
         <div class="flex items-center justify-center h-screen bg-gradient-to-br from-white via-[#f5f7fa] to-[#e6ecf5] relative overflow-hidden">
             <!-- Futuristic subtle elements -->
             <div class="absolute top-20 left-20 w-72 h-72 bg-gradient-to-r from-[#c4d7ff]/40 to-[#ffffff]/0 rounded-full blur-3xl"></div>
@@ -24,5 +41,21 @@
                 {{ $slot }}
             </div>
         </div>
+
+        <script>
+            document.addEventListener('livewire:init', () => {
+                Livewire.on('closeModal', () => {
+                    // This will close any modal by resetting the selectedItemId
+                    Livewire.emit('resetSelectedItemId');
+                });
+                
+                Livewire.on('costAdded', () => {
+                    // Refresh the items table
+                    Livewire.emit('refresh');
+                });
+            });
+        
+        </script>
+            @livewire('livewire-ui-modal')
     </body>
 </html>

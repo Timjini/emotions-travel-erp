@@ -18,7 +18,7 @@
             <p class="text-[#666666] mt-1 text-sm">Log in to continue to your account</p>
         </div>
 
-        <form method="POST" action="{{ route('login') }}" class="space-y-6">
+        <form method="POST" action="{{ route('login') }}" class="space-y-6" x-data="{ loading: false }" @submit="loading = true">
             @csrf
 
             <!-- Email Field -->
@@ -69,10 +69,8 @@
                 @endif
             </div>
 
-            <!-- Submit Button -->
-            <x-primary-button class="w-full justify-center bg-gradient-to-r from-[#4DA8DA] to-[#3a8cc4] hover:from-[#3a8cc4] hover:to-[#3378a6] text-white font-semibold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-[#4DA8DA] focus:ring-opacity-70">
-                {{ __('Log in') }}
-            </x-primary-button>
+            <x-loading-button label="Login" customClass="w-full" />
+
         </form>
     </div>
 </x-guest-layout>
