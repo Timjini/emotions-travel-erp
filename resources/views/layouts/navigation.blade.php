@@ -9,7 +9,7 @@
         <div class="grid grid-cols-2 items-center h-16 px-4 border-b border-gray-200">
             <a href="{{ route('dashboard') }}" class="flex items-center">
                 <img 
-                    src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : asset('/public/images/default-company-logo.png') }}"
+                    src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : 'https://pub-56989421c96a4a83a6c1e963a31939e6.r2.dev/emotions-travel/emotions-travel-and-events-logo.jpeg' }}"
                     alt="Logo"
                     class="p-2 rounded-full h-16 w-auto mx-auto md:mx-0"
                 />
@@ -95,8 +95,8 @@
 </div>
 
 <!-- Mobile Navigation -->
-<div class="md:hidden">
-    <nav x-data="{ open: false }" class="bg-white border-b border-gray-200">
+<div class="md:hidden z-10">
+    <nav x-data="{ open: false }" class="bg-white border-b border-gray-200 ">
         <div class="px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
@@ -107,7 +107,10 @@
                     </button>
                     <div class="ml-4">
                         <a href="{{ route('dashboard') }}" class="flex items-center">
-                            <x-application-logo class="block h-8 w-auto text-gray-900" />
+                            <img 
+                             class="p-2 rounded-full h-16 w-auto mx-auto md:mx-0"
+                                                src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : 'https://pub-56989421c96a4a83a6c1e963a31939e6.r2.dev/emotions-travel/emotions-travel-and-events-logo.jpeg' }}"
+                            />
                         </a>
                     </div>
                 </div>
