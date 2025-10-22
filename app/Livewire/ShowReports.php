@@ -83,28 +83,29 @@ class ShowReports extends Component
     private function getFilesData($companyId, $startDate, $endDate)
     {
         $query = DB::table('files')
-            ->select([
-                'files.id',
-                'files.reference as number',
-                'files.start_date',
-                'files.created_at',
-                'files.id as file_id',
-                'files.customer_id',
-                'files.destination_id',
-                DB::raw("'file' as report_type"),
-                DB::raw("NULL as invoice_number"),
-                DB::raw("NULL as proforma_number"),
-                DB::raw("NULL as issue_date")
-            ])
-            ->where('files.company_id', $companyId)
-            ->when($startDate, function ($query) use ($startDate) {
-                $query->whereDate('files.start_date', '>=', $startDate);
-            })
-            ->when($endDate, function ($query) use ($endDate) {
-                $query->whereDate('files.start_date', '<=', $endDate);
-            });
+        ->join('customers', 'customers.id', '=', 'files.customer_id')
+        ->join('destinations', 'destinations.id', '=', 'files.destination_id')
+        ->select([
+            'files.id',
+            'files.reference as number',
+            'files.start_date',
+            'files.created_at',
+            'files.id as file_id',
+            'files.customer_id',
+            'customers.name as customer_name',
+            'customers.email as customer_email',
+            'files.destination_id',
+            'destinations.name as destination_name',
+            DB::raw("'file' as report_type"),
+            DB::raw("NULL as invoice_number"),
+            DB::raw("NULL as proforma_number"),
+            DB::raw("NULL as issue_date")
+        ])
+        ->where('files.company_id', $companyId)
+        ->when($startDate, fn($q) => $q->whereDate('files.start_date', '>=', $startDate))
+        ->when($endDate, fn($q) => $q->whereDate('files.start_date', '<=', $endDate));
 
-        return $this->applyOrderBy($query)->paginate(25);
+         return $this->applyOrderBy($query)->paginate(25);
     }
 
     private function getProformasData($companyId, $startDate, $endDate)
@@ -134,19 +135,37 @@ class ShowReports extends Component
 
     private function applyOrderBy($query)
     {
+        switch ($this->document_type) {
+            case 'files':
+                $dateExpr = 'COALESCE(files.start_date, files.created_at)';
+                $table = 'files';
+                break;
+    
+            case 'proformas':
+                $dateExpr = 'COALESCE(proformas.issue_date, proformas.created_at)';
+                $table = 'proformas';
+                break;
+    
+            case 'invoices':
+            default:
+                $dateExpr = 'COALESCE(invoices.issue_date, invoices.created_at)';
+                $table = 'invoices';
+                break;
+        }
+    
         switch ($this->order_by) {
             case 'date_asc':
-                return $query->orderByRaw('COALESCE(issue_date, start_date, created_at) ASC');
-
+                return $query->orderByRaw("$dateExpr ASC");
+    
             case 'total_desc':
-                return $query->orderBy('total', 'DESC');
-
+                return $query->orderBy("{$table}.total", 'DESC');
+    
             case 'total_asc':
-                return $query->orderBy('total', 'ASC');
-
+                return $query->orderBy("{$table}.total", 'ASC');
+    
             case 'date_desc':
             default:
-                return $query->orderByRaw('COALESCE(issue_date, start_date, created_at) DESC');
+                return $query->orderByRaw("$dateExpr DESC");
         }
     }
 

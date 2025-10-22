@@ -9,6 +9,7 @@ enum SupplierCategory: string
     case AGENCY = 'agency';
     case INDIVIDUAL = 'individual';
     case CORPORATE = 'corporate';
+    case TOUR_OPERATOR = 'tour operator';
 
     public static function values(): array
     {
@@ -23,6 +24,7 @@ enum SupplierCategory: string
             self::AGENCY => 'Agency',
             self::INDIVIDUAL => 'Individual',
             self::CORPORATE => 'Corporate',
+            self::TOUR_OPERATOR => 'Tour Operator',
         };
     }
 }

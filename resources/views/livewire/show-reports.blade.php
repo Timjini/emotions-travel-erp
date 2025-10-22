@@ -70,7 +70,6 @@
     <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
             <tr>
-                <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Number</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                 <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
@@ -83,9 +82,6 @@
         <tbody class="bg-white divide-y divide-gray-200">
             @forelse ($reportData as $item)
                 <tr class="hover:bg-gray-50 transition-colors duration-150">
-                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {{ $item->id }}
-                    </td>
                     <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
                         {{ $item->number }}
                     </td>
@@ -106,7 +102,9 @@
                         {{ \Carbon\Carbon::parse($item->issue_date ?? $item->start_date ?? $item->created_at)->format('M d, Y') }}
                     </td>
                     <td class="px-4 py-4 text-sm text-gray-900">
-                        {{ $item->customer->name ?? '-' }}
+                        <a href="{{ route('customers.show', $item->customer_id)}}">
+                            {{ $item->customer_email ?? '-' }}
+                        </a>
                     </td>
                     <td class="px-4 py-4 text-sm text-gray-900">
                         {{ $item->owner->name ?? '-' }}
