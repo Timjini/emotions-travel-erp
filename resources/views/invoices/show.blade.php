@@ -213,7 +213,7 @@
                                     <i class="fas fa-money-bill-wave text-red-600"></i>
                                 </div>
                             </div>
-                            <p class="text-2xl font-bold text-gray-900">{{ number_format($financials['total_costs'], 2) }} {{ config('app.currency') }}</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ number_format($financials['total_costs'], 2) }} {{ $financials['company_currency'] }}</p>
                             <div class="mt-2 flex items-center">
                                 <span class="text-xs font-medium text-gray-500">Operational & service costs</span>
                             </div>

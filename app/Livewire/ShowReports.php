@@ -58,45 +58,56 @@ class ShowReports extends Component
     private function getInvoicesData($companyId, $startDate, $endDate)
     {
         $query = DB::table('invoices')
+            ->leftJoin('files', 'invoices.file_id', '=', 'files.id')
+            ->leftJoin('customers', 'customers.id', '=', 'files.customer_id')
+            ->leftJoin('destinations', 'destinations.id', '=', 'files.destination_id')
+            ->leftJoin('currencies', 'currencies.id', '=', 'invoices.currency_id')
             ->select([
-                'invoices.id',
-                'invoices.invoice_number as number',
+                'invoices.id AS item_id',
+                'invoices.invoice_number AS number',
                 'invoices.issue_date',
                 'invoices.created_at',
                 'invoices.file_id',
-                DB::raw("'invoice' as report_type"),
-                DB::raw("NULL as file_number"),
-                DB::raw("NULL as proforma_number"),
-                DB::raw("NULL as start_date")
+                'invoices.total_amount AS total_amount',
+                'customers.id AS customer_id',
+                'customers.name AS customer_name',
+                'customers.email AS customer_email',
+                'destinations.name AS destination_name',
+                'currencies.symbol AS currency_symbol',
+                DB::raw("'invoices' AS report_type"),
+                DB::raw("NULL AS file_number"),
+                DB::raw("NULL AS proforma_number"),
+                DB::raw("NULL AS start_date")
             ])
             ->where('invoices.company_id', $companyId)
-            ->when($startDate, function ($query) use ($startDate) {
-                $query->whereDate('invoices.issue_date', '>=', $startDate);
-            })
-            ->when($endDate, function ($query) use ($endDate) {
-                $query->whereDate('invoices.issue_date', '<=', $endDate);
-            });
-
+            ->when($startDate, fn($q) => $q->whereDate('invoices.issue_date', '>=', $startDate))
+            ->when($endDate, fn($q) => $q->whereDate('invoices.issue_date', '<=', $endDate));
+    
         return $this->applyOrderBy($query)->paginate(25);
     }
+
 
     private function getFilesData($companyId, $startDate, $endDate)
     {
         $query = DB::table('files')
         ->join('customers', 'customers.id', '=', 'files.customer_id')
         ->join('destinations', 'destinations.id', '=', 'files.destination_id')
+        ->join('currencies', 'currencies.id', '=', 'files.currency_id')
+        ->join('invoices', 'invoices.file_id', '=', 'files.id')
         ->select([
-            'files.id',
+            'files.id AS item_id',
             'files.reference as number',
             'files.start_date',
             'files.created_at',
             'files.id as file_id',
             'files.customer_id',
+            'invoices.total_amount AS total_amount',
             'customers.name as customer_name',
             'customers.email as customer_email',
             'files.destination_id',
             'destinations.name as destination_name',
-            DB::raw("'file' as report_type"),
+            'currencies.symbol AS currency_symbol',
+            DB::raw("'files' as report_type"),
             DB::raw("NULL as invoice_number"),
             DB::raw("NULL as proforma_number"),
             DB::raw("NULL as issue_date")
@@ -111,13 +122,24 @@ class ShowReports extends Component
     private function getProformasData($companyId, $startDate, $endDate)
     {
         $query = DB::table('proformas')
+            ->join('files', 'files.id', '=', 'proformas.file_id')
+            ->join('customers', 'customers.id', '=', 'files.customer_id')
+            ->join('destinations', 'destinations.id', '=', 'files.destination_id')
+            ->join('currencies', 'currencies.id', '=', 'files.currency_id')
             ->select([
-                'proformas.id',
+                'proformas.id AS item_id',
                 'proformas.proforma_number as number',
                 'proformas.issue_date',
                 'proformas.created_at',
                 'proformas.file_id',
-                DB::raw("'proforma' as report_type"),
+                'proformas.total_amount AS total_amount',
+                'customers.id AS customer_id',
+                'customers.name as customer_name',
+                'customers.email as customer_email',
+                'files.destination_id',
+                'destinations.name as destination_name',
+                'currencies.symbol as currency_symbol',
+                DB::raw("'proformas' as report_type"),
                 DB::raw("NULL as invoice_number"),
                 DB::raw("NULL as file_number"),
                 DB::raw("NULL as start_date")

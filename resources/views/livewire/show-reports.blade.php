@@ -83,7 +83,9 @@
             @forelse ($reportData as $item)
                 <tr class="hover:bg-gray-50 transition-colors duration-150">
                     <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                        {{ $item->number }}
+                        <a href="{{ route($item->report_type . '.show', $item->item_id)}}">
+                            {{ $item->number }}
+                        </a>
                     </td>
                     <td class="px-4 py-4 whitespace-nowrap">
                         @php
@@ -110,15 +112,13 @@
                         {{ $item->owner->name ?? '-' }}
                     </td>
                     <td class="px-4 py-4 text-sm text-gray-900">
-                        {{ $item->destination->name ?? '-' }}
+                        {{ $item->destination_name ?? '-' }}
                     </td>
-                    <td class="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                        {{-- @if($item->profit || $item->total)
-                            ${{ number_format($item->profit ?? $item->total, 2) }}
-                        @else
-                            -
-                        @endif --}}
+                    
+                    <td class="px-4 py-4 text-sm text-gray-900">
+                       {{$item->currency_symbol}} {{ number_format($item->total_amount, 2) ?? '-' }}
                     </td>
+            
                 </tr>
             @empty
                 <tr>

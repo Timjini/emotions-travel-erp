@@ -126,7 +126,7 @@
     <div class="header">
         <div class="logo">
             <img
-                src="/public/images/emotions-travel.png"
+                src="https://pub-56989421c96a4a83a6c1e963a31939e6.r2.dev/emotions-travel/emotions-morocco-logo%20(1).webp"
                 class="logo_image" />
         </div>
         <div class="address">

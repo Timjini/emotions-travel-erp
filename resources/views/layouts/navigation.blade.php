@@ -9,7 +9,7 @@
         <div class="grid grid-cols-2 items-center h-16 px-4 border-b border-gray-200">
             <a href="{{ route('dashboard') }}" class="flex items-center z-10">
                 <img 
-                    src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : 'https://pub-56989421c96a4a83a6c1e963a31939e6.r2.dev/emotions-travel/emotions-travel-and-events-logo.jpeg' }}"
+                    src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : 'https://pub-56989421c96a4a83a6c1e963a31939e6.r2.dev/emotions-travel/emotions-morocco-logo%20(1).webp' }}"
                     alt="Logo"
                     class="p-2 rounded-full h-16 w-auto mx-auto md:mx-0"
                 />
@@ -109,7 +109,7 @@
                         <a href="{{ route('dashboard') }}" class="flex items-center">
                             <img 
                              class="p-2 rounded-full h-16 w-auto mx-auto md:mx-0"
-                                                src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : 'https://pub-56989421c96a4a83a6c1e963a31939e6.r2.dev/emotions-travel/emotions-travel-and-events-logo.jpeg' }}"
+                                                src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : 'https://pub-56989421c96a4a83a6c1e963a31939e6.r2.dev/emotions-travel/emotions-morocco-logo%20(1).webp' }}"
                             />
                         </a>
                     </div>
