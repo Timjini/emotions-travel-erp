@@ -25,7 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         \App\Models\Proforma::observe(\App\Observers\ProformaObserver::class);
-        Log::info('App Service Provider');
         View::composer('*', function ($view) {
             $user = Auth::user();
             $company = $user && $user->company_id ? $user->company : null;

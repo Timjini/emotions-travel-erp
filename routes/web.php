@@ -72,6 +72,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{customer}/edit', 'edit')->name('customers.edit');
         Route::put('/{customer}', 'update')->name('customers.update');
         Route::delete('/{customer}', 'destroy')->name('customers.destroy');
+        Route::post('/bulk-upload', 'bulkUpload')->name('customers.bulkUpload');
     });
 
     Route::prefix('crm/suppliers')->controller(SupplierController::class)->group(function () {
@@ -82,6 +83,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{supplier}/edit', 'edit')->name('suppliers.edit');
         Route::put('/{supplier}', 'update')->name('suppliers.update');
         Route::delete('/{supplier}', 'destroy')->name('suppliers.destroy');
+        Route::post('/bulk-upload', 'bulkUpload')->name('suppliers.bulkUpload');
     });
 
    Route::prefix('files')->group(function () {

@@ -24,6 +24,12 @@
                 <x-link-button :href="route('suppliers.create')">
                     Add New supplier
                 </x-link-button>
+
+                <form action="{{ route('suppliers.bulkUpload') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <input type="file" name="csvFile">
+                    <button type="submit">Upload</button>
+                </form>
             </div>
              <form method="GET" action="{{ route('suppliers.index') }}" class="mb-6" x-data="{ loading: false }" @submit="loading = true">
             <div class="flex flex-col md:flex-row gap-3">
@@ -67,12 +73,8 @@
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $supplier->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ $supplier->email }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">{{ $supplier->phone }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                           <span class="inline-block px-2 py-1 text-xs rounded" >
-                             
-                            </span>
-                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $supplier->phone_1 }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap">{{ $supplier->address }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-gray-500">
                             {{ $supplier->created_at->format('Y-m-d') }}
                         </td>

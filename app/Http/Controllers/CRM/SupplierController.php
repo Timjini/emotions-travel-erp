@@ -7,6 +7,7 @@ use App\Enums\Supplier\SupplierStatus;
 use App\Enums\Supplier\SupplierType;
 use App\Http\Controllers\Controller;
 use App\Models\Supplier;
+use App\Services\Csv\CsvImporter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -121,5 +122,80 @@ class SupplierController extends Controller
 
         return redirect()->route('suppliers.index')
             ->with('success', 'Supplier deleted successfully.');
+    }
+
+    public function bulkUpload(Request $request, CsvImporter $csvImporter)
+    {
+        $request->validate([
+            'csvFile' => 'required|file|mimes:csv,txt',
+        ]);
+    
+        $file = $request->file('csvFile')->getRealPath();
+    
+        $handle = fopen($file, 'r');
+        if (!$handle) {
+            return response()->json(['message' => 'Could not open CSV file'], 500);
+        }
+    
+        // Read the header row
+        $header = fgetcsv($handle, 0, ',', '"', '"');
+        if (!$header) {
+            fclose($handle);
+            return response()->json(['message' => 'CSV file is empty or invalid'], 400);
+        }
+    
+        $mappings = [
+            'id' => 'id',
+            'name' => 'name',
+            'invoicing_entity' => 'invoicing_entity',
+            'email' => 'email',
+            'contact_person' => 'contact_person',
+            'website' => 'website',
+            'address' => 'address',
+            'post_code' => 'post_code',
+            'city' => 'city',
+            'district' => 'district',
+            'country' => 'country',
+            'phone_1' => 'phone_1',
+            'phone_2' => 'phone_2',
+            'vat_number' => 'vat_number',
+            'type' => 'type',
+            'category' => 'category',
+            'iban' => 'iban',
+            'swift_code' => 'swift_code',
+            'status' => 'status',
+            'preferred_language' => 'preferred_language',
+            'notes' => 'notes',
+            'source' => 'source',
+            'company_id' => 'company_id',
+            'created_by' => 'created_by',
+            'created_at' => 'created_at',
+            'updated_at' => 'updated_at',
+            'deleted_at' => 'deleted_at',
+        ];
+        
+    
+        $dataArray = [];
+    
+        while (($row = fgetcsv($handle, 0, ',', '"', '\\')) !== false) {
+            $rowData = [];
+            foreach ($header as $index => $column) {
+                $field = $mappings[$column] ?? \Illuminate\Support\Str::snake($column);
+                $rowData[$field] = $row[$index] ?? null;
+            }
+            $dataArray[] = $rowData;
+        }
+    
+        fclose($handle);
+    
+        try {
+            $imported = $csvImporter->import(\App\Models\Supplier::class, $dataArray);
+    
+            return redirect()->route('suppliers.index')
+            ->with('success', 'Suppliers created successfully.');
+        } catch (\Throwable $e) {
+            return redirect()->route('suppliers.index')
+            ->with('error', 'Please check the csv file.');
+        }
     }
 }

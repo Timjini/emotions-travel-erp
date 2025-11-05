@@ -58,6 +58,7 @@ class Customer extends Model
         'notes',
         'source',
         'created_by',
+        'company_id',
     ];
 
     protected $casts = [

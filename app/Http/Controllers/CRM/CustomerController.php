@@ -7,13 +7,16 @@ use App\Enums\CustomerStatus;
 use App\Enums\CustomerType;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Services\Csv\CsvImporter;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class CustomerController extends Controller
 {
+
     public function index(Request $request): View
     {
         $query = Customer::query();
@@ -124,4 +127,74 @@ class CustomerController extends Controller
         return redirect()->route('customers.index')
             ->with('success', 'Customer deleted successfully.');
     }
+
+    public function bulkUpload(Request $request, CsvImporter $csvImporter)
+    {
+        $request->validate([
+            'csvFile' => 'required|file|mimes:csv,txt',
+        ]);
+    
+        $file = $request->file('csvFile')->getRealPath();
+    
+        $handle = fopen($file, 'r');
+        if (!$handle) {
+            return response()->json(['message' => 'Could not open CSV file'], 500);
+        }
+    
+        // Read the header row
+        $header = fgetcsv($handle, 0, ',', '"', '"');
+        if (!$header) {
+            fclose($handle);
+            return response()->json(['message' => 'CSV file is empty or invalid'], 400);
+        }
+    
+        $mappings = [
+            'name' => 'name',
+            'invoicing_entity' => 'invoicing_entity',
+            'email' => 'email',
+            'contact_person' => 'contact_person',
+            'website' => 'website',
+            'address' => 'address',
+            'post_code' => 'post_code',
+            'city' => 'city',
+            'district' => 'district',
+            'country' => 'country',
+            'phone_1' => 'phone_1',
+            'phone_2' => 'phone_2',
+            'vat_number' => 'vat_number',
+            'type' => 'type',
+            'category' => 'category',
+            'iban' => 'iban',
+            'swift_code' => 'swift_code',
+            'status' => 'status',
+            'preferred_language' => 'preferred_language',
+            'notes' => 'notes',
+            'source' => 'source',
+        ];
+    
+        $dataArray = [];
+    
+        while (($row = fgetcsv($handle, 0, ',', '"', '\\')) !== false) {
+            $rowData = [];
+            foreach ($header as $index => $column) {
+                $field = $mappings[$column] ?? \Illuminate\Support\Str::snake($column);
+                $rowData[$field] = $row[$index] ?? null;
+            }
+            $dataArray[] = $rowData;
+        }
+    
+        fclose($handle);
+    
+        try {
+            $imported = $csvImporter->import(\App\Models\Customer::class, $dataArray);
+    
+            return redirect()->route('customers.index')
+            ->with('success', 'Customers created successfully.');
+        } catch (\Throwable $e) {
+            return redirect()->route('customers.index')
+            ->with('error', 'Please check the csv file.');
+        }
+    }
+    
+    
 }

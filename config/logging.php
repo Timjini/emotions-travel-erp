@@ -127,6 +127,12 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'livewire' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/livewire.log'),
+            'level' => 'debug',
+        ],
+
     ],
 
 ];

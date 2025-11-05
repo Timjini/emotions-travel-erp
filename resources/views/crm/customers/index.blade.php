@@ -33,6 +33,15 @@
                         </svg>
                         New Customer 
                     </x-link-button>
+
+                    <form action="{{ route('customers.bulkUpload') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <input type="file" name="csvFile">
+                        <button type="submit">Upload</button>
+                    </form>
+
+
+
                 </div>
             </div>
         </div>
@@ -68,7 +77,7 @@
                             <th class="px-6 py-3 text-left font-medium text-gray-600 uppercase">Name</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-600 uppercase">Email</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-600 uppercase">Phone</th>
-                            <th class="px-6 py-3 text-left font-medium text-gray-600 uppercase">Status</th>
+                            <th class="px-6 py-3 text-left font-medium text-gray-600 uppercase">Address</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-600 uppercase">Created</th>
                             <th class="px-6 py-3 text-left font-medium text-gray-600 uppercase">Actions</th>
                         </tr>
@@ -78,12 +87,8 @@
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $customer->name }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap">{{ $customer->email }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">{{ $customer->phone }}</td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="inline-block px-2 py-1 text-xs rounded">
-                                        {{-- Add status content here --}}
-                                    </span>
-                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $customer->phone_1 }}</td>
+                                <td class="px-6 py-4 whitespace-nowrap">{{ $customer->address }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-gray-500">
                                     {{ $customer->created_at->format('Y-m-d') }}
                                 </td>
