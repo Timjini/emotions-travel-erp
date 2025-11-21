@@ -11,7 +11,7 @@
                 <img 
                     src="/public{{ $company && $company->logo_path ? Storage::url($company->logo_path) : 'https://pub-56989421c96a4a83a6c1e963a31939e6.r2.dev/emotions-travel/emotions-morocco-logo%20(1).webp' }}"
                     alt="Logo"
-                    class="p-2 rounded-full h-16 w-auto mx-auto md:mx-0"
+                    class="p-2 rounded-full h-16 w-auto mx-auto md:mx-0 object-contain"
                 />
 
             </a>
