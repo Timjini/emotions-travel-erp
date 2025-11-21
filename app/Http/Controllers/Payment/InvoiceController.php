@@ -268,7 +268,9 @@ class InvoiceController extends Controller
             'invoice' => $invoice,
             'companySetting' => $companySetting,
             'company' => $company
-        ]);
+        ])
+        ->setPaper('a4')
+        ->setOption('defaultFont', 'DejaVu Sans');
 
         // return $pdf->download('invoice-'.$invoice->invoice_number.'.pdf');
         return $pdf->stream('invoice-'.$invoice->invoice_number.'.pdf');

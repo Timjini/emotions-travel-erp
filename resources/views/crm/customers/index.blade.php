@@ -4,14 +4,14 @@
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2 text-sm text-gray-500">
             <li>
-                <a href="{{ route('dashboard') }}" class="hover:text-blue-600">Dashboard</a>
+                <a href="{{ route('dashboard') }}" class="hover:text-blue-600"> {{ __('messages.dashboard') }}</a>
             </li>
             <li>
                 <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l6 6a1 1 0 010 1.414l-6 6A1 1 0 0110 17V3z" clip-rule="evenodd"></path>
                 </svg>
             </li>
-            <li class="text-gray-800 font-medium">Customers</li>
+            <li class="text-gray-800 font-medium">{{ __('messages.customers') }}</li>
         </ol>
     </nav>
 
@@ -23,15 +23,15 @@
 
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Customers Management</h1>
-                    <p class="text-sm text-gray-500 mt-1">Manage, find customers</p>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ __('messages.customers') }} {{ __('messages.management') }}</h1>
+                    <p class="text-sm text-gray-500 mt-1">{{ __('messages.manage') }}, {{ __('messages.find_customers') }}</p>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
                     <x-link-button :href="route('customers.create')" class="">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        New Customer 
+                        {{ __('messages.new') }} {{ __('messages.customer') }} 
                     </x-link-button>
 
                     <form action="{{ route('customers.bulkUpload') }}" method="POST" enctype="multipart/form-data" class="bg-white p-1 rounded-lg" x-data="{ loading: false }" @submit="loading = true">
@@ -59,7 +59,7 @@
                         type="text"
                         name="search"
                         value="{{ request('search') }}"
-                        placeholder="Search by reference, customer, or destination..."
+                        placeholder="{{ __('messages.customers_search_placeholder') }}"
                         class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
                 <div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">
 
 <head>
     <meta charset="UTF-8" />
@@ -7,7 +7,7 @@
     <title>Proforma Invoice</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: DejaVu Sans, sans-serif;
             margin: 0;
             padding: 20px;
             color: #333;
@@ -21,7 +21,7 @@
             font-size: 24px;
             font-weight: bold;
             margin-bottom: 5px;
-            height: 200px;
+            height: 150px;
             width: auto;
         }
 
@@ -125,7 +125,7 @@
     null; @endphp
     <div class="header">
         <div class="logo">
-            <img src="{{ public_path('images/emotions-travel.png') }}" class="logo_image" />
+            <img src="{{ public_path('images/default-company-logo.png') }}" class="logo_image" />
         </div>
         <div class="address">
             {{$invoice->file->customer->address}}<br />
@@ -136,16 +136,16 @@
     </div>
 
     <div class="invoice-number">
-        Proforma n°: {{$invoice->proforma->proforma_number}}
+        {{ __('messages.proforma_number') }} {{$invoice->proforma->proforma_number}}
         <br/>
-        Invoice n°: {{$invoice->proforma->invoice->invoice_number}}
+        {{ __('messages.invoice_number') }} {{$invoice->proforma->invoice->invoice_number}}
     </div>
 <table class="details">
     <tr>
-        <th>File</th>
-        <th>Reference</th>
-        <th>Service</th>
-        <th>Requested by</th>
+        <th>{{ __('messages.file') }}</th>
+        <th>{{ __('messages.reference') }}</th>
+        <th>{{ __('messages.service') }}</th>
+        <th>{{ __('messages.requested_by') }}</th>
     </tr>
     <tr>
         <td>{{ $invoice->file->reference ?? 'NAN'}}</td>
@@ -157,11 +157,11 @@
 
 <table>
     <tr>
-        <th>Tax</th>
-        <th>Description</th>
-        <th>Qty</th>
-        <th>Amount</th>
-        <th>Total</th>
+        <th>{{ __('messages.tax') }}</th>
+        <th>{{ __('messages.description') }}</th>
+        <th>{{ __('messages.quantity') }}</th>
+        <th>{{ __('messages.amount') }}</th>
+        <th>{{ __('messages.total') }}</th>
     </tr>
     @foreach ($invoice->items as $item)
     <tr>
@@ -176,23 +176,23 @@
 
     <div class="payment-container">
         <div class="payment-details">
-            <p><strong>Payment Details</strong></p>
-            <p>Bank: {{$company->setting->bank_name}}</p>
-            <p>Iban: {{$company->setting->iban}}</p>
-            <p>Swift: {{$company->setting->swift_code}}</p>
+            <p><strong>{{ __('messages.payment_details') }}</strong></p>
+            <p>{{ __('messages.bank') }}: {{$company->setting->bank_name}}</p>
+            <p>{{ __('messages.iban') }}: {{$company->setting->iban}}</p>
+            <p>{{ __('messages.swift') }}: {{$company->setting->swift_code}}</p>
         </div>
 
         <div class="totals">
         <div>
-            <strong class="label">Subtotal:</strong>
+            <strong class="label">{{ __('messages.subtotal') }}:</strong>
             <span class="text-right">{{ number_format($invoice->items->sum('total_price'), 2) }} {{ $invoice->currency->code }}</span>
     </div>
         <div>
-            <strong class="label">Tax (0%):</strong>
+            <strong class="label">{{ __('messages.tax') }} (0%):</strong>
             <span class="text-right">0.00 {{ $invoice->currency->code }}</span>
     </div>
         <div>
-            <strong class="label total-row">TOTAL DUE:</strong>
+            <strong class="label total-row">{{ __('messages.total_due') }}</strong>
             <span class="text-right total-row">{{ number_format($invoice->total_amount, 2) }} {{ $invoice->currency->code }}</span>
     </div>
     </div>
