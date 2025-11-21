@@ -62,6 +62,7 @@ return [
     'source'              => 'Source',
 
     // Actions
+    'add'                => 'add',
     'upload'              => 'Upload',
     'delete'              => 'Delete',
     'create'              => 'Create',
@@ -78,6 +79,19 @@ return [
     'send'                => 'Send',
     'schedule'            => 'Schedule',
     'follow_up'           => 'Follow Up',
+    'new' => 'New',
+    'search'              => 'Search',
+    'actions '            => 'Actions',
+    'created'            => 'Created',
+    'created_by'           => 'Created By',
+    'created_at'          => 'Created At',
+    'updated_at'          => 'Updated At',
+    'pending'            => 'Pending',
+    'active'             => 'Active',
+    'inactive'           => 'Inactive',
+    'cancelled'          => 'Cancelled',
+    'completed'          => 'Completed',
+    'guide'             => 'Guide',
 
     'customers_search_placeholder' => 'Search by reference, customer, or destination...',
 
@@ -100,4 +114,32 @@ return [
      'subtotal'          => 'Subtotal',
      'tax_0'             => 'Tax (0%)',
      'total_due'         => 'TOTAL DUE',
+     'currency'         => 'Currency',
+     'program'         => 'Program',
+     'phone'             => 'phone',
+     
+
+    //  tables
+    'dates' => 'Dates',
+    'date_range' => 'Date Range',
+    'start_date' => 'Start Date',
+    'end_date' => 'End Date',
+    'number_of_people' => 'Number of People',
+
+
+    // cruds
+    'file_details' => 'File Details',
+    'booking_details' => 'Booking Details',
+    'customer_details' => 'Customer Details',
+    'supplier_details' => 'Supplier Details',
+    'company_details' => 'Company Details',
+    'booking_files_management' => 'booking files management',
+    'proforma_management' => 'proforma management',
+    'invoices_management' => 'invoices management',
+    'suppliers_list' => 'suppliers list',
+    'basic_reports' => 'basic reports',
+    'destinations_management' => 'destinations management',
+    'new_supplier' => 'new supplier',
+    'new_customer' => 'new customer',
+    'booking_file' => 'booking file',
 ];

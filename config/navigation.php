@@ -30,7 +30,7 @@ return [
                 // ['name' => 'Receipts', 'route' => 'receipts.index', 'icon' => 'receipts'], // get the receipt of the customer by email 
                 // usual customer get directly from invoice. flag with (trust payment) 
                 ['name' => 'reports', 'route' => 'reports.index', 'icon' => 'reports'],
-                ['name' => 'Analytics', 'route' => 'analytics.index', 'icon' => 'analytics'],
+                ['name' => 'analytics', 'route' => 'analytics.index', 'icon' => 'analytics'],
             ],
         ],
         [

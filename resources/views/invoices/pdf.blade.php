@@ -125,7 +125,7 @@
     null; @endphp
     <div class="header">
         <div class="logo">
-            <img src="{{ public_path('images/default-company-logo.png') }}" class="logo_image" />
+            <img src="{{ public_path('images/emotions-morocco-logo.webp') }}" class="logo_image" />
         </div>
         <div class="address">
             {{$invoice->file->customer->address}}<br />

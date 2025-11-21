@@ -34,13 +34,11 @@
                         {{ __('messages.new') }} {{ __('messages.customer') }} 
                     </x-link-button>
 
-                    <form action="{{ route('customers.bulkUpload') }}" method="POST" enctype="multipart/form-data" class="bg-white p-1 rounded-lg" x-data="{ loading: false }" @submit="loading = true">
+                    <form action="{{ route('customers.bulkUpload') }}" method="POST" enctype="multipart/form-data" class="border p-1 rounded-lg flex flex-row" x-data="{ loading: false }" @submit="loading = true">
                         @csrf
                         <input type="file" name="csvFile" class="p-2">
-                        <x-loading-button label=" {{ __('Upload') }}" />
+                        <x-loading-button label=" {{ __('messages.upload') }}" />
                     </form>
-
-
 
                 </div>
             </div>
@@ -63,7 +61,7 @@
                         class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
                 <div>
-                     <x-loading-button label=" {{ __('Search') }}" />
+                     <x-loading-button label=" {{ __('messages.search') }}" />
                 </div>
             </div>
         </form>

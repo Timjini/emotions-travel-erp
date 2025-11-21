@@ -61,6 +61,7 @@ return [
      'source'              => 'Źródło',
  
      // Actions
+     'add'                => 'Dodaj',
      'upload'              => 'Prześlij',
      'delete'              => 'Usuń',
      'create'              => 'Utwórz',
@@ -77,6 +78,19 @@ return [
      'send'                => 'Wyślij',
      'schedule'            => 'Zaplanuj',
      'follow_up'           => 'Śledź',
+     'new' => 'nowy',
+     'search'        => 'Szukaj',
+    'actions'       => 'Akcje',
+    'created'       => 'Utworzono',
+    'created_by'    => 'Utworzone przez',
+    'created_at'    => 'Utworzono dnia',
+    'updated_at'    => 'Zaktualizowano dnia',
+    'pending'       => 'Oczekujące',
+    'active'        => 'Aktywne',
+    'inactive'      => 'Nieaktywne',
+    'cancelled'     => 'Anulowane',
+    'completed'     => 'Zakończone',
+    'guide'         => 'Przewodnik',
 
      'customers_search_placeholder' => 'Szukaj po numerze referencyjnym, kliencie lub miejscu docelowym....',
     // Invoice Labels
@@ -98,4 +112,30 @@ return [
     'subtotal'          => 'Suma częściowa',
     'tax_0'             => 'Podatek (0%)',
     'total_due'         => 'DO ZAPŁATY',
+    'currency' => 'Waluta',
+    'program'  => 'Program',
+    'phone'             => 'Telefon',
+
+    'dates'               => 'Daty',
+    'date_range'          => 'Zakres dat',
+    'start_date'          => 'Data rozpoczęcia',
+    'end_date'            => 'Data zakończenia',
+    'number_of_people'    => 'Liczba osób',
+
+    // cruds
+    'file_details'        => 'Szczegóły pliku',
+    'booking_details'     => 'Szczegóły rezerwacji',
+    'customer_details'    => 'Szczegóły klienta',
+    'supplier_details'    => 'Szczegóły dostawcy',
+    'company_details'     => 'Szczegóły firmy',
+    'booking_files_management' => 'Zarządzanie plikami rezerwacji',
+    'proforma_management' => 'Zarządzanie proformami',
+    'invoices_management' => 'Zarządzanie fakturami',
+    'suppliers_list' => 'Lista dostawców',
+    'basic_reports' => 'Podstawowe raporty',
+    'destinations_management' => 'Zarządzanie celami podróży',
+    'new_supplier' => 'nowy dostawca',
+    'new_customer' => 'nowy klient',
+    'booking_files' => 'pliki rezerwacji',
+    'booking_file' =>   'plik rezerwacji',
 ];

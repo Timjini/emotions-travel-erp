@@ -4,14 +4,14 @@
     <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2 text-sm text-gray-500">
             <li>
-                <a href="{{ route('dashboard') }}" class="hover:text-blue-600">Dashboard</a>
+                <a href="{{ route('dashboard') }}" class="hover:text-blue-600">{{ __('messages.dashboard') }}</a>
             </li>
             <li>
                 <svg class="w-4 h-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 3a1 1 0 01.707.293l6 6a1 1 0 010 1.414l-6 6A1 1 0 0110 17V3z" clip-rule="evenodd"></path>
                 </svg>
             </li>
-            <li class="text-gray-800 font-medium">Booking Files</li>
+            <li class="text-gray-800 font-medium">{{ __('messages.booking_files') }}</li>
         </ol>
     </nav>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -19,7 +19,7 @@
         <div class="mb-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">Booking Files Management</h1>
+                    <h1 class="text-2xl font-bold text-gray-900">{{ __('messages.booking_files_management') }}</h1>
                     <p class="text-sm text-gray-500 mt-1">Manage all travel booking files and financials</p>
                 </div>
                 <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -27,7 +27,7 @@
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        New Booking File
+                        {{ __('messages.new') }} {{ __('messages.booking_file') }}
                     </x-link-button>
                 </div>
             </div>
@@ -46,11 +46,11 @@
                         type="text"
                         name="search"
                         value="{{ request('search') }}"
-                        placeholder="Search by reference, customer, or destination..."
+                        placeholder="{{ __('messages.customers_search_placeholder') }}"
                         class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
                 <div>
-                     <x-loading-button label=" {{ __('Search') }}" />
+                     <x-loading-button label=" {{ __('messages.search') }}" />
                 </div>
             </div>
         </form>
@@ -63,7 +63,7 @@
                         <tr>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onclick="sortBy('reference')">
                                 <div class="flex items-center">
-                                    Reference
+                                    {{ __('messages.reference') }}
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
                                     </svg>
@@ -72,36 +72,36 @@
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onclick="sortBy('customer_name')">
                                 <div class="flex items-center">
-                                    Customer
+                                    {{ __('messages.customer') }}
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
                                     </svg>
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Travel Details
+                                {{ __('messages.travel_details') }}
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onclick="sortBy('start_date')">
                                 <div class="flex items-center">
-                                    Dates
+                                    {{ __('messages.dates') }}
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
                                     </svg>
                                 </div>
                             </th>
                             <th scope="col" class="hidden px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Financials
+                                {{ __('messages.financial') }}
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer" onclick="sortBy('status')">
                                 <div class="flex items-center">
-                                    Status
+                                    {{ __('messages.status') }}
                                     <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
                                     </svg>
                                 </div>
                             </th>
                             <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Actions
+                                {{ __('messages.actions') }}
                             </th>
                         </tr>
                     </thead>
@@ -127,13 +127,13 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="text-sm text-gray-900">
-                                    <span class="font-medium">Program:</span> {{ $file->program->name ?? 'N/A' }}
+                                    <span class="font-medium">{{ __('messages.program') }}:</span> {{ $file->program->name ?? 'N/A' }}
                                 </div>
                                 <div class="text-sm text-gray-500">
-                                    <span class="font-medium">Destination:</span> {{ $file->destination->name ?? 'N/A' }}
+                                    <span class="font-medium">{{ __('messages.destination') }}:</span> {{ $file->destination->name ?? 'N/A' }}
                                 </div>
                                 <div class="text-sm text-gray-500">
-                                    <span class="font-medium">People:</span> {{ $file->number_of_people }}
+                                    <span class="font-medium">{{ __('messages.people') }}:</span> {{ $file->number_of_people }}
                                 </div>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -147,21 +147,21 @@
                             <td class="px-6 py-4 hidden">
                                 <div class="text-sm">
                                     <div class="flex justify-between">
-                                        <span class="text-gray-500">Billed:</span>
+                                        <span class="text-gray-500">{{ __('messages.billed') }}:</span>
                                         <span class="font-medium">
                                             {{ number_format($financials['total_billed']) }}
                                             {{ $financials['company_currency'] ?? '' }}
                                         </span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-gray-500">Costs:</span>
+                                        <span class="text-gray-500">{{ __('messages.costs') }}:</span>
                                         <span class="font-medium">
                                             {{ number_format($financials['total_costs'] ?? 0, 2) }}
                                             {{ $financials['company_currency'] ?? '' }}
                                         </span>
                                     </div>
                                     <div class="flex justify-between">
-                                        <span class="text-gray-500">Profit:</span>
+                                        <span class="text-gray-500">{{ __('messages.profile') }}:</span>
                                         @php
                                         $profit = $financials['profit'];
                                         $textColor = $profit >= 0 ? 'text-green-600' : 'text-red-600';
